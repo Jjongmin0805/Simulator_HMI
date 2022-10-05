@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="control">
+      <UniqueIdentifier>{ed0f9873-79af-4559-bc1c-1947545d5d12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="config">
+      <UniqueIdentifier>{8d6a18da-b99b-48dc-b7e4-7571180db166}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="control\button">
+      <UniqueIdentifier>{f949d6ae-6781-4dc9-84d9-2d67fce3d4ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="control\combobox">
+      <UniqueIdentifier>{1007d5e0-f43f-4eb7-b6df-4c2ddcd4de34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="control\checkbox">
+      <UniqueIdentifier>{b55c1e2b-9375-42cc-81c9-ffd6b623d310}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="control\listctrl">
+      <UniqueIdentifier>{d6880978-5d39-4c48-929e-884a418af035}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="FHS.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="FHSDlg.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="framework.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Global.h">
+      <Filter>control</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Config\Define.h">
+      <Filter>config</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Control\Button\SkinButton.h">
+      <Filter>control\button</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Control\Checkbox\SkinCheckbox.h">
+      <Filter>control\checkbox</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Control\Combobox\SkinComboboxlist.h">
+      <Filter>control\combobox</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Control\Combobox\SkinCombobox.h">
+      <Filter>control\combobox</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Control\ListCtrl\SkinListCtrl.h">
+      <Filter>control\listctrl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Control\ListCtrl\MemCDC.h">
+      <Filter>control\listctrl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Control\ListCtrl\SkinHeaderCtrl.h">
+      <Filter>control\listctrl</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="FHS.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="FHSDlg.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Global.cpp">
+      <Filter>control</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Control\Button\SkinButton.cpp">
+      <Filter>control\button</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Control\Checkbox\SkinCheckbox.cpp">
+      <Filter>control\checkbox</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Control\Combobox\SkinCombobox.cpp">
+      <Filter>control\combobox</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Control\Combobox\SkinComboboxlist.cpp">
+      <Filter>control\combobox</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Control\ListCtrl\SkinHeaderCtrl.cpp">
+      <Filter>control\listctrl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Control\ListCtrl\SkinListCtrl.cpp">
+      <Filter>control\listctrl</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="FHS.rc">
+      <Filter>리소스 파일</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\FHS.rc2">
+      <Filter>리소스 파일</Filter>
+    </None>
+    <None Include="..\Date_CSV_Files\Date_CSV_Files.vcxproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\FHS.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+  </ItemGroup>
+</Project>

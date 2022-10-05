@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <ProjectGuid>{A048892F-5879-4C56-AEC6-12FA8C1E4126}</ProjectGuid>
+    <Keyword>MFCProj</Keyword>
+    <RootNamespace>SimulatorEditor</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>Dynamic</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>Dynamic</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>Dynamic</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>Dynamic</UseOfMfc>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>../Bin/$(Platform)/$(Configuration)/</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>../Bin/$(Platform)/$(Configuration)/</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+    <Midl>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <ValidateAllParameters>true</ValidateAllParameters>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0412</Culture>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_WINDOWS;_DEBUG;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>../Config;../Control;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <AdditionalDependencies>../Bin/$(PlatformName)/$(Configuration)/Ctrl_Object_Editor.lib;../Bin/$(PlatformName)/$(Configuration)/DataManager.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <Midl>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <ValidateAllParameters>true</ValidateAllParameters>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0412</Culture>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <Midl>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <ValidateAllParameters>true</ValidateAllParameters>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0412</Culture>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_WINDOWS;NDEBUG;%(PreprocessorDefinitions)_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>../Config;../Control;</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>../Bin/$(PlatformName)/$(Configuration)/Ctrl_Object_Editor.lib;../Bin/$(PlatformName)/$(Configuration)/DataManager.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <Midl>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <ValidateAllParameters>true</ValidateAllParameters>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0412</Culture>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Config\Define.h" />
+    <ClInclude Include="..\Control\Combobox\SkinCombobox.h" />
+    <ClInclude Include="..\Control\Combobox\SkinComboboxlist.h" />
+    <ClInclude Include="CDNDObj_Connect_DlgBar.h" />
+    <ClInclude Include="CDNDObj_Connrct_KASIM_Tap.h" />
+    <ClInclude Include="CDNDObj_DlgBar.h" />
+    <ClInclude Include="CDNDObj_KASIM_CB_TAP.h" />
+    <ClInclude Include="CDNDObj_KASIM_CONSUMER_TAP.h" />
+    <ClInclude Include="CDNDObj_KASIM_GENERATEUNIT_TAP.h" />
+    <ClInclude Include="CDNDObj_KASIM_GENUNIT_TAP.h" />
+    <ClInclude Include="CDNDObj_KASIM_JUNCTION_TAP.h" />
+    <ClInclude Include="CDNDObj_KASIM_MTR_TAP.h" />
+    <ClInclude Include="CDNDObj_KASIM_PRDE_RECLOSER_TAP.h" />
+    <ClInclude Include="CDNDObj_KASIM_PRDE_TAP.h" />
+    <ClInclude Include="CDNDObj_KASIM_SUBS_TAP.h" />
+    <ClInclude Include="CDNDObj_KASIM_SW_TAP.h" />
+    <ClInclude Include="CDNDObj_KASIM_TR_TAP.h" />
+    <ClInclude Include="CDNDObj_Symbol_Tap.h" />
+    <ClInclude Include="CDNDObj_Text_DlgBar.h" />
+    <ClInclude Include="CFindObjDlg.h" />
+    <ClInclude Include="CommonHeader.h" />
+    <ClInclude Include="framework.h" />
+    <ClInclude Include="Frame_MenuBar_Ctrl.h" />
+    <ClInclude Include="Global.h" />
+    <ClInclude Include="MainFrm.h" />
+    <ClInclude Include="MyToolTipCtrl.h" />
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="PNOCtrl_SkinFrame_SDI.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="Simulator_Editor.h" />
+    <ClInclude Include="Simulator_EditorDoc.h" />
+    <ClInclude Include="Simulator_EditorView.h" />
+    <ClInclude Include="SkinMng.h" />
+    <ClInclude Include="StyleDef.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="ToolbarDlg.h" />
+    <ClInclude Include="ToolHeader.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Control\Combobox\SkinCombobox.cpp" />
+    <ClCompile Include="..\Control\Combobox\SkinComboboxlist.cpp" />
+    <ClCompile Include="CDNDObj_Connect_DlgBar.cpp" />
+    <ClCompile Include="CDNDObj_Connrct_KASIM_Tap.cpp" />
+    <ClCompile Include="CDNDObj_DlgBar.cpp" />
+    <ClCompile Include="CDNDObj_KASIM_CB_TAP.cpp" />
+    <ClCompile Include="CDNDObj_KASIM_CONSUMER_TAP.cpp" />
+    <ClCompile Include="CDNDObj_KASIM_GENERATEUNIT_TAP.cpp" />
+    <ClCompile Include="CDNDObj_KASIM_GENUNIT_TAP.cpp" />
+    <ClCompile Include="CDNDObj_KASIM_JUNCTION_TAP.cpp" />
+    <ClCompile Include="CDNDObj_KASIM_MTR_TAP.cpp" />
+    <ClCompile Include="CDNDObj_KASIM_PRDE_RECLOSER_TAP.cpp" />
+    <ClCompile Include="CDNDObj_KASIM_PRDE_TAP.cpp" />
+    <ClCompile Include="CDNDObj_KASIM_SUBS_TAP.cpp" />
+    <ClCompile Include="CDNDObj_KASIM_SW_TAP.cpp" />
+    <ClCompile Include="CDNDObj_KASIM_TR_TAP.cpp" />
+    <ClCompile Include="CDNDObj_Symbol_Tap.cpp" />
+    <ClCompile Include="CDNDObj_Text_DlgBar.cpp" />
+    <ClCompile Include="CFindObjDlg.cpp" />
+    <ClCompile Include="Frame_MenuBar_Ctrl.cpp" />
+    <ClCompile Include="Global.cpp" />
+    <ClCompile Include="MainFrm.cpp" />
+    <ClCompile Include="MyToolTipCtrl.cpp" />
+    <ClCompile Include="pch.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="PNOCtrl_SkinFrame_SDI.cpp" />
+    <ClCompile Include="Simulator_Editor.cpp" />
+    <ClCompile Include="Simulator_EditorDoc.cpp" />
+    <ClCompile Include="Simulator_EditorView.cpp" />
+    <ClCompile Include="SkinMng.cpp" />
+    <ClCompile Include="ToolbarDlg.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="SimulatorEditor.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\SimulatorEditor.rc2" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\Simulator_Editor.ico" />
+    <Image Include="res\Simulator_EditorDoc.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DND_Manager\DND_Manager.vcxproj">
+      <Project>{4af26d77-c047-4f3e-b8d5-ff0b0d82c520}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\SB_Manager\SB_Manager.vcxproj">
+      <Project>{7679d298-13f4-4c1b-85c8-22b9336e6f01}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

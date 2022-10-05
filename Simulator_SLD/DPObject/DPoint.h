@@ -1,0 +1,33 @@
+#pragma once
+#include "afx.h"
+class AFX_EXT_CLASS CDPoint :
+	public CObject
+{
+public:
+	CDPoint(void);
+	~CDPoint(void);
+
+	double dx, dy;
+};
+
+typedef CTypedPtrArray<CObArray, CDPoint*> CDPArray;
+
+
+//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+class AFX_EXT_CLASS CZPoint : public CObject
+{
+public:
+	CZPoint(void);
+	~CZPoint(void);
+
+	double	m_dX;
+	double	m_dY;
+
+
+	double	m_dXArray[10];
+	double	m_dYArray[10];
+};
+typedef CTypedPtrArray<CObArray, CZPoint*> CZPArray;
+//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////

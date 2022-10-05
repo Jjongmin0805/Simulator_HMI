@@ -1,0 +1,26 @@
+#include "pch.h"
+#include "DPoint.h"
+
+
+CDPoint::CDPoint(void)
+{
+	dx = dy = 0;
+}
+
+
+CDPoint::~CDPoint(void)
+{
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+CZPoint::CZPoint(void)
+{
+	m_dX = m_dY = 0;
+}
+
+
+CZPoint::~CZPoint(void)
+{
+}

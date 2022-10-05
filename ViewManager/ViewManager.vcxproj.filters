@@ -1,0 +1,495 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Config">
+      <UniqueIdentifier>{0b60fdf7-f63b-43b0-8026-081cac6b0aa9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Control">
+      <UniqueIdentifier>{371825cd-aa48-4210-a7da-cfe7374a1710}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Control\button">
+      <UniqueIdentifier>{479485f1-52ea-4ba4-b7b5-707a8f3646d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Control\checkbox">
+      <UniqueIdentifier>{a11a78d9-029a-466b-a160-89ac9e5e5aed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Control\listctrl">
+      <UniqueIdentifier>{1d3f557f-f32c-452f-ae22-0895543f13ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Control\combobox">
+      <UniqueIdentifier>{3d4f3155-bb6b-4edc-af63-a70cab687fbf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Control\gridctrl">
+      <UniqueIdentifier>{cfbe5945-2bea-4c5f-a5ef-53388e576b43}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ViewManager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="dllmain.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="CMainView.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="CView_Base.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="CView_LF_rst.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Control\Button\SkinButton.cpp">
+      <Filter>Control\button</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Control\Checkbox\SkinCheckbox.cpp">
+      <Filter>Control\checkbox</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Control\ListCtrl\SkinHeaderCtrl.cpp">
+      <Filter>Control\listctrl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Control\ListCtrl\SkinListCtrl.cpp">
+      <Filter>Control\listctrl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Control\Combobox\SkinCombobox.cpp">
+      <Filter>Control\combobox</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Control\Combobox\SkinComboboxlist.cpp">
+      <Filter>Control\combobox</Filter>
+    </ClCompile>
+    <ClCompile Include="CView_Manager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="CView_History.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="CView_MMDB_Editor.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Control\GRID_Ctrl\GridCell.cpp">
+      <Filter>Control\gridctrl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Control\GRID_Ctrl\GridCellBase.cpp">
+      <Filter>Control\gridctrl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Control\GRID_Ctrl\GridCtrl.cpp">
+      <Filter>Control\gridctrl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Control\GRID_Ctrl\GridDropTarget.cpp">
+      <Filter>Control\gridctrl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Control\GRID_Ctrl\InPlaceEdit.cpp">
+      <Filter>Control\gridctrl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Control\GRID_Ctrl\TitleTip.cpp">
+      <Filter>Control\gridctrl</Filter>
+    </ClCompile>
+    <ClCompile Include="CView_DFD_rst.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="CView_PCE_rst.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="CView_PDVR_rst.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="CView_SOP_rst.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Global.cpp">
+      <Filter>Control</Filter>
+    </ClCompile>
+    <ClCompile Include="CView_NCP_rst.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="CView_SCA_rst.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="CView_DNR_rst.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="PNOCtrl_Group.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="CView_PCE_rst_RelayDlg.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="CView_PCE_rst_RCDlg.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="CView_PDVR_rst_TRDlg.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="CView_PDVR_rst_DGDlg.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="CView_DNR_rst_SSDlg.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="CView_LFH_rst.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="CView_PCE_rst_EFIDlg.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="CView_PCE_rst_CUSDlg.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="XLSAutomation.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="excel9.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="CView_PDVR_rst_RUN_Dlg.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ViewManager.def">
+      <Filter>소스 파일</Filter>
+    </None>
+    <None Include="res\ViewManager.rc2">
+      <Filter>리소스 파일</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="framework.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="CMainView.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="CView_Base.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="CView_LF_rst.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Config\Define.h">
+      <Filter>Config</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Control\Button\SkinButton.h">
+      <Filter>Control\button</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Control\Checkbox\SkinCheckbox.h">
+      <Filter>Control\checkbox</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Control\ListCtrl\SkinListCtrl.h">
+      <Filter>Control\listctrl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Control\ListCtrl\MemCDC.h">
+      <Filter>Control\listctrl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Control\ListCtrl\SkinHeaderCtrl.h">
+      <Filter>Control\listctrl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Control\Combobox\SkinCombobox.h">
+      <Filter>Control\combobox</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Control\Combobox\SkinComboboxlist.h">
+      <Filter>Control\combobox</Filter>
+    </ClInclude>
+    <ClInclude Include="Define_Ctrl.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="CView_Manager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="CView_History.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="CView_MMDB_Editor.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Control\GRID_Ctrl\GridCell.h">
+      <Filter>Control\gridctrl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Control\GRID_Ctrl\GridCellBase.h">
+      <Filter>Control\gridctrl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Control\GRID_Ctrl\GridCtrl.h">
+      <Filter>Control\gridctrl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Control\GRID_Ctrl\GridDropTarget.h">
+      <Filter>Control\gridctrl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Control\GRID_Ctrl\CellRange.h">
+      <Filter>Control\gridctrl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Control\GRID_Ctrl\InPlaceEdit.h">
+      <Filter>Control\gridctrl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Control\GRID_Ctrl\TitleTip.h">
+      <Filter>Control\gridctrl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Control\GRID_Ctrl\MemDC.h">
+      <Filter>Control\gridctrl</Filter>
+    </ClInclude>
+    <ClInclude Include="CView_DFD_rst.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="CView_PCE_rst.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="CView_PDVR_rst.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="CView_SOP_rst.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Global.h">
+      <Filter>Control</Filter>
+    </ClInclude>
+    <ClInclude Include="CView_NCP_rst.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="CView_SCA_rst.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="CView_DNR_rst.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="PNOCtrl_Group.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="CView_PCE_rst_RelayDlg.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="CView_PCE_rst_RCDlg.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="CView_PDVR_rst_TRDlg.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="CView_PDVR_rst_DGDlg.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="CView_DNR_rst_SSDlg.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="CView_LFH_rst.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="CView_PCE_rst_EFIDlg.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="CView_PCE_rst_CUSDlg.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="XLSAutomation.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="excel9.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="CView_PDVR_rst_RUN_Dlg.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ViewManager.rc">
+      <Filter>리소스 파일</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="bitmap1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="bitmap2.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="bmp00001.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="bmp00002.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\combobox_bottom.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\combobox_top.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\combobox_left.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\combobox_right.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\combobox_bottom.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\combobox_left.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\combobox_right.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\combobox_top.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\checkbox_box.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\checkbox_check.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\checkbox_disable.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\radiobutton_button.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\radiobutton.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\radiobutton_disable.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\5_button_click.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\5_button_normal.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\5_button_over.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\6_button_click.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\bitmap1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\6_button_normal.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\6_button_over.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\7_button_click.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\7_button_normal.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\7_button_over.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\8_button_click.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\8_button_normal.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\8_button_over.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\9_button_click.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\9_button_normal.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\9_button_over.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\10_button_click.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\10_button_normal.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\10_button_over.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\11_button_click.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\11_button_normal.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\11_button_over.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\search_click.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\search_normal.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\search_over.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\bitmap3.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\Left.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\Center.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\Right.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\1_tab_on.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\1_tab_off.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\13_button_normal.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\13_button_click.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\13_button_over.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\14_button_click.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\14_button_normal.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\14_button_over.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\15_button_click.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\15_button_normal.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\15_button_over.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <ProjectGuid>{C34157C9-34E3-4F4C-AA95-99E193C4CC54}</ProjectGuid>
+    <Keyword>MFCDLLProj</Keyword>
+    <RootNamespace>ViewManager</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>Dynamic</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>Dynamic</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>Dynamic</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>Dynamic</UseOfMfc>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>../bin/$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>../Bin/$(Platform)/$(Configuration)/</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level2</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>false</SDLCheck>
+      <PreprocessorDefinitions>_WINDOWS;_DEBUG;_AFXEXT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>..\Control;..\Config;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <UseFullPaths>false</UseFullPaths>
+      <ErrorReporting>Queue</ErrorReporting>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <ModuleDefinitionFile>.\ViewManager.def</ModuleDefinitionFile>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <Midl>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0412</Culture>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;_AFXEXT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <ModuleDefinitionFile>.\ViewManager.def</ModuleDefinitionFile>
+    </Link>
+    <Midl>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0412</Culture>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_AFXEXT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <ModuleDefinitionFile>.\ViewManager.def</ModuleDefinitionFile>
+    </Link>
+    <Midl>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0412</Culture>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level2</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>false</SDLCheck>
+      <PreprocessorDefinitions>_WINDOWS;NDEBUG;_AFXEXT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>..\Control;..\Config;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <UseFullPaths>false</UseFullPaths>
+      <ErrorReporting>Queue</ErrorReporting>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <ModuleDefinitionFile>.\ViewManager.def</ModuleDefinitionFile>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <Midl>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0412</Culture>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Control\Button\SkinButton.cpp" />
+    <ClCompile Include="..\Control\Checkbox\SkinCheckbox.cpp" />
+    <ClCompile Include="..\Control\Combobox\SkinCombobox.cpp" />
+    <ClCompile Include="..\Control\Combobox\SkinComboboxlist.cpp" />
+    <ClCompile Include="..\Control\GRID_Ctrl\GridCell.cpp" />
+    <ClCompile Include="..\Control\GRID_Ctrl\GridCellBase.cpp" />
+    <ClCompile Include="..\Control\GRID_Ctrl\GridCtrl.cpp" />
+    <ClCompile Include="..\Control\GRID_Ctrl\GridDropTarget.cpp" />
+    <ClCompile Include="..\Control\GRID_Ctrl\InPlaceEdit.cpp" />
+    <ClCompile Include="..\Control\GRID_Ctrl\TitleTip.cpp" />
+    <ClCompile Include="..\Control\ListCtrl\SkinHeaderCtrl.cpp" />
+    <ClCompile Include="..\Control\ListCtrl\SkinListCtrl.cpp" />
+    <ClCompile Include="CMainView.cpp" />
+    <ClCompile Include="CView_Base.cpp" />
+    <ClCompile Include="CView_DFD_rst.cpp" />
+    <ClCompile Include="CView_DNR_rst.cpp" />
+    <ClCompile Include="CView_DNR_rst_SSDlg.cpp" />
+    <ClCompile Include="CView_History.cpp" />
+    <ClCompile Include="CView_LFH_rst.cpp" />
+    <ClCompile Include="CView_LF_rst.cpp" />
+    <ClCompile Include="CView_Manager.cpp" />
+    <ClCompile Include="CView_MMDB_Editor.cpp" />
+    <ClCompile Include="CView_NCP_rst.cpp" />
+    <ClCompile Include="CView_PCE_rst.cpp" />
+    <ClCompile Include="CView_PCE_rst_CUSDlg.cpp" />
+    <ClCompile Include="CView_PCE_rst_EFIDlg.cpp" />
+    <ClCompile Include="CView_PCE_rst_RCDlg.cpp" />
+    <ClCompile Include="CView_PCE_rst_RelayDlg.cpp" />
+    <ClCompile Include="CView_PDVR_rst.cpp" />
+    <ClCompile Include="CView_PDVR_rst_DGDlg.cpp" />
+    <ClCompile Include="CView_PDVR_rst_RUN_Dlg.cpp" />
+    <ClCompile Include="CView_PDVR_rst_TRDlg.cpp" />
+    <ClCompile Include="CView_SCA_rst.cpp" />
+    <ClCompile Include="CView_SOP_rst.cpp" />
+    <ClCompile Include="dllmain.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</CompileAsManaged>
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsManaged>
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</CompileAsManaged>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="excel9.cpp" />
+    <ClCompile Include="Global.cpp" />
+    <ClCompile Include="pch.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="PNOCtrl_Group.cpp" />
+    <ClCompile Include="ViewManager.cpp" />
+    <ClCompile Include="XLSAutomation.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\ViewManager.rc2" />
+    <None Include="ViewManager.def" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Config\Define.h" />
+    <ClInclude Include="..\Control\Button\SkinButton.h" />
+    <ClInclude Include="..\Control\Checkbox\SkinCheckbox.h" />
+    <ClInclude Include="..\Control\Combobox\SkinCombobox.h" />
+    <ClInclude Include="..\Control\Combobox\SkinComboboxlist.h" />
+    <ClInclude Include="..\Control\GRID_Ctrl\CellRange.h" />
+    <ClInclude Include="..\Control\GRID_Ctrl\GridCell.h" />
+    <ClInclude Include="..\Control\GRID_Ctrl\GridCellBase.h" />
+    <ClInclude Include="..\Control\GRID_Ctrl\GridCtrl.h" />
+    <ClInclude Include="..\Control\GRID_Ctrl\GridDropTarget.h" />
+    <ClInclude Include="..\Control\GRID_Ctrl\InPlaceEdit.h" />
+    <ClInclude Include="..\Control\GRID_Ctrl\MemDC.h" />
+    <ClInclude Include="..\Control\GRID_Ctrl\TitleTip.h" />
+    <ClInclude Include="..\Control\ListCtrl\MemCDC.h" />
+    <ClInclude Include="..\Control\ListCtrl\SkinHeaderCtrl.h" />
+    <ClInclude Include="..\Control\ListCtrl\SkinListCtrl.h" />
+    <ClInclude Include="CMainView.h" />
+    <ClInclude Include="CView_Base.h" />
+    <ClInclude Include="CView_DFD_rst.h" />
+    <ClInclude Include="CView_DNR_rst.h" />
+    <ClInclude Include="CView_DNR_rst_SSDlg.h" />
+    <ClInclude Include="CView_History.h" />
+    <ClInclude Include="CView_LFH_rst.h" />
+    <ClInclude Include="CView_LF_rst.h" />
+    <ClInclude Include="CView_Manager.h" />
+    <ClInclude Include="CView_MMDB_Editor.h" />
+    <ClInclude Include="CView_NCP_rst.h" />
+    <ClInclude Include="CView_PCE_rst.h" />
+    <ClInclude Include="CView_PCE_rst_CUSDlg.h" />
+    <ClInclude Include="CView_PCE_rst_EFIDlg.h" />
+    <ClInclude Include="CView_PCE_rst_RCDlg.h" />
+    <ClInclude Include="CView_PCE_rst_RelayDlg.h" />
+    <ClInclude Include="CView_PDVR_rst.h" />
+    <ClInclude Include="CView_PDVR_rst_DGDlg.h" />
+    <ClInclude Include="CView_PDVR_rst_RUN_Dlg.h" />
+    <ClInclude Include="CView_PDVR_rst_TRDlg.h" />
+    <ClInclude Include="CView_SCA_rst.h" />
+    <ClInclude Include="CView_SOP_rst.h" />
+    <ClInclude Include="Define_Ctrl.h" />
+    <ClInclude Include="excel9.h" />
+    <ClInclude Include="framework.h" />
+    <ClInclude Include="Global.h" />
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="PNOCtrl_Group.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="XLSAutomation.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ViewManager.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="bitmap1.bmp" />
+    <Image Include="bitmap2.bmp" />
+    <Image Include="bmp00001.bmp" />
+    <Image Include="bmp00002.bmp" />
+    <Image Include="res\10_button_click.bmp" />
+    <Image Include="res\10_button_normal.bmp" />
+    <Image Include="res\10_button_over.bmp" />
+    <Image Include="res\11_button_click.bmp" />
+    <Image Include="res\11_button_normal.bmp" />
+    <Image Include="res\11_button_over.bmp" />
+    <Image Include="res\13_button_click.bmp" />
+    <Image Include="res\13_button_normal.bmp" />
+    <Image Include="res\13_button_over.bmp" />
+    <Image Include="res\14_button_click.bmp" />
+    <Image Include="res\14_button_normal.bmp" />
+    <Image Include="res\14_button_over.bmp" />
+    <Image Include="res\15_button_click.bmp" />
+    <Image Include="res\15_button_normal.bmp" />
+    <Image Include="res\15_button_over.bmp" />
+    <Image Include="res\1_tab_off.bmp" />
+    <Image Include="res\1_tab_on.bmp" />
+    <Image Include="res\5_button_click.bmp" />
+    <Image Include="res\5_button_normal.bmp" />
+    <Image Include="res\5_button_over.bmp" />
+    <Image Include="res\6_button_click.bmp" />
+    <Image Include="res\6_button_normal.bmp" />
+    <Image Include="res\6_button_over.bmp" />
+    <Image Include="res\7_button_click.bmp" />
+    <Image Include="res\7_button_normal.bmp" />
+    <Image Include="res\7_button_over.bmp" />
+    <Image Include="res\8_button_click.bmp" />
+    <Image Include="res\8_button_normal.bmp" />
+    <Image Include="res\8_button_over.bmp" />
+    <Image Include="res\9_button_click.bmp" />
+    <Image Include="res\9_button_normal.bmp" />
+    <Image Include="res\9_button_over.bmp" />
+    <Image Include="res\bitmap1.bmp" />
+    <Image Include="res\bitmap3.bmp" />
+    <Image Include="res\Center.bmp" />
+    <Image Include="res\checkbox_box.bmp" />
+    <Image Include="res\checkbox_check.bmp" />
+    <Image Include="res\checkbox_disable.bmp" />
+    <Image Include="res\combobox_bottom.bmp" />
+    <Image Include="res\combobox_bottom.png" />
+    <Image Include="res\combobox_left.bmp" />
+    <Image Include="res\combobox_left.png" />
+    <Image Include="res\combobox_right.bmp" />
+    <Image Include="res\combobox_right.png" />
+    <Image Include="res\combobox_top.bmp" />
+    <Image Include="res\combobox_top.png" />
+    <Image Include="res\Left.bmp" />
+    <Image Include="res\radiobutton.bmp" />
+    <Image Include="res\radiobutton_button.bmp" />
+    <Image Include="res\radiobutton_disable.bmp" />
+    <Image Include="res\Right.bmp" />
+    <Image Include="res\search_click.bmp" />
+    <Image Include="res\search_normal.bmp" />
+    <Image Include="res\search_over.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DataManager\DataManager.vcxproj">
+      <Project>{110c4eb5-dad1-42df-90c7-4851e81d5e2d}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
