@@ -590,7 +590,7 @@ void CDND_Connect::SetEdit_InitData(int nID, CPoint pt, int nResourceID)
 void CDND_Connect::SetEdit_InitData_KASIM(int nLNSEC_ID, int nBR_ID, int nIJ_ID, int nLD_ID)
 {
 	CString stCEQID, stName;
-	stCEQID.Format(_T("999951%08d"), nLNSEC_ID);
+	stCEQID.Format(_T("999051%08d"), nLNSEC_ID);
 	m_str_keyid = stCEQID;
 	stName.Format(_T("LNSEC%08d"), nLNSEC_ID);
 	m_str_keyname = stName;

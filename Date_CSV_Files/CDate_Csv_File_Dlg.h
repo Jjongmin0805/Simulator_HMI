@@ -57,4 +57,10 @@ public:
 	afx_msg void OnBnClickedButton3();
 	afx_msg void OnBnClickedButton4();
 	afx_msg void OnBnClickedButton5();
+
+	//암호화 관련 부분
+	int		DoDRM_Main(CString strFilePath, CString strPathDRM);	//암호화 작업 메인
+	void	DoDRM_Init();											//암호화 작업 초기화 
+	int		DoDRM_Test(CString strFilePath, CString strPathDRM);	//암호화 작업 하는곳
+	void	DeleteAllFiles(CString dirName);						//암호화에 사용된 파일 삭제
 };

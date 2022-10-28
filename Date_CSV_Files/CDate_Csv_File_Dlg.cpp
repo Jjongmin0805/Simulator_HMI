@@ -3,7 +3,6 @@
 
 #include "pch.h"
 #include "CDate_Csv_File_Dlg.h"
-//#include "afxdialogex.h"
 #include "Resource.h"
 
 
@@ -65,6 +64,92 @@ CString CDate_Csv_File_Dlg::MyPath()
 	return slmpath;
 }
 
+int CDate_Csv_File_Dlg::DoDRM_Main(CString strFilePath, CString strPathDRM)
+{
+#ifndef COMPILEMODE_LINUX
+	//_CrtSetBreakAlloc( 52146 );
+	//_wsetlocale(LC_ALL, _T("korean") );
+	setlocale(LC_ALL, "korean");
+#endif
+	int nRetCode = 0;
+
+	HMODULE hModule = ::GetModuleHandle(nullptr);
+
+	if (hModule != nullptr)
+	{
+			theUtil;
+
+			DoDRM_Init();
+			nRetCode = DoDRM_Test(strFilePath, strPathDRM);
+
+			theDRMMng->Close();
+			theUtil->Close();
+
+			CoUninitialize();
+
+			return nRetCode;
+//		}
+	}
+	else
+	{
+		// TODO: 오류 코드를 필요에 따라 수정합니다.
+		wprintf(L"심각한 오류: GetModuleHandle 실패\n");
+		nRetCode = 1;
+	}
+
+	return nRetCode;
+}
+
+void CDate_Csv_File_Dlg::DoDRM_Init()
+{
+	HRESULT							hRet(0);
+	if (FAILED(hRet = theDRMConv_Init))
+	{
+		TRACE(L"Ret = 0x%X\n", hRet);
+	}
+}
+
+int CDate_Csv_File_Dlg::DoDRM_Test(CString strFilePath, CString strPathDRM)
+{
+
+	wchar_t	chDMRFilePath[256];
+	wchar_t	chDMR_Path[256];
+	_stprintf_s(chDMRFilePath, L"%s", strFilePath);
+	_stprintf_s(chDMR_Path, L"%s\\GEN_ADD_DRM.csv", strPathDRM);
+
+	if (!theDRMMng->IsDRMConnectSuccess())
+	{
+		return false;
+	}
+	//theDRMConv_TestMode;
+
+	int nConvValue = theDRMConv(chDMRFilePath,	chDMR_Path );
+
+	// 	int nConvValue = theDRMConv(L"C:\\Temp\\DRM_TEST_LIBTEST_20221025\\Bin\\x64\\Debug\\Data\\CSVFile\\0\\DUAL\\Gen_ADD.csv",
+	// 								L"C:\\Temp\\DRM_TEST_LIBTEST_20221025\\Bin\\x64\\Debug\\Data\\CSVFile\\0\\ST\\Gen_ADD.csv"
+
+	return nConvValue;
+}
+
+void CDate_Csv_File_Dlg::DeleteAllFiles(CString dirName)
+{
+	CFileFind finder;
+
+	BOOL bWorking = finder.FindFile((CString)dirName + "/*.*");
+
+	while (bWorking)
+	{
+		bWorking = finder.FindNextFile();
+		if (finder.IsDots())
+		{
+			continue;
+		}
+
+		CString filePath = finder.GetFilePath();
+		DeleteFile(filePath);
+	}
+	finder.Close();
+}
 
 //
 void CDate_Csv_File_Dlg::GenCSV_Insert()
@@ -95,6 +180,8 @@ void CDate_Csv_File_Dlg::GenCSV_Insert()
 	CString		szGen_CEQID;
 	int			nCEQ_ID_CSV = 0;
 
+	int			nConvValue = 0; //암호화 !! 
+
 	for (int i = 0; i < 200; i++)
 	{
 		szGen_Overlap[i].Format(_T(""));
@@ -104,10 +191,9 @@ void CDate_Csv_File_Dlg::GenCSV_Insert()
 	CFileDialog FileDlg(TRUE, _T("csv"), NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, _T("KASIM Data File(*.csv)|*.csv| All Files(*.*)|*.*|"));
 
 	CString szRoute;
-
 	szRoute.Format(_T("\\Config"));
 	strPath = (MyPath() + szRoute);
-
+	
 	FileDlg.m_pOFN->lpstrInitialDir = (LPCWSTR)strPath;
 
 	if (FileDlg.DoModal() != IDOK)
@@ -117,7 +203,28 @@ void CDate_Csv_File_Dlg::GenCSV_Insert()
 	strFilePath = FileDlg.GetPathName();
 	strFileName = FileDlg.GetFileName();
 
-	stream = _wfopen(strFilePath, L"r+");
+	//DRM 암화화 체크 !!
+	CString szRouteDRM, strPathDRM;
+	szRouteDRM.Format(_T("\\DRM\\GEN"));
+	strPathDRM = (MyPath() + szRouteDRM);
+
+	nConvValue = DoDRM_Main(strFilePath, strPathDRM);
+	if (nConvValue == 103)
+	{
+		CString strPathDRM_103;
+		strPathDRM_103.Format(_T("%s\\GEN_ADD_DRM.csv"), strPathDRM);
+		stream = _wfopen(strPathDRM_103, L"r+");
+	}
+	else if (nConvValue == 29) //암호화 파일이 아님 
+	{
+		stream = _wfopen(strFilePath, L"r+");
+		//암호화 안된 파일 !
+	}
+	else
+	{
+		AfxMessageBox(_T("파일이 잘못되었습니다."));
+	}
+	//stream = _wfopen(strFilePath, L"r+");
 	// 
 	if (stream != NULL)
 	{
@@ -198,6 +305,12 @@ void CDate_Csv_File_Dlg::GenCSV_Insert()
 			}
 		}
 		fclose(stream);
+		//암호화 파일 삭제 !
+		if (nConvValue == 103)
+		{
+			DeleteAllFiles(strPathDRM);
+		}
+
 		if (nIndexGen == 99)
 		{
 			AfxMessageBox(_T("[오류] 100개이상 에러가 있습니다."));
@@ -665,6 +778,8 @@ void CDate_Csv_File_Dlg::GenCSV_Editor_Upload()
 	int nCEQ_ID_CSV = 0; //CSV 파일 공백 찾기
 	int nCUSTOMER_NO_ID_CSV = 0; //CSV 파일 공백 찾기 
 
+	int			nConvValue = 0; //암호화 !! 
+
 
 
 	for (int i = 0; i < 1000; i++)
@@ -689,7 +804,30 @@ void CDate_Csv_File_Dlg::GenCSV_Editor_Upload()
 	strFilePath = FileDlg.GetPathName();
 	strFileName = FileDlg.GetFileName();
 
-	stream = _wfopen(strFilePath, L"r+");
+
+	//DRM 암화화 체크 !!
+	CString szRouteDRM, strPathDRM;
+	szRouteDRM.Format(_T("\\DRM\\GEN"));
+	strPathDRM = (MyPath() + szRouteDRM);
+
+	nConvValue = DoDRM_Main(strFilePath, strPathDRM);
+	if (nConvValue == 103)
+	{
+		CString strPathDRM_103;
+		strPathDRM_103.Format(_T("%s\\GEN_ADD_DRM.csv"), strPathDRM);
+		stream = _wfopen(strPathDRM_103, L"r+");
+	}
+	else if (nConvValue == 29) //암호화 파일이 아님 
+	{
+		stream = _wfopen(strFilePath, L"r+");
+		//암호화 안된 파일 !
+	}
+	else
+	{
+		AfxMessageBox(_T("파일이 잘못되었습니다."));
+	}
+
+	//stream = _wfopen(strFilePath, L"r+");
 
 	// 
 	if (stream != NULL)
@@ -753,6 +891,12 @@ void CDate_Csv_File_Dlg::GenCSV_Editor_Upload()
 			}
 		}
 		fclose(stream);
+
+		//암호화 파일 삭제 !
+		if (nConvValue == 103)
+		{
+			DeleteAllFiles(strPathDRM);
+		}
 
 		// 		if (count != 20)
 		// 		{

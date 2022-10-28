@@ -397,6 +397,7 @@ typedef struct _GENUNIT_STA
 	int								GENUNIT_TYPE;					// GEN에서 ND로의 sibling index
 	wchar_t							GENUNIT_II_EQU_ID[64];					// 20220809
 	int								GENUNIT_II_NAME_TYPE_FK;
+	int								GENUNIT_INDEX;
 	
 
 } GENUNIT_STA;

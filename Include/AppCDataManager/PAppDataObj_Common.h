@@ -9,6 +9,8 @@
 
 #define								KASIMSCHEMA_TABLENAMEMAXSIZE			32
 #define								KASIMSCHEMA_FIELDNAMEMAXSIZE			64
+// DRM사용시 필요
+//#define								DRM_MODULE_DEFINE
 
 enum KASIMRDBINDEX
 {

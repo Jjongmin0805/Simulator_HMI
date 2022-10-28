@@ -98,7 +98,7 @@ public:
 
 public:
 	void			ADMStoKCIM_Offic_Config( CString szDate );
-	void			ADMStoKCIM_Offic_Code( CString szDate );
+	void			ADMStoKCIM_Code_Config( CString szDate );
 	void			ADMStoKCIM_CSV_Route( CString szDate );
 	void			MakeDirectory();
 	void			MakeDiagram_LoasID(int m_nType);
@@ -151,10 +151,10 @@ public:
 	int				GetMTRID(int nDate);
 	void			GET_GENUNIT_STA(CString stDate, int nGENID);
 	int				Get_OVERHEAD_CABLE(int nDate);
-	float			Get_POSR(float fDate, int nDate);
-	float			Get_POSX(float fDate, int nDate);
-	float			Get_ZERR(float fDate, int nDate);
-	float			Get_ZERX(float fDate, int nDate);
+	double			Get_POSR(float fDate, int nDate);
+	double			Get_POSX(float fDate, int nDate);
+	double			Get_ZERR(float fDate, int nDate);
+	double			Get_ZERX(float fDate, int nDate);
 
 public:
 	//ACMDB
@@ -289,6 +289,11 @@ public:
 	CMap<int, int, int, int>m_map_PRDE_TYPE_302;
 	CMap<int, int, int, int>m_map_PRDE_TYPE_301;
 	CMap<int, int, int, int>m_map_PRDE_TYPE_305;
+	CMap<int, int, int, int>m_map_PRDE_TYPE_304315316;
+	CMap<int, int, int, int>m_map_PRDE_TYPE_312;
+	CMap<int, int, int, int>m_map_PRDE_TYPE_317;
+	CMap<int, int, int, int>m_map_PRDE_TYPE_318;
+	CMap<int, int, int, int>m_map_PRDE_TYPE_319;
 
 	CMap<CString, LPCTSTR, int, int>m_map_SW_comm_group;
 	CMap<CString, LPCTSTR, CString, LPCTSTR >m_map_CBSW_PQMS;
@@ -306,6 +311,9 @@ public:
 	CMap<CString, LPCTSTR, int, int>m_map_ENG_EQC_TYPE;
 	CMap<CString, LPCTSTR, int, int>m_map_LNSEC_ND;
 	CMap<CString, LPCTSTR, int, int>m_map_CBSW_ND;
+	CMap<CString, LPCTSTR, int, int>m_map_GEN_STA_NULL;
+	CMap<CString, LPCTSTR, int, int>m_map_NEW_GEN_NDisnull; //GEN정보가 이상함 연결정보가 없으면!
+
 	//CMap<int, int, int, int >//m_map_BR_MTRIDTND;
 
 	int 			m_nMstCD[500][3];

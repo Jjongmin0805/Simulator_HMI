@@ -248,7 +248,7 @@ void CNodeView::Draw(CDC* BufferDC, double dScale, int nShowOption, BOOL bPrint,
 			//TR이면 외형을 그리자.
 			DrawTRCase(BufferDC, dScale, bPrint, nFontRate);//자동스위치와 동일하게 그린다.
 		}
-		else if (m_pCenter && m_pCenter->m_nSwKindID == NDTYPE_ALTS)
+		else if ((m_pCenter && m_pCenter->m_nSwKindID == NDTYPE_ALTS) || (m_pLeft && m_pLeft->m_nSwKindID == NDTYPE_ALTS) || (m_pRight && m_pRight->m_nSwKindID == NDTYPE_ALTS))
 		{
 			DrawALTS(BufferDC, dScale, bPrint, nFontRate);//ALTS
 		}

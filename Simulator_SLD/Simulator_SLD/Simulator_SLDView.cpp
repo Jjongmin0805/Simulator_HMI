@@ -1851,30 +1851,34 @@ void CSimulatorSLDView::MakeAllSLDRcv(int nBRIdx, int nFNDIdx, CNodeView* pnodev
 	//찾은 설비가 CB이면 루프임. 그만하자
 	if (pNewNodeView->m_nKCIMType == KCIMTYPE_CB)//
 	{
-		CString szName, szSubst(_T(""));
-
-		int																nDlIdx, nMTRIdx, nSSIdx;
-		nDlIdx = GetCbswToNode(nTNDIdx);
-		if (nDlIdx)
+		if (nDeadLineDepth == 0 && GetNDStatus(nNextNDIdx) == SW_CLOSE)//CB인데 branch가 사선이 아니고, CB가 닫혀있으면
 		{
-			nMTRIdx = GETVALUE(int, _T("dl_sta"), _T("dl_ii_mtr"), nDlIdx);
-			if (nMTRIdx)
+			CString szName, szSubst(_T(""));
+
+			int																nDlIdx, nMTRIdx, nSSIdx;
+			nDlIdx = GetCbswToNode(nTNDIdx);
+
+			if (nDlIdx)
 			{
-				nSSIdx = GETVALUE(int, _T("mtr_sta"), _T("mtr_ii_ss"), nMTRIdx);
-				if (nSSIdx)
+				nMTRIdx = GETVALUE(int, _T("dl_sta"), _T("dl_ii_mtr"), nDlIdx);
+				if (nMTRIdx)
 				{
-					szSubst = GETSTRING(_T("ss_sta"), _T("ss_nm"), nSSIdx);
-					szSubst.Replace(_T(" 변전소"), _T(""));
-					szSubst.Replace(_T("변전소"), _T(""));
+					nSSIdx = GETVALUE(int, _T("mtr_sta"), _T("mtr_ii_ss"), nMTRIdx);
+					if (nSSIdx)
+					{
+						szSubst = GETSTRING(_T("ss_sta"), _T("ss_nm"), nSSIdx);
+						szSubst.Replace(_T(" 변전소"), _T(""));
+						szSubst.Replace(_T("변전소"), _T(""));
+					}
 				}
 			}
+
+			szName.Format(_T("%s/%s"), szSubst, pNewNodeView->m_szLoc);
+			m_szLoofCBNmArr.Add(szName);
+			m_nLoofCBIdArr.Add(pNewNodeView->m_nNDID[0]);
+
+			return;
 		}
-
-		szName.Format(_T("%s/%s"), szSubst, pNewNodeView->m_szLoc);
-		m_szLoofCBNmArr.Add(szName);
-		m_nLoofCBIdArr.Add(pNewNodeView->m_nNDID[0]);
-
-		return;
 	}
 	// 	if( bInternal )																	pNewNodeView->m_szLocNo = _T("내부연계");
 

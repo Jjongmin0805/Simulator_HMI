@@ -92,7 +92,8 @@ void CKacim2OfficeDlg::OnBnClickedKacimOffcieDlgBtn1()
 
 	ConvertDLG.ST_MODE(1);
 	ConvertDLG.ADMStoKCIM_Offic_Config(strConfig);
-	ConvertDLG.ADMStoKCIM_Offic_Code(strCode);
+	//ConvertDLG.ADMStoKCIM_Offic_Code(strCode);
+	ConvertDLG.ADMStoKCIM_Code_Config(strCode);
 	ConvertDLG.ADMStoKCIM_CSV_Route(_T("\\Data\\CSVFile\\0\\"));
 	ConvertDLG.m_szADMS_Code.Format(_T("adms_code"));
 

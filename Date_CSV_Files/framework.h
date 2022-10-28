@@ -31,5 +31,31 @@
 #ifndef _AFX_NO_AFXCMN_SUPPORT
 #include <afxcmn.h>                     // Windows 공용 컨트롤에 대한 MFC 지원입니다.
 #endif // _AFX_NO_AFXCMN_SUPPORT
+/*
+#include <iostream>
 
+#include <cstring>
 
+#pragma warning( disable : 4995 )
+#pragma warning( disable : 4996 )
+
+#define _SILENCE_STDEXT_HASH_DEPRECATION_WARNINGS
+#include <sstream>
+#include <list>
+#include <vector>
+#include <map>
+#include <set>
+#include <algorithm>
+#include <string>
+#include <hash_map>
+#include <hash_set>
+#include <assert.h>
+
+#include "../include/AppDRMManager/AppDRMObjMng.h"
+
+#ifdef _DEBUG
+#pragma comment( lib, "../Lib/x64/Debug/AppDRMManager.lib" )
+#else
+#pragma comment( lib, "../Lib/x64/Release/AppDRMManager.lib" )
+#endif
+*/

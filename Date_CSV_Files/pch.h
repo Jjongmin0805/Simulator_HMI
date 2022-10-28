@@ -75,13 +75,15 @@ using namespace std;
 #include "../Include/AppCDataManager/PAppDataObj_Common.h"
 #include "../Include/AppCDataManager/PAppDataObjMng.h"
 
-
+#include "../include/AppDRMManager/AppDRMObjMng.h"
 
 #ifdef _DEBUG
 #pragma comment( lib, "../Lib/x64/Debug/PUSDT_PCommManager.lib" )
 #pragma comment( lib, "../Lib/x64/Debug/AppCDataManager.lib" )
+#pragma comment( lib, "../Lib/x64/Debug/AppDRMManager.lib" )
 #else
 #pragma comment( lib, "../Lib/x64/Release/PUSDT_PCommManager.lib" )
 #pragma comment( lib, "../Lib/x64/Release/AppCDataManager.lib" )
-
+#pragma comment( lib, "../Lib/x64/Release/AppDRMManager.lib" )
 #endif
+
