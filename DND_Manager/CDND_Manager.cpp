@@ -674,6 +674,50 @@ void CDND_Manager::Draw_DND(Graphics &graphics, CPoint ptDraw, CRect rectShow, d
 	}
 }
 
+//이미지 캡쳐 할때 부분이라서 새로 만들었습니다.
+void CDND_Manager::Draw_DND_Image(Graphics &graphics, CPoint ptDraw, CRect rectShow, double dZoomValue, double dScale_x /* = 1. */, double dScale_y /* = 1. */)
+{
+	CDND_Object *pDNDObj;
+	for (int i = 0; i < m_Array_DND_Text.GetSize(); i++)
+	{
+		pDNDObj = m_Array_DND_Text.GetAt(i);
+
+		if (pDNDObj->GetEditType() == DND_OBJ_EDIT_DELETE)
+			continue;
+
+		if (pDNDObj->Check2DwawRect(rectShow, dZoomValue))
+		{
+			pDNDObj->Draw_Object_Image(graphics, ptDraw, dZoomValue, dScale_x, dScale_y);
+		}
+	}
+
+	for (int i = 0; i < m_Array_DND_Connect.GetSize(); i++)
+	{
+		pDNDObj = m_Array_DND_Connect.GetAt(i);
+
+		if (pDNDObj->GetEditType() == DND_OBJ_EDIT_DELETE)
+			continue;
+
+		if (pDNDObj->Check2DwawRect(rectShow, dZoomValue))
+		{
+			pDNDObj->Draw_Object(graphics, ptDraw, dZoomValue, dScale_x, dScale_y);
+		}
+	}
+
+	for (int i = 0; i < m_Array_DND_Switch.GetSize(); i++)
+	{
+		pDNDObj = m_Array_DND_Switch.GetAt(i);
+
+		if (pDNDObj->GetEditType() == DND_OBJ_EDIT_DELETE)
+			continue;
+
+		if (pDNDObj->Check2DwawRect(rectShow, dZoomValue))
+		{
+			pDNDObj->Draw_Object(graphics, ptDraw, dZoomValue, dScale_x, dScale_y);
+		}
+	}
+}
+
 CDND_Object*	CDND_Manager::GetDNDObject2Point(CPoint pt, CDND_Object* pSelect,BOOL bConnect)
 {
 	CDND_Object *pDNDObj;

@@ -3370,11 +3370,36 @@ CString CSimulator_EditorView::MyPath()
 void CSimulator_EditorView::PrintImage()
 {
 	//이름 경로 정하는 부분?
+// 	CString	szRoute, strPath;
+// 	CString strName;
+// 	strName.Format(_T("Editor.png"));
+// 	szRoute.Format(_T("\\Config"));
+// 
+// 	CFileDialog FileDlg(FALSE, _T("png"), strName, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, _T("KASIM Data File(*.png)|*.png"));
+// 
+// 	strPath = MyPath() + szRoute;
+// 	FileDlg.m_pOFN->lpstrInitialDir = (LPCWSTR)strPath;
+// 
+// 	if (FileDlg.DoModal() != IDOK)
+// 		return;
+// 
+// 	CString strFilePath = FileDlg.GetPathName();
+// 	CString strFileName = FileDlg.GetFileName();
+// 	int nPathLen = strFilePath.GetLength();
+// 	int nFileLen = strFileName.GetLength();
+// 	strFilePath.Delete(nPathLen - nFileLen, nFileLen);
+// 
+// 	szRoute.Format(_T("%s%s"), strFilePath, FileDlg.GetFileTitle() + _T(".png"));
+// 
+// 	Makepng(szRoute);
+
+
+	
 	CString						szRoute, strPath;
 	szRoute.Format(_T("\\Editor.png"));
 	strPath = (MyPath() + szRoute);
-
 	Makepng(strPath);
+	
 }
 
 BOOL CSimulator_EditorView::Makepng(CString szFileNm)
@@ -3408,7 +3433,7 @@ BOOL CSimulator_EditorView::Makepng(CString szFileNm)
 	
 	////
 	dcMem.Rectangle(CRect(0, 0, rect_o.Width(), rect_o.Height() - (nBottomMargin + 10)));
-	dcMem.FillSolidRect(CRect(0, 0, rect_o.Width(), rect_o.Height() - (nBottomMargin + 10)), RGB(0, 0, 0));
+	dcMem.FillSolidRect(CRect(0, 0, rect_o.Width(), rect_o.Height() - (nBottomMargin + 10)), RGB(255, 255, 255)); //이미지 파일 배경색상 현재 255 흰색
 
 	dcMem.SetTextAlign(TA_LEFT);
 	dcMem.SetTextColor(DEFALUT_TEXT_COLOR);
@@ -3426,7 +3451,7 @@ BOOL CSimulator_EditorView::Makepng(CString szFileNm)
 
 	Graphics						graphics(dcMem.GetSafeHdc());
 	graphics.SetSmoothingMode(SmoothingMode::SmoothingModeAntiAlias);
-	pDNDMng->Draw_DND(graphics, rect_o.CenterPoint(), rect_o, 1, 1., 1.);
+	pDNDMng->Draw_DND_Image(graphics, rect_o.CenterPoint(), rect_o, 1, 1., 1.);
 
 	dcMem.SelectObject(pOldFont);
 	font.DeleteObject();

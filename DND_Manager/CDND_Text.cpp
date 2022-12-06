@@ -85,8 +85,40 @@ void CDND_Text::Draw_Object(Graphics &graphics, CPoint ptDraw, double dZoomValue
 
 	dZoomValue = 1.;
 	if (m_SB_Object)
+	{
+		((CSB_Text*)m_SB_Object)->SetFillColor(_T("#000000"));		//이미지 저장후 색상 변환후 다시 원상복귀 변경 20221206
+		((CSB_Text*)m_SB_Object)->m_strFont_color = _T("#ffffff");  //이미지 저장후 색상 변환후 다시 원상복귀 변경 20221206
 		(m_SB_Object)->Draw_Object(graphics, ptDraw, dZoomValue, dScale_x, dScale_y, dAngle, strInnerText);
+
+	}
 	
+
+}
+
+
+void CDND_Text::Draw_Object_Image(Graphics &graphics, CPoint ptDraw, double dZoomValue
+	, double dScale_x, double dScale_y, double dAngle, CString strInnerText)
+{
+	if (dZoomValue < DRAW_ZOOMLEVEL)
+	{
+		return;
+	}
+
+	ptDraw.x = int(m_d_x);
+	ptDraw.y = int(m_d_y);
+
+	dScale_x *= m_d_scalex;
+	dScale_y *= m_d_scaley;
+
+	dZoomValue = 1.;
+	if (m_SB_Object)
+	{
+원상복귀
+		((CSB_Text*)m_SB_Object)->SetFillColor(_T("#ffffff"));		//이미지 저장후 색상 변환에 필요해서 색상 변경 20221206
+		((CSB_Text*)m_SB_Object)->m_strFont_color = _T("#000000");	//이미지 저장후 색상 변환에 필요해서 색상 변경 20221206
+		(m_SB_Object)->Draw_Object(graphics, ptDraw, dZoomValue, dScale_x, dScale_y, dAngle, strInnerText);
+	}
+
 
 }
 

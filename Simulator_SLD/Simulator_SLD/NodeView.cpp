@@ -2521,6 +2521,12 @@ BOOL CNodeView::CheckPosition( CNodeView* pRootNode, CBranchView* pRootBranch )
 		pSamePosNode										= pRootNode->FindSamePosition( this );
 		if( pSamePosNode )
 		{
+			if (pSamePosNode->m_szLoc == _T("미덕174"))
+			{
+				int a;
+				a= 1;
+				
+			}
 			//Cross분기를 찾기위한 탐색을 수행한다.
 			pRootNode->CheckCrossPosition( this, pSamePosNode );
 			//Cross분기를 구한다.
@@ -2776,7 +2782,7 @@ BOOL CNodeView::CheckPosition( CNodeView* pRootNode, CBranchView* pRootBranch )
 	}
 	if(m_pLeftTop != NULL)
 	{
-		if( !((m_pLeftTop->m_pCenter) && (m_pLeftTop->m_pCenter->m_nSwKindID == NDTYPE_BACKUP)) )
+// 		if( !((m_pLeftTop->m_pCenter) && (m_pLeftTop->m_pCenter->m_nSwKindID == NDTYPE_BACKUP)) )//이걸 왜했을까...지우자(20221101) -> 겹침회피시 5분기이상에서 건너뛰면 문제가 생김. 분기에 상관없이 모든 노드의 겹침여부를 판단하는게 맞는거 같다.
 		{
 			if( m_pLeftTop->CheckPosition(pRootNode, pRootBranch) )
 				return TRUE;
@@ -2784,7 +2790,7 @@ BOOL CNodeView::CheckPosition( CNodeView* pRootNode, CBranchView* pRootBranch )
 	}
 	if(m_pRightBottom != NULL)
 	{
-		if( !((m_pRightBottom->m_pCenter) && (m_pRightBottom->m_pCenter->m_nSwKindID == NDTYPE_BACKUP)) )
+// 		if( !((m_pRightBottom->m_pCenter) && (m_pRightBottom->m_pCenter->m_nSwKindID == NDTYPE_BACKUP)) )//이걸 왜했을까...지우자(20221101) -> 겹침회피시 5분기이상에서 건너뛰면 문제가 생김. 분기에 상관없이 모든 노드의 겹침여부를 판단하는게 맞는거 같다.
 		{
 			if( m_pRightBottom->CheckPosition(pRootNode, pRootBranch) )
 				return TRUE;

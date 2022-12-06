@@ -314,8 +314,7 @@ LRESULT CMainFrame::OnToolbarMsg(WPARAM wParam, LPARAM lParam)
 			}
 			//AfxMessageBox( _T("기기조작 명령서") );
 			break;
-		case 5://기기조작 명령서
-			
+		case 5://이미지 저장		
 			if (pView)
 			{
 				pView->PrintImage();

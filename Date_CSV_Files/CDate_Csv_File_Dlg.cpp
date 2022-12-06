@@ -203,7 +203,9 @@ void CDate_Csv_File_Dlg::GenCSV_Insert()
 	strFilePath = FileDlg.GetPathName();
 	strFileName = FileDlg.GetFileName();
 
+	stream = _wfopen(strFilePath, L"r+");
 	//DRM 암화화 체크 !!
+	/*20221122 암호화 잠시만 
 	CString szRouteDRM, strPathDRM;
 	szRouteDRM.Format(_T("\\DRM\\GEN"));
 	strPathDRM = (MyPath() + szRouteDRM);
@@ -224,8 +226,7 @@ void CDate_Csv_File_Dlg::GenCSV_Insert()
 	{
 		AfxMessageBox(_T("파일이 잘못되었습니다."));
 	}
-	//stream = _wfopen(strFilePath, L"r+");
-	// 
+	*/
 	if (stream != NULL)
 	{
 		fgets(chBuffer, sizeof(chBuffer), stream);
@@ -306,19 +307,17 @@ void CDate_Csv_File_Dlg::GenCSV_Insert()
 		}
 		fclose(stream);
 		//암호화 파일 삭제 !
-		if (nConvValue == 103)
-		{
-			DeleteAllFiles(strPathDRM);
-		}
+// 		if (nConvValue == 103)
+// 		{
+// 			DeleteAllFiles(strPathDRM);
+// 		}
 
 		if (nIndexGen == 99)
 		{
 			AfxMessageBox(_T("[오류] 100개이상 에러가 있습니다."));
-
 		}
 		if (nIndexGen != 0 && nIndexGen != 99)
 		{
-
 			AfxMessageBox(szGen_Overlap_Box);
 		}
 		if (nIndexGen == 0)
@@ -810,24 +809,24 @@ void CDate_Csv_File_Dlg::GenCSV_Editor_Upload()
 	szRouteDRM.Format(_T("\\DRM\\GEN"));
 	strPathDRM = (MyPath() + szRouteDRM);
 
-	nConvValue = DoDRM_Main(strFilePath, strPathDRM);
-	if (nConvValue == 103)
-	{
-		CString strPathDRM_103;
-		strPathDRM_103.Format(_T("%s\\GEN_ADD_DRM.csv"), strPathDRM);
-		stream = _wfopen(strPathDRM_103, L"r+");
-	}
-	else if (nConvValue == 29) //암호화 파일이 아님 
-	{
-		stream = _wfopen(strFilePath, L"r+");
-		//암호화 안된 파일 !
-	}
-	else
-	{
-		AfxMessageBox(_T("파일이 잘못되었습니다."));
-	}
+// 	nConvValue = DoDRM_Main(strFilePath, strPathDRM);
+// 	if (nConvValue == 103)
+// 	{
+// 		CString strPathDRM_103;
+// 		strPathDRM_103.Format(_T("%s\\GEN_ADD_DRM.csv"), strPathDRM);
+// 		stream = _wfopen(strPathDRM_103, L"r+");
+// 	}
+// 	else if (nConvValue == 29) //암호화 파일이 아님 
+// 	{
+// 		stream = _wfopen(strFilePath, L"r+");
+// 		//암호화 안된 파일 !
+// 	}
+// 	else
+// 	{
+// 		AfxMessageBox(_T("파일이 잘못되었습니다."));
+// 	}
 
-	//stream = _wfopen(strFilePath, L"r+");
+	stream = _wfopen(strFilePath, L"r+");
 
 	// 
 	if (stream != NULL)
@@ -893,10 +892,10 @@ void CDate_Csv_File_Dlg::GenCSV_Editor_Upload()
 		fclose(stream);
 
 		//암호화 파일 삭제 !
-		if (nConvValue == 103)
-		{
-			DeleteAllFiles(strPathDRM);
-		}
+// 		if (nConvValue == 103)
+// 		{
+// 			DeleteAllFiles(strPathDRM);
+// 		}
 
 		// 		if (count != 20)
 		// 		{

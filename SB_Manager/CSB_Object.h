@@ -65,6 +65,9 @@ public:
 	virtual		void					Draw_Object(Graphics &graphics, CPoint ptDraw, double dZoomValue
 													,double dScale_x = 1., double dScale_y = 1., double dAngle = 0., CString strInnerText =_T("")) {};
 
+	virtual		void					Draw_Object_Image(Graphics &graphics, CPoint ptDraw, double dZoomValue
+													, double dScale_x = 1., double dScale_y = 1., double dAngle = 0., CString strInnerText = _T("")) {};
+
 	virtual		CRect					GetSBRect() { return CRect(0, 0, 0, 0); };
 
 	virtual		void					SetEdit_Move(CPoint pt) {}; ///////////////////////////////////////// 이동한 크기가 온다.

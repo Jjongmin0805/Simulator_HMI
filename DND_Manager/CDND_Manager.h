@@ -103,6 +103,7 @@ public:
 
 
 	void							Draw_DND(Graphics &graphics, CPoint ptDraw, CRect rectShow, double dZoomValue, double dScale_x = 1., double dScale_y = 1.);
+	void							Draw_DND_Image(Graphics &graphics, CPoint ptDraw, CRect rectShow, double dZoomValue, double dScale_x = 1., double dScale_y = 1.);
 
 	CDND_Object*					GetDNDObject2Point(CPoint pt, CDND_Object* pSelect, BOOL bConnect);
 	CDND_Object*					GetDNDObject2Point_Cancel(CPoint pt, CDND_Object* pSelect, BOOL bConnect);
