@@ -136,6 +136,8 @@ public:
 
 	BOOL																			IsPCA(int nCBSWIdx);//해당스위치가 PCA단자인지를 확인
 	BOOL																			IsMultiSw(int nNDIdx);
+	BOOL																			IsVirtualGenCheck(int nNDIdx);//공용(가상)분산전원 여부체크
+
 	//화면관련////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	int																				m_nShowOption;
 
@@ -324,6 +326,7 @@ public:
 	afx_msg void OnMenuPrdeSet();
 	afx_msg void OnUpdateMenuPrdeSet(CCmdUI *pCmdUI);
 	afx_msg void OnVvmSet();
+	afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
 };
 
 #ifndef _DEBUG  // Simulator_SLDView.cpp의 디버그 버전

@@ -506,7 +506,10 @@ void CView_PDVR_rst::Draw_Graph_Data(CDC* pDC, Graphics &graphics, Gdiplus::Rect
 		strVVM_hi.Format(_T("%.3lf"), dBase_V*m_dVVM_lmhi_Tap);
 		strVVM_lo.Format(_T("%.3lf"), dBase_V*m_dVVM_lmlo_Tap);
 		graphics.DrawString(strVVM_hi, -1, &_drawfont, r_hi_var, &_drawStrFormat, &_drawFontbrush);
-		graphics.DrawString(strVVM_lo, -1, &_drawfont, r_lo_var, &_drawStrFormat, &_drawFontbrush);
+		if (m_nMode == 1)
+		{
+			graphics.DrawString(strVVM_lo, -1, &_drawfont, r_lo_var, &_drawStrFormat, &_drawFontbrush);
+		}
 	}
 	else
 	{
@@ -518,7 +521,10 @@ void CView_PDVR_rst::Draw_Graph_Data(CDC* pDC, Graphics &graphics, Gdiplus::Rect
 	//	graphics.FillRectangle(&_drawVVNlobrush, r_lo);
 		graphics.DrawLine(&_drawVVMhipen, (REAL)r_hi.GetLeft(), (REAL)r_hi.GetBottom(), (REAL)r_hi.GetRight(), (REAL)r_hi.GetBottom());
 		if (m_nMode == 1)
+		{
 			graphics.DrawLine(&_drawVVMlopen, (REAL)r_lo.GetLeft(), (REAL)r_lo.GetTop(), (REAL)r_lo.GetRight(), (REAL)r_lo.GetTop());
+		}
+			
 
 		Gdiplus::RectF r_hi_var, r_lo_var;
 		r_hi_var.X = r_hi.X - 50;
@@ -539,7 +545,11 @@ void CView_PDVR_rst::Draw_Graph_Data(CDC* pDC, Graphics &graphics, Gdiplus::Rect
 		strVVM_hi.Format(_T("%.3lf"), dBase_V*m_dVVM_lmhi);
 		strVVM_lo.Format(_T("%.3lf"), dBase_V*m_dVVM_lmlo);
 		graphics.DrawString(strVVM_hi, -1, &_drawfont, r_hi_var, &_drawStrFormat, &_drawFontbrush);
-		graphics.DrawString(strVVM_lo, -1, &_drawfont, r_lo_var, &_drawStrFormat, &_drawFontbrush);
+
+		if (m_nMode == 1)
+		{
+			graphics.DrawString(strVVM_lo, -1, &_drawfont, r_lo_var, &_drawStrFormat, &_drawFontbrush);
+		}
 	}
 	
 
@@ -1827,6 +1837,7 @@ void CView_PDVR_rst::OnControlbutton_click_Run_PDVR()
 	if (m_bTimer)
 		return;
 
+	//// 전압검토
 
 	int nSel = m_ctrCombo[1].GetCurSel();
 	if (nSel == -1)
@@ -1881,30 +1892,6 @@ void CView_PDVR_rst::OnControlbutton_click_Run_PDVR()
 		return;
 	}
 
-	CView_PDVR_rst_RUN_Dlg Dlg;
-
-	Dlg.m_nMode = 0;
-	Dlg.m_timeData[0] = timeData[0];
-	Dlg.m_timeData[1] = timeData[1];
-
-	if (Dlg.DoModal() == IDOK)
-	{
-		timeData[0] = Dlg.m_timeData[0];
-		timeData[1] = Dlg.m_timeData[1];
-
-		m_ctrDate[0].SetTime(timeData[0]);
-		m_ctrDate[1].SetTime(timeData[1]);
-	}
-	else
-	{
-		return;
-	}
-
-
-	strTime[0].Format(_T("%s"), timeData[0].Format(_T("%Y%m%d")));
-	strTime[1].Format(_T("%s"), timeData[1].Format(_T("%Y%m%d")));
-
-
 	/////////////// mtr
 
 	CString strTRidx, strOLTC;
@@ -1929,6 +1916,31 @@ void CView_PDVR_rst::OnControlbutton_click_Run_PDVR()
 			PUTDOUBLE2VALUE(_T("TR_DYN_UIN"), _T("TR_PDVRFLAG"), _wtoi(strTRidx), (double)nCheck);
 		}
 	}
+
+	CView_PDVR_rst_RUN_Dlg Dlg;
+
+	Dlg.m_nGenType = 0;
+	Dlg.m_nTrIndex = _wtoi(strOLTC);
+	Dlg.m_nMode = 0;
+	Dlg.m_timeData[0] = timeData[0];
+	Dlg.m_timeData[1] = timeData[1];
+
+	if (Dlg.DoModal() == IDOK)
+	{
+		timeData[0] = Dlg.m_timeData[0];
+		timeData[1] = Dlg.m_timeData[1];
+
+		m_ctrDate[0].SetTime(timeData[0]);
+		m_ctrDate[1].SetTime(timeData[1]);
+	}
+	else
+	{
+		return;
+	}
+
+
+	strTime[0].Format(_T("%s"), timeData[0].Format(_T("%Y%m%d")));
+	strTime[1].Format(_T("%s"), timeData[1].Format(_T("%Y%m%d")));
 
 	
 	////////////////// 신규 검토 분산전원
@@ -1972,7 +1984,7 @@ void CView_PDVR_rst::OnControlbutton_click_Opt()
 	if (m_bTimer)
 		return;
 
-	////////////////// 신규 검토 분산전원
+	////////////////// 신규분산전원기술검토
 
 	int nCheck = 0;
 	CString strGENidx;
@@ -3530,7 +3542,7 @@ void CView_PDVR_rst::Update_GraphData()
 		dUx		= GETVALUE(double, _T("tr_dyn_pdvro"), _T("tr_pax"), _wtoi(strIdx));
 		dBW		= GETVALUE(double, _T("tr_dyn_pdvro"), _T("tr_pavbw"), _wtoi(strIdx));
 		dMx		= GETVALUE(double, _T("tr_dyn_pdvro"), _T("tr_dvmmxv"), _wtoi(strIdx));
-		dMn		= GETVALUE(double, _T("tr_dyn_pdvro"), _T("tr_dvmmnv"), _wtoi(strIdx));
+		dMn		= GETVALUE(double, _T("tr_dyn_pdvro"), _T("tr_dvmnxv"), _wtoi(strIdx));
 
 		if(_wtoi(strType) == 0)
 			strInfo.Format(_T("Verf:%.3lf Ur:%.3lf Ux:%.3lf BandWidth:%.2lf 전압상한:%.2lf 전압하한:%.2lf"), dVerf, dUr, dUx, dBW,dMx,dMn);

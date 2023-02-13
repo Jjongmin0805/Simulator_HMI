@@ -1929,9 +1929,9 @@ void CDataManager::Set_PDVR_Voltage2ADMS(int nTR_Idx, int nMode, COleDateTime tF
 	int nFrom, nTo;
 	BOOL bCheck[4];
 	for (int i = 0; i < 4; i++)
-		bCheck[i] = FALSE;
+		bCheck[i] = TRUE;
 
-	COleDateTimeSpan tSpan(1, 0, 0, 0);
+	/*COleDateTimeSpan tSpan(1, 0, 0, 0);
 	COleDateTime tCurrent = tFrom;
 	int nMonth;
 	while (1)
@@ -1944,7 +1944,7 @@ void CDataManager::Set_PDVR_Voltage2ADMS(int nTR_Idx, int nMode, COleDateTime tF
 
 		tCurrent += tSpan;
 	}
-	
+	*/
 
 
 	

@@ -552,7 +552,7 @@ void CMainFrame::Excute_Import_OCB()
 
 	if (!ShellExecute(NULL, _T("open"), _T("FHS.exe"), strParam, strApplPath, TRUE))
 	{
-		SENDLOGMSG(_T("Simulator_SLD.exe : Fail"), SENDLOGMSG_COLOR_NOR);
+		SENDLOGMSG(_T("FHS.exe : Fail"), SENDLOGMSG_COLOR_NOR);
 
 		return ;
 	}

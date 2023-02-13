@@ -220,10 +220,11 @@
 #define IDC_STC_FIND_OPTION             1086
 #define IDC_RADIO_FINDOPT1              1087
 #define IDC_RADIO_FINDOPT2              1088
-#define IDC_EDIT_NAME                   1089
-#define IDC_LIST_RESULT                 1090
-#define IDC_COMBO_INDEX                 1091
-#define IDC_STATIC_DESC                 1094
+#define IDC_RADIO_FINDOPT3              1089
+#define IDC_EDIT_NAME                   1090
+#define IDC_LIST_RESULT                 1091
+#define IDC_COMBO_INDEX                 1092
+#define IDC_STATIC_DESC                 1093
 #define IDM_SET_FAULT                   32772
 #define IDM_RESET_FAULT                 32775
 #define ID_SKSDF_SDKF                   32776
@@ -248,7 +249,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        352
 #define _APS_NEXT_COMMAND_VALUE         32792
-#define _APS_NEXT_CONTROL_VALUE         1071
+#define _APS_NEXT_CONTROL_VALUE         1094
 #define _APS_NEXT_SYMED_VALUE           310
 #endif
 #endif

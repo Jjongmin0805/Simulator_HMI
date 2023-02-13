@@ -25,6 +25,7 @@ CDND_Connect::~CDND_Connect(void)
 void CDND_Connect::SetObjectData(CMarkup* pxml)
 {
 	CString strData[11];
+	//20230210 svg 파일에 값 불러오는 하는 부분 선로
 
 	strData[0] = pxml->GetAttrib(_T("id"));
 	strData[1] = pxml->GetAttrib(_T("psrtype"));
@@ -42,10 +43,7 @@ void CDND_Connect::SetObjectData(CMarkup* pxml)
 	m_str_id = strData[0];
 	m_str_psrtype = strData[1];
 	m_str_keyid = strData[2];
-
 	m_n_type = _wtoi(strData[3]);
-
-	
 
 	m_str_link = strData[5];
 	Split_Link(strData[5]);
@@ -88,6 +86,7 @@ void CDND_Connect::GetObjectData(CMarkup* pxml, int&  nDrawOrder)
 	int nLen = strData[4].GetLength();
 	strData[4].Delete(nLen - 1, 1);
 	
+	//20230210 svg 파일에 값 입력하는 부분 선로
 
 	pxml->AddElem(_T("CONNECT"));
 	pxml->AddAttrib(_T("id"),						strData[0]);
@@ -110,6 +109,11 @@ void CDND_Connect::Split_Point(CString strData)
 	int nCount = 0;
 	CRealPoint *pPt;
 
+	CString strDy;
+	double dDy = 0, dDyH = 0;
+	double dHeight = 0;
+	
+
 	while (AfxExtractSubString(strS, strData, nCount, _T(' ')))
 	{
 		if (strS.IsEmpty())
@@ -121,7 +125,12 @@ void CDND_Connect::Split_Point(CString strData)
 		pPt = new CRealPoint();
 		m_Array_Point.Add(pPt);
 		pPt->x = _wtof(strX);
-		pPt->y = _wtof(strY);
+
+		//상하반전
+		dDy = _wtof(strY);		
+		dDyH = abs(dDy - m_dSVGHeight);
+		pPt->y = dDyH;
+		//pPt->y = _wtof(strY);
 
 		pPt->SetSplitRect();
 
@@ -389,6 +398,9 @@ void CDND_Connect::Draw_Object(Graphics &graphics, CPoint ptDraw, double dZoomVa
 		graphics.DrawPath(&pen, &gp);
 		delete pBrush_stroke;
 	}
+// 	graphics.DrawPath(&pen, &gp);
+// 	delete pBrush_stroke;
+
 }
 
 void CDND_Connect::Draw_Object_Move(Graphics &graphics, CPoint ptDraw, double dZoomValue
@@ -641,8 +653,31 @@ void CDND_Connect::Set_NEW_InitData_KASIM(CString stKASIM_NM, CString stCEQID, i
 	PUTDOUBLE2VALUE(_T("LNSEC_STA"), _T("LNSEC_LENGTH"), nLNSECID, (double)0.1);
 	PUTDOUBLE2VALUE(_T("LNSEC_STA"), _T("LNSEC_CONSTYPE"), nLNSECID, (int)0);
 	//LNSEC_DYN_UIN
-	PUTDOUBLE2VALUE(_T("LNSEC_DYN_UIN"), _T("LNSEC_SW_FOR_CONST"), nLNSECID, (int)0);
-	PUTDOUBLE2VALUE(_T("LNSEC_DYN_UIN"), _T("LNSEC_HIS_NOTSRCH"), nLNSECID, (int)0);
+	PUTDOUBLE2VALUE(_T("LNSEC_DYN_UIN"), _T("LNSEC_VBDOPT"), nLNSECID, (int)0);
+	PUTDOUBLE2VALUE(_T("LNSEC_DYN_UIN"), _T("LNSEC_0_COUNT"), nLNSECID, (int)0);
+	PUTDOUBLE2VALUE(_T("LNSEC_DYN_UIN"), _T("LNSEC_1_COUNT"), nLNSECID, (int)0);
+	PUTDOUBLE2VALUE(_T("LNSEC_DYN_UIN"), _T("LNSEC_2_COUNT"), nLNSECID, (int)0);
+	PUTDOUBLE2VALUE(_T("LNSEC_DYN_UIN"), _T("LNSEC_3_COUNT"), nLNSECID, (int)0);
+	PUTDOUBLE2VALUE(_T("LNSEC_DYN_UIN"), _T("LNSEC_4_COUNT"), nLNSECID, (int)0);
+	PUTDOUBLE2VALUE(_T("LNSEC_DYN_UIN"), _T("LNSEC_5_COUNT"), nLNSECID, (int)0);
+	PUTDOUBLE2VALUE(_T("LNSEC_DYN_UIN"), _T("LNSEC_6_COUNT"), nLNSECID, (int)0);
+	PUTDOUBLE2VALUE(_T("LNSEC_DYN_UIN"), _T("LNSEC_7_COUNT"), nLNSECID, (int)0);
+	PUTDOUBLE2VALUE(_T("LNSEC_DYN_UIN"), _T("LNSEC_8_COUNT"), nLNSECID, (int)0);
+	PUTDOUBLE2VALUE(_T("LNSEC_DYN_UIN"), _T("LNSEC_9_COUNT"), nLNSECID, (int)0);
+	PUTDOUBLE2VALUE(_T("LNSEC_DYN_UIN"), _T("LNSEC_10_COUNT"), nLNSECID, (int)0);
+	PUTDOUBLE2VALUE(_T("LNSEC_DYN_UIN"), _T("LNSEC_11_COUNT"), nLNSECID, (int)0);
+	PUTDOUBLE2VALUE(_T("LNSEC_DYN_UIN"), _T("LNSEC_12_COUNT"), nLNSECID, (int)0);
+	PUTDOUBLE2VALUE(_T("LNSEC_DYN_UIN"), _T("LNSEC_13_COUNT"), nLNSECID, (int)0);
+	PUTDOUBLE2VALUE(_T("LNSEC_DYN_UIN"), _T("LNSEC_14_COUNT"), nLNSECID, (int)0);
+	PUTDOUBLE2VALUE(_T("LNSEC_DYN_UIN"), _T("LNSEC_15_COUNT"), nLNSECID, (int)0);
+	PUTDOUBLE2VALUE(_T("LNSEC_DYN_UIN"), _T("LNSEC_16_COUNT"), nLNSECID, (int)0);
+	PUTDOUBLE2VALUE(_T("LNSEC_DYN_UIN"), _T("LNSEC_17_COUNT"), nLNSECID, (int)0);
+	PUTDOUBLE2VALUE(_T("LNSEC_DYN_UIN"), _T("LNSEC_18_COUNT"), nLNSECID, (int)0);
+	PUTDOUBLE2VALUE(_T("LNSEC_DYN_UIN"), _T("LNSEC_19_COUNT"), nLNSECID, (int)0);
+	PUTDOUBLE2VALUE(_T("LNSEC_DYN_UIN"), _T("LNSEC_20_COUNT"), nLNSECID, (int)0);
+	PUTDOUBLE2VALUE(_T("LNSEC_DYN_UIN"), _T("LNSEC_21_COUNT"), nLNSECID, (int)0);
+	PUTDOUBLE2VALUE(_T("LNSEC_DYN_UIN"), _T("LNSEC_22_COUNT"), nLNSECID, (int)0);
+	PUTDOUBLE2VALUE(_T("LNSEC_DYN_UIN"), _T("LNSEC_23_COUNT"), nLNSECID, (int)0);
 	//LNSEC_DYN_NCPO
 	PUTDOUBLE2VALUE(_T("LNSEC_DYN_NCPO"), _T("LNSEC_DEAD"), nLNSECID, (int)0);
 	PUTDOUBLE2VALUE(_T("LNSEC_DYN_NCPO"), _T("LNSEC_II_ISL"), nLNSECID, (int)0);

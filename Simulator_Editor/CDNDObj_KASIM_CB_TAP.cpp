@@ -37,16 +37,13 @@ void CDNDObj_KASIM_CB_TAP::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_DNDOBJECT_KASIM_CB_DLG_COMBO1, m_ctrCombo1[0]);
 	DDX_Control(pDX, IDC_DNDOBJECT_KASIM_CB_DLG_COMBO2, m_ctrCombo2[0]);
 	DDX_Control(pDX, IDC_DNDOBJECT_KASIM_CB_DLG_COMBO3, m_ctrCombo3[0]);
-	DDX_Control(pDX, IDC_COMBO1, m_ctrComboMtrIdx);
 }
-
 
 
 BEGIN_MESSAGE_MAP(CDNDObj_KASIM_CB_TAP, CDialog)
 	ON_BN_CLICKED(IDC_DNDOBJECT_KASIM_CB_DLG_BTN11, &CDNDObj_KASIM_CB_TAP::OnBnClickedDndobjectKasimDlgBtn1)
 	ON_UPDATE_COMMAND_UI(IDC_DNDOBJECT_KASIM_CB_DLG_BTN11, &CDNDObj_KASIM_CB_TAP::OnUpdateUI_Btn1)
 	ON_CBN_SELCHANGE(IDC_DNDOBJECT_KASIM_CB_DLG_COMBO2, &CDNDObj_KASIM_CB_TAP::OnCbnSelchangeDndobjectKasimCbDlgCombo2)
-	ON_CBN_SELCHANGE(IDC_DNDOBJECT_KASIM_CB_DLG_COMBO3, &CDNDObj_KASIM_CB_TAP::OnCbnSelchangeDndobjectKasimCbDlgCombo3)
 END_MESSAGE_MAP()
 
 
@@ -104,9 +101,8 @@ void CDNDObj_KASIM_CB_TAP::LoadKASIM_MTR(int nSSID)
 	int i = 0;
 	int nMTRSSID = 0;
 	int nCount = 0;
-	CString stSSNM, stMTRNM, stNM, stMTRIndex;
+	CString stSSNM, stMTRNM, stNM;
 	m_ctrCombo3[0].ResetContent();
-	m_ctrComboMtrIdx.ResetContent();
 	int nCount_MTR_table = theAppDataMng->GetTableRealCount(_T("MTR_STA"));
 	for (i = 1; i <= (int)nCount_MTR_table; i++)
 	{
@@ -114,24 +110,16 @@ void CDNDObj_KASIM_CB_TAP::LoadKASIM_MTR(int nSSID)
 		if (nMTRSSID == nSSID)
 		{
 			stMTRNM = CA2W(GETSTRING(("MTR_STA"), ("MTR_NM"), i)).m_psz;
-			
-			stMTRIndex.Format(_T("%d"), i);
+
 			if (!(stMTRNM.IsEmpty()))
 			{
 				stNM.Format(_T("%s"), stMTRNM);
 				m_ctrCombo3[0].AddString(stNM);
-				m_ctrComboMtrIdx.AddString(stMTRIndex);
 
 				pMTR_MTRID[nCount] = i;
 				nCount++;
 			}
 		}
-	}
-
-	if (m_ctrCombo3[0].GetCurSel())
-	{
-		m_ctrCombo3[0].SetCurSel(0);
-		m_ctrComboMtrIdx.SetCurSel(0);
 	}
 }
 
@@ -187,7 +175,6 @@ void CDNDObj_KASIM_CB_TAP::LoadKASIM()
 		//MTR정보 불러오기위해
 		LoadKASIM_MTR(nMTRSSID);
 
-		//SS
 		int nSS_ID = 0;
 		for (int i = 0; i < 100; i++)
 		{
@@ -197,37 +184,22 @@ void CDNDObj_KASIM_CB_TAP::LoadKASIM()
 				m_ctrCombo2[0].SetCurSel(i);
 			}
 		}
-		//MTR
-		int nMTR_ID = 0;
-		for (int i = 0; i < 100; i++)
-		{
-			nMTR_ID = pMTR_MTRID[i];
-			if (nMTRID == nMTR_ID)
-			{
-				m_ctrCombo3[0].SetCurSel(i);
-				m_ctrComboMtrIdx.SetCurSel(i);
-			}
-		}
-// 		int nComboMTRIndex = 0;
-// 		for (int i = 0; i < m_ctrComboMtrIdx.GetCount(); i++)
-// 		{
-// 			m_ctrComboMtrIdx.GetCurSel(i);
-// 			nComboMTRIndex = m_ctrComboMtrIdx.GetCurSel(i);
-// 			if (nMTRID == nComboMTRIndex)
-// 			{
-// 				m_ctrCombo3[0].SetCurSel(i);
-// 				m_ctrComboMtrIdx.SetCurSel(i);
-// 			}
-// 		}
+	
 
+/*		m_ctrCombo2[0].SetCurSel(nMTRSSID);*/
+
+		//MTR잡을때 필요한부분 
+		nMTR_BANK = GETVALUE(int, _T("MTR_STA"), _T("MTR_BANK"), nMTRID);
+		nMTR_BANK = nMTR_BANK - 1;
+		m_ctrCombo3[0].SetCurSel(nMTR_BANK);
 	}
 	else
 	{
 		SetDlgItemText(IDC_DNDOBJECT_KASIM_CB_DLG_EDIT1, stNULL);
 		SetDlgItemText(IDC_DNDOBJECT_KASIM_CB_DLG_EDIT2, stNULL);
 		SetDlgItemText(IDC_DNDOBJECT_KASIM_CB_DLG_EDIT3, stNULL);
-		m_ctrCombo1[0].SetCurSel(0);
-		m_ctrCombo2[0].SetCurSel(0);
+		m_ctrCombo1[0].SetCurSel(-1);
+		m_ctrCombo2[0].SetCurSel(-1);
 	}
 }
 
@@ -258,7 +230,7 @@ void CDNDObj_KASIM_CB_TAP::OnBnClickedDndobjectKasimDlgBtn1()
 	PUTVALUE(_T("CBSW_STA"), _T("CBSW_CEQID"), m_nCBSW_CSVID, (unsigned long long)_wtoll(stCEQID));
 	PUTDOUBLE2VALUE(_T("CBSW_STA"), _T("CBSW_TYPE"), m_nCBSW_CSVID, (int)1); //CB속성 박아놓자!
 	PUTDOUBLE2VALUE(_T("CBSW_STA"), _T("CBSW_RTUCODE"), m_nCBSW_CSVID, (int)0);
-//	PUTDOUBLE2VALUE(_T("CBSW_STA"), _T("CBSW_II_DL"), m_nCBSW_CSVID, (int)nCbsw_ii_dl);
+	PUTDOUBLE2VALUE(_T("CBSW_STA"), _T("CBSW_II_DL"), m_nCBSW_CSVID, (int)nCbsw_ii_dl);
 	PUTDOUBLE2VALUE(_T("CBSW_DYN_UIN"), _T("CBSW_BASE_STATE"), m_nCBSW_CSVID, (int)nPos1);
 	PUTDOUBLE2VALUE(_T("CBSW_DYN_MEA"), _T("CBSW_ODSTAT"), m_nCBSW_CSVID, (int)nPos1);
 	PUTDOUBLE2VALUE(_T("CBSW_DYN_MEA"), _T("CBSW_NWSTAT"), m_nCBSW_CSVID, (int)nPos1);
@@ -270,7 +242,6 @@ void CDNDObj_KASIM_CB_TAP::OnBnClickedDndobjectKasimDlgBtn1()
 	m_pSwitch->m_str_keyname.Format(_T("%s"), stKASIM_NM);
 	m_pSwitch->m_str_innertext.Format(_T("%s"), stINNER_TEXT);
 
-	PUTVALUE(_T("DL_STA"), _T("DL_NM"), nCbsw_ii_dl, (wchar_t*)stKASIM_NM.GetBuffer());
 	//MTR뱅크 찾기!!
 	nMTRID = GET_MTR_ID(nPos2, nPos3);
 
@@ -280,24 +251,9 @@ void CDNDObj_KASIM_CB_TAP::OnBnClickedDndobjectKasimDlgBtn1()
 	int nSS_ID = 0, nMTR_ID = 0;
 	nSS_ID = pSS_SSID[nPos4];
 	nMTR_ID = pMTR_MTRID[nPos5];
-
-// 	int nIdx = 0;
-// 	nIdx = m_ctrCombo3[0].GetCurSel();
-// 	nMTR_ID = m_ctrComboMtrIdx.SetCurSel(nIdx);
-// 	m_ctrComboMtrIdx.GetCurSel()
-
 	//음????????????
 	PUTDOUBLE2VALUE(_T("DL_STA"), _T("DL_II_MTR"), nCbsw_ii_dl, (int)nMTR_ID);
 	PUTDOUBLE2VALUE(_T("MTR_STA"), _T("MTR_II_SS"), nMTR_ID, (int)nSS_ID);
-
-	//여기서 MTR이 변경될때마가 계속 바뀌게 된다.
-	int nCBSW_TRID, nCBSW_BRID, nCBSW_TNDID;
-	nCBSW_TRID = GETVALUE(int, _T("MTR_STA"), _T("MTR_HI_TR"), nMTR_ID);
-	nCBSW_BRID = GETVALUE(int, _T("TR_STA"), _T("TR_II_BR"), nCBSW_TRID);
-	nCBSW_TNDID = GETVALUE(int, _T("BR_STA"), _T("BR_II_TND"), nCBSW_BRID);
-
-	PUTDOUBLE2VALUE(_T("CBSW_STA"), _T("CBSW_II_FND"), m_nCBSW_CSVID, (int)nCBSW_TNDID);
-	PUTDOUBLE2VALUE(_T("CBSW_STA"), _T("CBSW_II_FGND"), m_nCBSW_CSVID, (int)nCBSW_TNDID);
 	CMainFrame* pFrm = (CMainFrame*)AfxGetMainWnd();
 	pFrm->Redraw_View();
 }
@@ -352,11 +308,4 @@ int CDNDObj_KASIM_CB_TAP::GET_MTR_ID(int nSSID, int nMTR_BANK)
 		}
 	}
 	return 0;
-}
-
-void CDNDObj_KASIM_CB_TAP::OnCbnSelchangeDndobjectKasimCbDlgCombo3()
-{
-	int nIdx;
-	nIdx = m_ctrCombo3[0].GetCurSel();
-	m_ctrComboMtrIdx.SetCurSel(nIdx);
 }

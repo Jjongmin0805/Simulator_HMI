@@ -32,7 +32,6 @@ protected:
 	CComboBox		m_ctrCombo1[1];
 	CComboBox		m_ctrCombo2[1];
 	CComboBox		m_ctrCombo3[1];
-	CComboBox		m_ctrComboMtrIdx;
 public:
 	virtual BOOL	OnInitDialog();
 	void			SetSelect_DNDObject(CDND_Object* pDNDObj);
@@ -49,5 +48,4 @@ public:
 
 	int pSS_SSID[100];
 	int pMTR_MTRID[100];
-	afx_msg void OnCbnSelchangeDndobjectKasimCbDlgCombo3();
 };

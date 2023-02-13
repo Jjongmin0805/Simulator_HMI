@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CDND_Manager.h"
 #include "../SB_Manager/CSB_Manager.h"
+#include "../SB_Manager/CSB_Object.h"
 
 #include "CProgress_bar.h"
 #include "Resource.h"
@@ -33,6 +34,7 @@ CDND_Manager::~CDND_Manager(void)
 	m_Array_KASIM_ND.RemoveAll();
 	//MAP 데이터 삭제
 	m_map_Connrct_Switch.RemoveAll();
+
 }
 
 CDND_Manager* CDND_Manager::Instance()
@@ -49,24 +51,13 @@ CDND_Manager* CDND_Manager::Instance()
 void CDND_Manager::SVG_Delete()
 {
 	
-	m_Array_DND_Text.RemoveAll();
-	
-	m_Array_DND_Connect.RemoveAll();
-	
+	m_Array_DND_Text.RemoveAll();	
+	m_Array_DND_Connect.RemoveAll();	
 	m_Array_DND_Switch.RemoveAll();
 	for (int i = 0; i < m_Array_DNDObject.GetSize(); i++)
 		delete m_Array_DNDObject.GetAt(i);
-	m_Array_DNDObject.RemoveAll();
-	   
-	//
-// 	CString stDate;
-// 	POSITION pos = m_map_Connrct_Switch.GetStartPosition();
-// 	while (pos)
-// 	{
-// 		m_map_Connrct_Switch.GetNextAssoc(pos, stDate, stDate);
-// 	}
+	m_Array_DNDObject.RemoveAll();	   
 	m_map_Connrct_Switch.RemoveAll();
-
 }
 
 CString CDND_Manager::MyPath()
@@ -78,8 +69,6 @@ CString CDND_Manager::MyPath()
 	memset(szDir, 0x00, sizeof(szDir));
 	memset(szDirve, 0x00, sizeof(szDirve));
 	GetModuleFileName(0, programpath, 2048);
-/*	size_t sz;*/
-
 	_wsplitpath_s(programpath, szDirve, 256, szDir, 2048, NULL, 0, NULL, 0);
 
 	slmpath.Format(_T("%s%s"), szDirve, szDir);
@@ -120,6 +109,7 @@ void CDND_Manager::Read_SVG_G(CMarkup* pxml)
 	m_st_SVG_G.st_dWidth = _wtof(pxml->GetAttrib(_T("w")));
 	m_st_SVG_G.st_dHeight = _wtof(pxml->GetAttrib(_T("h")));
 	m_st_SVG_G.st_strBG_Color = pxml->GetAttrib(_T("bgc"));
+	   
 }
 
 void CDND_Manager::Write_SVG_G(CMarkup* pxml)
@@ -210,6 +200,7 @@ CDND_Object*		CDND_Manager::Create_DND_Object(CString strType)
 		m_Array_DNDObject.Add(pDNDObj);
 		m_Array_DND_Switch.Add(pDNDObj);
 	}
+	pDNDObj->m_dSVGHeight = m_st_SVG_G.st_dHeight; //상하반전을 위한 값
 
 	return pDNDObj;
 
@@ -674,50 +665,6 @@ void CDND_Manager::Draw_DND(Graphics &graphics, CPoint ptDraw, CRect rectShow, d
 	}
 }
 
-//이미지 캡쳐 할때 부분이라서 새로 만들었습니다.
-void CDND_Manager::Draw_DND_Image(Graphics &graphics, CPoint ptDraw, CRect rectShow, double dZoomValue, double dScale_x /* = 1. */, double dScale_y /* = 1. */)
-{
-	CDND_Object *pDNDObj;
-	for (int i = 0; i < m_Array_DND_Text.GetSize(); i++)
-	{
-		pDNDObj = m_Array_DND_Text.GetAt(i);
-
-		if (pDNDObj->GetEditType() == DND_OBJ_EDIT_DELETE)
-			continue;
-
-		if (pDNDObj->Check2DwawRect(rectShow, dZoomValue))
-		{
-			pDNDObj->Draw_Object_Image(graphics, ptDraw, dZoomValue, dScale_x, dScale_y);
-		}
-	}
-
-	for (int i = 0; i < m_Array_DND_Connect.GetSize(); i++)
-	{
-		pDNDObj = m_Array_DND_Connect.GetAt(i);
-
-		if (pDNDObj->GetEditType() == DND_OBJ_EDIT_DELETE)
-			continue;
-
-		if (pDNDObj->Check2DwawRect(rectShow, dZoomValue))
-		{
-			pDNDObj->Draw_Object(graphics, ptDraw, dZoomValue, dScale_x, dScale_y);
-		}
-	}
-
-	for (int i = 0; i < m_Array_DND_Switch.GetSize(); i++)
-	{
-		pDNDObj = m_Array_DND_Switch.GetAt(i);
-
-		if (pDNDObj->GetEditType() == DND_OBJ_EDIT_DELETE)
-			continue;
-
-		if (pDNDObj->Check2DwawRect(rectShow, dZoomValue))
-		{
-			pDNDObj->Draw_Object(graphics, ptDraw, dZoomValue, dScale_x, dScale_y);
-		}
-	}
-}
-
 CDND_Object*	CDND_Manager::GetDNDObject2Point(CPoint pt, CDND_Object* pSelect,BOOL bConnect)
 {
 	CDND_Object *pDNDObj;
@@ -939,21 +886,33 @@ void	CDND_Manager::GetDNDObject2CEQ(CString strNM, CListCtrl *pList)
 	}
 }
 
-// CDND_Object*	CDND_Manager::GetDNDObjecttoNDINDEX(int nNDIndex)
-// {
-// 	CDND_Object *pDNDObj;
-// 	for (int i = 0; i < m_Array_DNDObject.GetSize(); i++)
-// 	{
-// 		pDNDObj = m_Array_DNDObject.GetAt(i);
-// 
-// 		if (pDNDObj->m_nKASIM_ND_Index == nNDIndex)
-// 		{
-// 			return pDNDObj;
-// 		}
-// 	}
-// 	return NULL;
-// }
+void	CDND_Manager::GetDNDObject2CUSTOMER_NO(CString strNM, CListCtrl *pList)  //신규 고객번호로 검색하는부분
+{
+	CDND_Object *pDNDObj;
+	CDND_Switch* pSwitch;
+	CString strID;
+	CString strCustno;
 
+	for (int i = 0; i < m_Array_DNDObject.GetSize(); i++)
+	{
+		pDNDObj = m_Array_DNDObject.GetAt(i);
+
+		if (pDNDObj->ObjectType_Get() == DND_OBJTYPE_TEXT) continue;
+ 		pSwitch = (CDND_Switch*)pDNDObj;
+		if (pSwitch->m_str_psrtype == "GENERATEUNIT" || pSwitch->m_str_psrtype == "DG" || pSwitch->m_str_psrtype == "ENERGYSOURCEEQ")
+		{
+			for (int j = 0; j < pSwitch->m_st_Kasim_GEN_Info.stKASIM_GEN_CUSTNO_Arry.GetSize(); j++)
+			{
+				strCustno = pSwitch->m_st_Kasim_GEN_Info.stKASIM_GEN_CUSTNO_Arry.GetAt(j);
+				if (strCustno.Find(strNM) > -1)
+				{
+					pList->InsertItem(pList->GetItemCount(), pDNDObj->Get_ID_Real());
+					pList->SetItemText(pList->GetItemCount() - 1, 1, strCustno);
+				}
+			}
+		}
+	}
+}
 
 CDND_Object*	CDND_Manager::Add_DND_Obj_Switch(CPoint pt, int nResourceID)
 {
@@ -1054,7 +1013,7 @@ CDND_Object*	CDND_Manager::Add_DND_Obj_Switch(CPoint pt, int nResourceID)
 			}
 			else if( nCBSWt_Type == 1)
 			{
-				pDNDObj_New->Set_NEW_InitData_KASIM_CBSW_DL(pDNDObj_New->m_str_keyname, pDNDObj_New->m_str_keyid, 0, m_nMax_CBSW_table, 0, m_nMax_ND_table , 0, nCBSWt_Type, m_nMax_PRDE_table, pDNDObj_New->m_str_keyid_dl, m_nMax_DL_table);
+				pDNDObj_New->Set_NEW_InitData_KASIM_CBSW_DL(pDNDObj_New->m_str_keyname, pDNDObj_New->m_str_keyid, 0, m_nMax_CBSW_table, m_nMax_ND_table, m_nMax_ND_table + 1, 0, nCBSWt_Type, m_nMax_PRDE_table, pDNDObj_New->m_str_keyid_dl, m_nMax_DL_table);
 				m_nMax_DL_table++;
 			}
 			else
@@ -1393,7 +1352,6 @@ CDND_Object* CDND_Manager::SVG_KASIM_Association()
 	CMap<CString, LPCTSTR, stKASIM_SVR*, stKASIM_SVR*>map_SVR;
 	CMap<CString, LPCTSTR, stKASIM_SUBS*, stKASIM_SUBS*>map_SUBS;
 
-
 	CString stFnd_CEQID, stTnd_CEQID;
 
 	//LNSEC
@@ -1489,6 +1447,7 @@ CDND_Object* CDND_Manager::SVG_KASIM_Association()
 	}
 	m_pProgress_barDLG->ADD_Progress(); // 7
 	//CBSW
+	int nCBSW_NORSTAT= 0 ;
 	int nCount_CBSW_table = theAppDataMng->GetTableRealCount(_T("cbsw_sta"));
 	for (i = 1; i <= (int)nCount_CBSW_table; i++)
 	{
@@ -1498,6 +1457,10 @@ CDND_Object* CDND_Manager::SVG_KASIM_Association()
 		nTnd = GETVALUE(int, _T("cbsw_sta"), _T("CBSW_II_TND"), i);
 		nPrdeID = GETVALUE(int, _T("cbsw_sta"), _T("CBSW_II_PRDE"), i);
 
+		//
+
+		nCBSW_NORSTAT = GETVALUE(int, _T("cbsw_sta"), _T("CBSW_NORSTAT"), i);
+		//
 		map_LN_FND.Lookup(nFnd, nFBRID);
 		map_LN_TND.Lookup(nTnd, nTBRID);
 
@@ -1507,6 +1470,7 @@ CDND_Object* CDND_Manager::SVG_KASIM_Association()
 		pCBSW->m_nCBSW_Fnd = nFnd;
 		pCBSW->m_nCBSW_Tnd = nTnd;
 		pCBSW->m_nCBSW_PRDE = nPrdeID;
+		pCBSW->m_nCBSW_NORSTAT = nCBSW_NORSTAT;
 
 	}
 	m_pProgress_barDLG->ADD_Progress(); // 8
@@ -1535,6 +1499,7 @@ CDND_Object* CDND_Manager::SVG_KASIM_Association()
 	}
 	m_pProgress_barDLG->ADD_Progress(); // 9
 	//고객
+	double dHVCUS_CON_KVA;
 	int nCount_HVCUS_table = theAppDataMng->GetTableRealCount(_T("hvcus_sta"));
 	for (i = 1; i <= (int)nCount_HVCUS_table; i++)
 	{
@@ -1543,6 +1508,7 @@ CDND_Object* CDND_Manager::SVG_KASIM_Association()
 		nHvcusND = GETVALUE(int, _T("hvcus_sta"), _T("HVCUS_II_GND"), i);
 		nPrdeID = GETVALUE(int, _T("hvcus_sta"), _T("HVCUS_II_PRDE"), i);
 		nIJID = GETVALUE(int, _T("hvcus_sta"), _T("HVCUS_II_IJ"), i);
+		dHVCUS_CON_KVA = GETVALUE(double, _T("hvcus_sta"), _T("HVCUS_CON_KVA"), i);
 
 		map_LN_FND.Lookup(nHvcusND, nKSIM_BRID);
 		map_LN_TND.Lookup(nHvcusND, nKSIM_BRID);
@@ -1554,6 +1520,7 @@ CDND_Object* CDND_Manager::SVG_KASIM_Association()
 		pHVCUS->m_nHVCUS_BR = nKSIM_BRID;
 		pHVCUS->m_nHVCUS_IJ = nIJID;
 		pHVCUS->m_nHVCUS_PRDE = nPrdeID;
+		pHVCUS->m_dHVCUS_CON_KVA = dHVCUS_CON_KVA;
 	}
 	m_pProgress_barDLG->ADD_Progress(); // 10
 	//ND데이터
@@ -1575,10 +1542,7 @@ CDND_Object* CDND_Manager::SVG_KASIM_Association()
 		nND_FBR = GETVALUE(int, _T("nd_sta"), _T("ND_HI_FBR"), i);
 		nND_TBR = GETVALUE(int, _T("nd_sta"), _T("ND_HI_TBR"), i);
 		
-		if (stKASIM_CEQ == "10692909000715" )
-		{
-			int a = 0;
-		}
+
 
 		map_ND.Lookup(stKASIM_CEQ, pND);
 		if ( pND == NULL)
@@ -1685,6 +1649,7 @@ CDND_Object* CDND_Manager::SVG_KASIM_Association()
 		pSUBS->m_nNDID = 0;
 	}
 	m_pProgress_barDLG->ADD_Progress(); // 14
+
 	//20210813 새로운 입력부분
 	for (int j = 0; j < m_Array_DND_Connect.GetSize(); j++)
 	{
@@ -1784,6 +1749,7 @@ CDND_Object* CDND_Manager::SVG_KASIM_Association()
 							pMulti_M->m_st_Kasim_CBSW_Info.m_nCBSW_Fnd = pCBSW->m_nCBSW_Fnd;
 							pMulti_M->m_st_Kasim_CBSW_Info.m_nCBSW_Tnd = pCBSW->m_nCBSW_Tnd;
 							pMulti_M->m_st_Kasim_CBSW_Info.m_nCBSW_PRDE = pCBSW->m_nCBSW_PRDE;
+							pMulti_M->m_st_Kasim_CBSW_Info.m_nCBSW_NORSTAT = pCBSW->m_nCBSW_NORSTAT;
 
 							Get_ND_BR_Arry(pCBSW->m_nCBSW_Fnd, pMulti_M, 2);
 							Get_ND_BR_Arry(pCBSW->m_nCBSW_Tnd, pMulti_M, 2);
@@ -1820,6 +1786,7 @@ CDND_Object* CDND_Manager::SVG_KASIM_Association()
 				pSwitch->m_st_Kasim_CBSW_Info.m_nCBSW_Fnd = pCBSW->m_nCBSW_Fnd;
 				pSwitch->m_st_Kasim_CBSW_Info.m_nCBSW_Tnd = pCBSW->m_nCBSW_Tnd;
 				pSwitch->m_st_Kasim_CBSW_Info.m_nCBSW_PRDE = pCBSW->m_nCBSW_PRDE; 
+				pSwitch->m_st_Kasim_CBSW_Info.m_nCBSW_NORSTAT = pCBSW->m_nCBSW_NORSTAT;
 
 				Get_ND_BR_Arry(pCBSW->m_nCBSW_Fnd, pSwitch, 2);
 				Get_ND_BR_Arry(pCBSW->m_nCBSW_Tnd, pSwitch, 2);
@@ -1855,6 +1822,7 @@ CDND_Object* CDND_Manager::SVG_KASIM_Association()
 				pSwitch->m_st_Kasim_HVCUS_Info.m_nHVCUS_BR = pHVCUS->m_nHVCUS_BR;
 				pSwitch->m_st_Kasim_HVCUS_Info.m_nHVCUS_IJ = pHVCUS->m_nHVCUS_IJ;
 				pSwitch->m_st_Kasim_HVCUS_Info.m_nHVCUS_PRDE = pHVCUS->m_nHVCUS_PRDE;
+				pSwitch->m_dHVCUS_CON_KVA = pHVCUS->m_dHVCUS_CON_KVA;
 
 				Get_ND_BR_Arry(pHVCUS->m_nHVCUS_ND, pSwitch, 1 );
 			}
@@ -1876,8 +1844,12 @@ CDND_Object* CDND_Manager::SVG_KASIM_Association()
 				pSwitch->m_st_Kasim_GEN_Info.m_nGEN_PRDE = pGEN->m_nGEN_PRDE;
 				pSwitch->m_st_Kasim_GEN_Info.m_nGEN_ESS = pGEN->m_nGEN_ESS;
 
-				Get_ND_BR_Arry(pGEN->m_nGEN_ND, pSwitch, 1);
+				Get_ND_BR_Arry(pGEN->m_nGEN_ND, pSwitch, 1);		
+				
+				Get_GenUnit(pGEN->m_nGENID, pSwitch);
 			}
+
+
 		}
 		else if (pSwitch->m_str_psrtype == "SVR")
 		{
@@ -1925,7 +1897,8 @@ CDND_Object* CDND_Manager::SVG_KASIM_Association()
 				pSwitch->m_st_Kasim_CBSW_Info.m_nCBSW_Fnd = pCBSW->m_nCBSW_Fnd;
 				pSwitch->m_st_Kasim_CBSW_Info.m_nCBSW_Tnd = pCBSW->m_nCBSW_Tnd;
 				pSwitch->m_st_Kasim_CBSW_Info.m_nCBSW_PRDE = pCBSW->m_nCBSW_PRDE;
-
+				pSwitch->m_st_Kasim_CBSW_Info.m_nCBSW_NORSTAT = pCBSW->m_nCBSW_NORSTAT; 
+	
 				Get_ND_BR_Arry(pCBSW->m_nCBSW_Fnd, pSwitch ,2);
 				Get_ND_BR_Arry(pCBSW->m_nCBSW_Tnd, pSwitch ,2);
 			}		
@@ -2050,6 +2023,38 @@ void	CDND_Manager::Get_ND_BR_Arry( int nNextNDIdx, CDND_Switch *pSwitch, int Ind
 		nNextBRIdx = GETVALUE(int, _T("br_sta"), _T("br_si_tnd"), nNextBRIdx);
 	}
 }
+
+void	CDND_Manager::Get_GenUnit(int nNextGENIdx, CDND_Switch *pSwitch)
+{
+	int																		nGENUnitIdx;
+	int																		nNextGENUnitIdx;
+	int																		nCheck = 0;
+	CString stGENUNIT_CUSTOMER_NO;
+
+	int nCount_GenUnit_table = theAppDataMng->GetTableRealCount(_T("genunit_sta"));
+	for (int i = 1; i <= (int)nCount_GenUnit_table; i++)
+	{
+		nGENUnitIdx = GETVALUE(int, _T("genunit_sta"), _T("GENUNIT_II_GEN"), i);
+		if (nGENUnitIdx == nNextGENIdx)
+		{
+			stGENUNIT_CUSTOMER_NO = GETSTRING(_T("GENUNIT_STA"), _T("GENUNIT_CUSTOMER_NO"), i);
+			pSwitch->m_st_Kasim_GEN_Info.stKASIM_GEN_CUSTNO_Arry.Add(stGENUNIT_CUSTOMER_NO);
+			nCheck = 99; //한번이라도 들어와야지 알지!!!
+		}
+
+		//소요 시간이 오래 걸려 SI로 끝나는 지점 찾기!
+		if (nCount_GenUnit_table != i && nCheck == 99 )
+		{
+			nNextGENUnitIdx = GETVALUE(int, _T("genunit_sta"), _T("GENUNIT_II_GEN"), i + 1);
+			if (nNextGENUnitIdx != nGENUnitIdx)
+			{
+				return;
+			}
+		}
+	
+	}
+}
+
 
 int CDND_Manager::GetBrType(int nBrIdx)
 {

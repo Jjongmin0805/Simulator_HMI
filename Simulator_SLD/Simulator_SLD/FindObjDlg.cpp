@@ -35,6 +35,7 @@ void CFindObjDlg::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CFindObjDlg, CPNOCtrl_SkinFrame_POP_Dialog)
 	ON_BN_CLICKED(IDC_RADIO_FINDOPT1, &CFindObjDlg::OnBnClickedRadioFindopt1)
 	ON_BN_CLICKED(IDC_RADIO_FINDOPT2, &CFindObjDlg::OnBnClickedRadioFindopt2)
+	ON_BN_CLICKED(IDC_RADIO_FINDOPT3, &CFindObjDlg::OnBnClickedRadioFindopt3)
 	ON_BN_CLICKED(IDCANCEL, &CFindObjDlg::OnBnClickedCancel)
 	ON_BN_CLICKED(IDOK, &CFindObjDlg::OnBnClickedOk)
 	ON_NOTIFY(NM_DBLCLK, IDC_LIST_RESULT, &CFindObjDlg::OnNMDblclkListResult)
@@ -76,8 +77,8 @@ BOOL CFindObjDlg::OnInitDialog()
 	m_ctrList.SetExtendedStyle(style);
 	m_ctrList.DeleteAllItems();
 	LV_COLUMN														lvcolumn;
-	wchar_t*														list[4] = { _T(""), _T("ND"), _T("GND"), _T("명칭") };
-	int																width[4] = { 0, 50, 50, 135 };
+	wchar_t*														list[4] = { _T("ND"), _T("선로명"), _T("명칭"), _T("") };
+	int																width[4] = { 0, 100, 135, 0 };
 
 	for (int i = 0; i < 4; i++)
 	{
@@ -112,7 +113,8 @@ void CFindObjDlg::OnBnClickedOk()
 
 	szFindText.MakeUpper();
 	if (m_nFindOpt == 0)											FindToName(szFindText);
-	else															FindToIndex(szFindText);
+	else if (m_nFindOpt == 1)										FindToIndex(szFindText);
+	else															FindToCustNo(szFindText);
 }
 
 void CFindObjDlg::FindToName(CString szFindText)
@@ -131,19 +133,19 @@ void CFindObjDlg::FindToName(CString szFindText)
 		szName = GETSTRING(_T("nd_sta"), _T("nd_nm"), i);
 		if (szName.Find(szFindText) < 0)							continue;
 
+
+		szData.Format(_T("%d"), i);
 		lvitem.mask = LVIF_TEXT;
 		lvitem.iItem = nIdx;
 		lvitem.iSubItem = 0;
-		lvitem.pszText = (LPWSTR)(LPCTSTR)_T("");
+		lvitem.pszText = (LPWSTR)(LPCTSTR)szData;
 		m_ctrList.InsertItem(&lvitem);
 
-		szData.Format(_T("%d"), i);
+
+		szData = GETSTRING(_T("dl_sta"), _T("dl_nm"), nDlIdx);
 		m_ctrList.SetItemText(nIdx, 1, szData);
 
-		szData.Format(_T("%d"), GETVALUE(int, _T("nd_sta"), _T("nd_ii_gnd"), i));
-		m_ctrList.SetItemText(nIdx, 2, szData);
-
-		m_ctrList.SetItemText(nIdx, 3, szName);
+		m_ctrList.SetItemText(nIdx, 2, szName);
 
 		nIdx++;
 	}
@@ -190,12 +192,68 @@ void CFindObjDlg::FindToIndex(CString szFindText)
 		m_pParent->SendMessage(WM_FINDOBJ_MSG, (WPARAM)nIdxOpt + 1, (LPARAM)nFindIdx);
 }
 
+void CFindObjDlg::FindToCustNo(CString szFindText)
+{
+	LV_ITEM															lvitem;
+	int																nCount, nDlIdx, nGenIdx, nNdIdx, nIdx(0);
+	CString															szCount, szCustNo, szName, szData;
+	m_ctrList.DeleteAllItems();
+
+	nCount = theAppDataMng->GetTableRealCount(_T("genunit_sta"));
+	for (int i = 1; i <= nCount; i++)
+	{
+		szCustNo = GETSTRING(_T("genunit_sta"), _T("genunit_location_no"), i);
+		if (szCustNo.Find(szFindText) < 0)							continue;
+
+		nGenIdx = GETVALUE(int, _T("genunit_sta"), _T("genunit_ii_gen"), i);
+		if (nGenIdx == 0)											continue;
+
+		nNdIdx = GETVALUE(int, _T("gen_sta"), _T("gen_ii_nd"), nGenIdx);
+		if (nNdIdx == 0)											continue;
+
+		nDlIdx = GETVALUE(int, _T("nd_dyn_ncpo"), _T("nd_ii_dl"), nNdIdx);
+		if (nDlIdx == 0)											continue;
+
+		szName = GETSTRING(_T("gen_sta"), _T("gen_nm"), nGenIdx);
+		
+
+		szData.Format(_T("%d"), nNdIdx);
+		lvitem.mask = LVIF_TEXT;
+		lvitem.iItem = nIdx;
+		lvitem.iSubItem = 0;
+		lvitem.pszText = (LPWSTR)(LPCTSTR)szData;
+		m_ctrList.InsertItem(&lvitem);
+
+		szData = GETSTRING(_T("dl_sta"), _T("dl_nm"), nDlIdx);
+		m_ctrList.SetItemText(nIdx, 1, szData);
+
+		m_ctrList.SetItemText(nIdx, 2, szName);
+
+		m_ctrList.SetItemText(nIdx, 3, szCustNo);
+
+		nIdx++;
+	}
+
+	szCount.Format(L" %s 건이 검색되었습니다.", ConvertNumber(nIdx));
+	SetDlgItemText(IDC_STATIC_DESC, szCount);
+
+	CRect															rect, rectWnd;
+	GetWindowRect(rectWnd);
+	CWnd*															pWnd = GetDlgItem(IDCANCEL);
+	pWnd->GetWindowRect(rect);
+	if (rectWnd.bottom < rect.bottom)
+	{
+		rectWnd.bottom = rect.bottom + 15;
+		MoveWindow(rectWnd);
+	}
+}
+
 void CFindObjDlg::OnNMDblclkListResult(NMHDR *pNMHDR, LRESULT *pResult)
 {
 	NM_LISTVIEW*													pNMListView = (NM_LISTVIEW*)pNMHDR;
 
 	int																nFindIdx;
-	nFindIdx = _wtoi(m_ctrList.GetItemText(pNMListView->iItem, 1));
+	nFindIdx = _wtoi(m_ctrList.GetItemText(pNMListView->iItem, 0));
 
 	if (m_pParent)													m_pParent->SendMessage(WM_FINDOBJ_MSG, (WPARAM)0, (LPARAM)nFindIdx);
 
@@ -237,20 +295,27 @@ void CFindObjDlg::OnBnClickedRadioFindopt2()
 	pWnd->GetWindowRect(rect);
 	if (rectWnd.bottom > rect.bottom)
 	{
-		rectWnd.bottom = rect.bottom + 15;
+		rectWnd.bottom = rect.bottom + 13;
 		MoveWindow(rectWnd);
 	}
+}
+
+void CFindObjDlg::OnBnClickedRadioFindopt3()
+{
+	UpdateData();
+	EnableControl();
 }
 
 void CFindObjDlg::EnableControl()
 {
 	CWnd*															pWnd;
 	pWnd = GetDlgItem(IDC_COMBO_INDEX);
-	if (m_nFindOpt == 0)											pWnd->EnableWindow(FALSE);
-	else															pWnd->EnableWindow(TRUE);
+	if (m_nFindOpt == 1)											pWnd->EnableWindow(TRUE);
+	else															pWnd->EnableWindow(FALSE);
 }
 
 void CFindObjDlg::OnBnClickedCancel()
 {
 	if (m_pParent)													m_pParent->SendMessage(WM_FINDOBJ_MSG, (WPARAM)-1, (LPARAM)this);
 }
+

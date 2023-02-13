@@ -252,14 +252,15 @@ BOOL CDNDObj_KASIM_GENERATEUNIT_TAP::PreTranslateMessage(MSG* pMsg)
 	return CDialog::PreTranslateMessage(pMsg);
 }
 
-// BOOL CDNDObj_KASIM_GENERATEUNIT_TAP::OnEraseBkgnd(CDC* pDC)
-// {
-// 	return TRUE;
-// }
+/*
+BOOL CDNDObj_KASIM_GENERATEUNIT_TAP::OnEraseBkgnd(CDC* pDC)
+{
+	return TRUE;
+}
 
-// HBRUSH CDNDObj_KASIM_GENERATEUNIT_TAP::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
-// {
-// 	HBRUSH hbr = CDialog::OnCtlColor(pDC, pWnd, nCtlColor);
+HBRUSH CDNDObj_KASIM_GENERATEUNIT_TAP::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
+{
+	HBRUSH hbr = CDialog::OnCtlColor(pDC, pWnd, nCtlColor);
 // 	if (nCtlColor == CTLCOLOR_STATIC)
 // 	{
 // 		switch (pWnd->GetDlgCtrlID())
@@ -299,21 +300,22 @@ BOOL CDNDObj_KASIM_GENERATEUNIT_TAP::PreTranslateMessage(MSG* pMsg)
 // 		pDC->SetBkColor(DIALOG_EDIT_DEFAULT_COLOR);
 // 		return s_brush;
 // 	}
-// 	return hbr;
-// }
+	return hbr;
+}
 
-// void CDNDObj_KASIM_GENERATEUNIT_TAP::OnPaint()
-// {
-// 	CPaintDC dc(this); // device context for painting
-// 
-// 	CRect																	_rect, rect;
-// 	GetClientRect(&_rect);
-// 	dc.FillSolidRect(_rect, WND_BG_DIALOG_COLOR);
-// 
-// 	CPen																	pen, *poldpen;
-// 	pen.CreatePen(PS_SOLID, DIALOG_SEPERATOR_PEN_WIDTH, DIALOG_SEPERATOR_PEN_COLOR);
-// 	poldpen = (CPen*)dc.SelectObject(&pen);
-// 
-// 	dc.SelectObject(poldpen);
-// 	pen.DeleteObject();
-// }
+void CDNDObj_KASIM_GENERATEUNIT_TAP::OnPaint()
+{
+	CPaintDC dc(this); // device context for painting
+
+	CRect																	_rect, rect;
+	GetClientRect(&_rect);
+	dc.FillSolidRect(_rect, WND_BG_DIALOG_COLOR);
+
+	CPen																	pen, *poldpen;
+	pen.CreatePen(PS_SOLID, DIALOG_SEPERATOR_PEN_WIDTH, DIALOG_SEPERATOR_PEN_COLOR);
+	poldpen = (CPen*)dc.SelectObject(&pen);
+
+	dc.SelectObject(poldpen);
+	pen.DeleteObject();
+}
+*/

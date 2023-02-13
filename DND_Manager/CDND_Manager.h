@@ -103,7 +103,6 @@ public:
 
 
 	void							Draw_DND(Graphics &graphics, CPoint ptDraw, CRect rectShow, double dZoomValue, double dScale_x = 1., double dScale_y = 1.);
-	void							Draw_DND_Image(Graphics &graphics, CPoint ptDraw, CRect rectShow, double dZoomValue, double dScale_x = 1., double dScale_y = 1.);
 
 	CDND_Object*					GetDNDObject2Point(CPoint pt, CDND_Object* pSelect, BOOL bConnect);
 	CDND_Object*					GetDNDObject2Point_Cancel(CPoint pt, CDND_Object* pSelect, BOOL bConnect);
@@ -111,6 +110,7 @@ public:
 	CDND_Object*					GetDNDObject2_KASIM_ID(int nID); //KASIM BR을 찾아볼까???ㄴ
 	void							GetDNDObject2NM(CString strNM, CListCtrl *pList);
 	void							GetDNDObject2CEQ(CString strNM, CListCtrl *pList);
+	void							GetDNDObject2CUSTOMER_NO(CString strNM, CListCtrl *pList);
 
 	CDND_Object*					SVG_KASIM_Association();
 	CDND_Object*					SVG_KASIM_Association_Index();
@@ -149,6 +149,7 @@ public:
 
 
 	void	Get_ND_BR_Arry(int nNextNDIdx, CDND_Switch *pSwitch, int Index);
+	void	Get_GenUnit(int nNextGENIdx, CDND_Switch *pSwitch);
 	int		GetBrType(int nBrIdx);
 
 

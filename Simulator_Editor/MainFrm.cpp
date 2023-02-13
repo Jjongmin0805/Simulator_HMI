@@ -276,10 +276,9 @@ LRESULT CMainFrame::OnToolbarMsg(WPARAM wParam, LPARAM lParam)
 	else if (wParam == 1)//메뉴
 	{
 
-  		switch (lParam)
+		switch (lParam)
 		{
 		case 0://Load
-			break; //20220926 연구원 요청 비활성화
 			pDNDMng->SVG_Delete(); //삭제?
 			pDNDMng->SVG_LoadAs();
 			//김종민 - 입력 20210625 
@@ -314,7 +313,8 @@ LRESULT CMainFrame::OnToolbarMsg(WPARAM wParam, LPARAM lParam)
 			}
 			//AfxMessageBox( _T("기기조작 명령서") );
 			break;
-		case 5://이미지 저장		
+		case 5://기기조작 명령서
+			
 			if (pView)
 			{
 				pView->PrintImage();
@@ -347,7 +347,6 @@ void CMainFrame::SetSelect_DNDObject(CString strID)
 	CDND_Manager* pDNDMng = CDND_Manager::Instance();
 	CDND_Object* pDNDObj = pDNDMng->GetDNDObject2ID(strID);
 
-	//
 	if(pDNDObj->ObjectType_Get() == DND_OBJTYPE_MULTIBLOCK)
 	{
 		if (pDNDObj->m_str_psrtype == "COMPSWITCH" || pDNDObj->m_str_psrtype == "TR")

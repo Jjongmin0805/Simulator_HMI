@@ -31,8 +31,15 @@ public:
 
 	CComboBox m_ctrCombo[2];
 
+
+	void Get_Head_office();
 	void Set_Center();
 	void Set_Office();
+
+	int			m_nHead_ID;
+	CString		m_str_Head_NM;
+
+
 	afx_msg void OnBnClickedKacimOffcieDlgRadio1();
 	afx_msg void OnBnClickedKacimOffcieDlgRadio2();
 };

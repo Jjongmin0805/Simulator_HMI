@@ -198,7 +198,7 @@ void CDNDObj_DlgBar::SetSelect_DNDObject(CDND_Object* pDNDObj)
 			m_TObject_Tap.SetCurSel(0);
 		}
 	}
-	else if (pDNDObj->m_str_psrtype == "GENERATEUNIT" || pDNDObj->m_str_psrtype == "DG" || pDNDObj->m_str_psrtype == "ENERGYSOURCEEQ")
+	else if (pDNDObj->m_str_psrtype == "GENERATEUNIT" || pDNDObj->m_str_psrtype == "DG" || pDNDObj->m_str_psrtype ==  "ENERGYSOURCEEQ")
 	{
 		strTmp2.Format(_T("GENERATEUNIT"));
 		strTmp3.Format(_T("PRDE"));

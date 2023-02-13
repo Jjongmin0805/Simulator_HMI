@@ -65,12 +65,24 @@ BOOL CView_PDVR_rst_RUN_Dlg::OnInitDialog()
 	/*m_ctrDate[0].SetTime(m_timeData[0]);
 	m_ctrDate[1].SetTime(m_timeData[1]);*/
 	//////////// 220707 남궁원 요청
-	m_timeData[0].SetDate(2021, 1, 1);
-	m_timeData[1].SetDate(2021, 12, 31);
-	m_ctrDate[0].SetTime(m_timeData[0]);
-	m_ctrDate[1].SetTime(m_timeData[1]);
-	m_ctrDate[0].EnableWindow(FALSE);
-	m_ctrDate[1].EnableWindow(FALSE);
+	if (m_nMode == 1)
+	{
+		CTime t = CTime::GetCurrentTime();
+
+		m_timeData[0].SetDate(t.GetYear() - 1, 1, 1);
+		m_timeData[1].SetDate(t.GetYear() - 1, 12, 31);
+		m_ctrDate[0].SetTime(m_timeData[0]);
+		m_ctrDate[1].SetTime(m_timeData[1]);
+		m_ctrDate[0].EnableWindow(FALSE);
+		m_ctrDate[1].EnableWindow(FALSE);
+	}
+	else
+	{
+		m_ctrDate[0].SetTime(m_timeData[0]);
+		m_ctrDate[1].SetTime(m_timeData[1]);
+		m_ctrDate[0].EnableWindow(TRUE);
+		m_ctrDate[1].EnableWindow(TRUE);
+	}
 
 	int nCount,nData;
 	double dBad;
@@ -91,23 +103,30 @@ BOOL CView_PDVR_rst_RUN_Dlg::OnInitDialog()
 	{
 		m_ctrRadio_Load[0].EnableWindow(TRUE);
 		m_ctrRadio_Load[1].EnableWindow(TRUE);
-		m_ctrRadio_Date[0].EnableWindow(TRUE);
-		m_ctrRadio_Date[1].EnableWindow(TRUE);
-
-		if (nData == 1)
-		{
-			m_ctrRadio_Date[0].SetCheck(TRUE);
-			m_ctrRadio_Date[1].SetCheck(FALSE);
-		}
-		else
-		{
-			m_ctrRadio_Date[0].SetCheck(FALSE);
-			m_ctrRadio_Date[1].SetCheck(TRUE);
-		}
-		
-		GetDlgItem(IDC_PDVR_RUN_DLG_EDIT3)->EnableWindow(TRUE);
-		GetDlgItem(IDC_PDVR_RUN_DLG_EDIT4)->EnableWindow(TRUE);
+			
 	}
+	else
+	{
+		m_ctrRadio_Load[0].SetCheck(FALSE);
+		m_ctrRadio_Load[1].SetCheck(TRUE);
+	}
+
+	m_ctrRadio_Date[0].EnableWindow(TRUE);
+	m_ctrRadio_Date[1].EnableWindow(TRUE);
+
+	if (nData == 1)
+	{
+		m_ctrRadio_Date[0].SetCheck(TRUE);
+		m_ctrRadio_Date[1].SetCheck(FALSE);
+	}
+	else
+	{
+		m_ctrRadio_Date[0].SetCheck(FALSE);
+		m_ctrRadio_Date[1].SetCheck(TRUE);
+	}
+
+	GetDlgItem(IDC_PDVR_RUN_DLG_EDIT3)->EnableWindow(TRUE);
+	GetDlgItem(IDC_PDVR_RUN_DLG_EDIT4)->EnableWindow(TRUE);
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 				  // 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
@@ -187,6 +206,36 @@ void CView_PDVR_rst_RUN_Dlg::OnBnClickedPdvrRunDlgBtn1()
 		return;
 	}
 
+
+	CString strPU, strBad, strCount;
+	GetDlgItemText(IDC_PDVR_RUN_DLG_EDIT1, strPU);
+	double dPU = _wtof(strPU);
+	if (dPU > 0)
+	{
+		PUTDOUBLE2VALUE(_T("PDVROPT_DYN_UIN"), _T("pdvropt_oltcmodel"), 1, (double)4.);
+		PUTDOUBLE2VALUE(_T("PDVROPT_DYN_UIN"), _T("pdvropt_oltcv"), 1, (double)dPU);
+	}
+	else
+	{
+		if (m_nMode == 1)
+		{
+			CDataManager* pDataMng = CDataManager::Instance();
+			pDataMng->Set_PDVR_Voltage2ADMS(m_nTrIndex, m_nGenType, m_timeData[0], m_timeData[1]);
+		}
+		else
+		{
+			int nOltcType = GETVALUE(int, _T("PDVROPT_DYN_UIN"), _T("pdvropt_oltcmodel"), 1);
+			if (nOltcType == 4)
+			{
+				AfxMessageBox(_T("OLTC 동작 설정이 송출전압고정 입니다. 송출전압의 설정값이 필요합니다."));
+				return;
+			}
+		}
+	}
+
+	
+
+
 	int nRunMode = m_ctrRadio_Main[0].GetCheck();
 	if (nRunMode == TRUE)
 	{
@@ -194,41 +243,20 @@ void CView_PDVR_rst_RUN_Dlg::OnBnClickedPdvrRunDlgBtn1()
 		if (nRunMode == 0)
 			nRunMode = 2;
 
-		CString strPU, strBad, strCount;
-		if (nRunMode == 1)
-		{
-			GetDlgItemText(IDC_PDVR_RUN_DLG_EDIT1, strPU);
-			double dPU = _wtof(strPU);
-			if (dPU > 0)
-			{
-				PUTDOUBLE2VALUE(_T("PDVROPT_DYN_UIN"), _T("pdvropt_oltcmodel"), 1, (double)4.);
-				PUTDOUBLE2VALUE(_T("PDVROPT_DYN_UIN"), _T("pdvropt_oltcv"), 1, (double)dPU);
-			}
-		}
-		else
-		{
-			CDataManager* pDataMng = CDataManager::Instance();
-			pDataMng->Set_PDVR_Voltage2ADMS(m_nTrIndex, m_nGenType, m_timeData[0], m_timeData[1]);
-		}
-		
 
-		if (m_nMode == 1)
-		{
-			GetDlgItemText(IDC_PDVR_RUN_DLG_EDIT3, strBad);
-			GetDlgItemText(IDC_PDVR_RUN_DLG_EDIT4, strCount);
+		GetDlgItemText(IDC_PDVR_RUN_DLG_EDIT3, strBad);
+		GetDlgItemText(IDC_PDVR_RUN_DLG_EDIT4, strCount);
 
-			int nCount = _wtoi(strCount);
-			double dBad = _wtof(strBad)/100;
-			int nDate = m_ctrRadio_Date[0].GetCheck();
-			if (nDate == 0)
-				nDate = 2;
+		int nCount = _wtoi(strCount);
+		double dBad = _wtof(strBad) / 100;
+		int nDate = m_ctrRadio_Date[0].GetCheck();
+		if (nDate == 0)
+			nDate = 2;
 
-			PUTDOUBLE2VALUE(_T("PDVROPT_DYN_UIN"), _T("PDVROPT_BADRATE"), 1, (double)dBad);
-			PUTDOUBLE2VALUE(_T("PDVROPT_DYN_UIN"), _T("PDVROPT_CANDNUM"), 1, (double)nCount);
-			PUTDOUBLE2VALUE(_T("PDVROPT_DYN_UIN"), _T("PDVROPT_TERM"), 1, (double)nDate);
-			PUTDOUBLE2VALUE(_T("PDVROPT_DYN_UIN"), _T("PDVROPT_HISOPT"), 1, (double)nRunMode);
-			
-		}
+		PUTDOUBLE2VALUE(_T("PDVROPT_DYN_UIN"), _T("PDVROPT_BADRATE"), 1, (double)dBad);
+		PUTDOUBLE2VALUE(_T("PDVROPT_DYN_UIN"), _T("PDVROPT_CANDNUM"), 1, (double)nCount);
+		PUTDOUBLE2VALUE(_T("PDVROPT_DYN_UIN"), _T("PDVROPT_TERM"), 1, (double)nDate);
+		PUTDOUBLE2VALUE(_T("PDVROPT_DYN_UIN"), _T("PDVROPT_HISOPT"), 1, (double)nRunMode);
 
 	}
 	else  ///////////// 수동
@@ -318,8 +346,12 @@ void CView_PDVR_rst_RUN_Dlg::OnBnClickedPdvrRunDlgRadio1()
 	SetDlgItemText(IDC_PDVR_RUN_DLG_EDIT1, _T(""));
 	GetDlgItem(IDC_PDVR_RUN_DLG_EDIT1)->EnableWindow(FALSE);
 
-	m_timeData[0].SetDate(2021, 1, 1);
-	m_timeData[1].SetDate(2021, 12, 31);
+	/////////////////////// 221221 남구원 요청
+	CTime t = CTime::GetCurrentTime();
+
+	m_timeData[0].SetDate(t.GetYear() - 1, 1, 1);
+	m_timeData[1].SetDate(t.GetYear() - 1, 12, 31);
+
 	m_ctrDate[0].SetTime(m_timeData[0]);
 	m_ctrDate[1].SetTime(m_timeData[1]);
 	m_ctrDate[0].EnableWindow(FALSE);

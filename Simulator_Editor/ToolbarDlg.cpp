@@ -134,7 +134,7 @@ void CToolbarDlg::OnPaint()
 		DEFAULT_QUALITY,VARIABLE_PITCH|FF_SWISS,L"맑은 고딕");
 	pOldFont = dc.SelectObject( &font );
 
-	dc.DrawText( _T("시뮬레이터 계통도"), CRect(_rect.left, _rect.top, _rect.right, _rect.top+TOOLBAR_TITLE_HEIGHT), DT_CENTER | DT_SINGLELINE | DT_VCENTER );
+	dc.DrawText( _T("계통도"), CRect(_rect.left, _rect.top, _rect.right, _rect.top+TOOLBAR_TITLE_HEIGHT), DT_CENTER | DT_SINGLELINE | DT_VCENTER );
 
 	//menu
 	pen.CreatePen( PS_SOLID, 1, TOOLBAR_MENU_COLOR);

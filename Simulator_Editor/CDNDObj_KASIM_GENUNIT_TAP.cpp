@@ -66,10 +66,10 @@ BOOL CDNDObj_KASIM_GENUNIT_TAP::OnInitDialog()
 	m_ctrList.SetExtendedStyle(style);
 	m_ctrList.DeleteAllItems();
 	LV_COLUMN														lvcolumn;
-	wchar_t*														list[9] = { _T(""), _T("NO."), _T("고객명"), _T("고객MRID"), _T("전산화번호"), _T("고객전주명"), _T("고객번호"), _T("용량"), _T("Type") };
-	int																width[9] = { 0,40, 100, 150, 90,70, 90, 50, 50 };
+	wchar_t*														list[8] = { _T(""), _T("NO."), _T("고객명"), _T("전산화번호"), _T("고객전주명"), _T("고객번호"), _T("용량"), _T("Type") };
+	int																width[8] = { 0,40, 150, 90,70, 90, 50, 50 };
 
-	for (int i = 0; i < 9; i++)
+	for (int i = 0; i < 8; i++)
 	{
 		lvcolumn.mask = LVCF_FMT | LVCF_SUBITEM | LVCF_TEXT | LVCF_WIDTH;
 		lvcolumn.fmt = LVCFMT_CENTER;
@@ -154,10 +154,8 @@ void CDNDObj_KASIM_GENUNIT_TAP::LoadKASIM()
 	CString stNULL;
 	stNULL.Format(_T(""));
 	CString stGENUNIT_NM, stGENUNIT_LOCATION_NO, stGENUNIT_LOCATION_NM, stGENUNIT_CUSTOMER_NO , stGENUNIT_CAP_KW;
-	CString nGENUNIT_CEQ_GEN;
 	float fGENUNIT_CAP_KW;
 	int nGENUNIT_II_GEN = 0;
-	unsigned long long	ullCEQID(0U);
 	int nGENUNIT_Type = 0;
 	//INDEX 처리
 	m_nGENERATEUINT_CSVID = m_pSwitch->m_st_Kasim_GEN_Info.m_nGENID;
@@ -179,16 +177,12 @@ void CDNDObj_KASIM_GENUNIT_TAP::LoadKASIM()
 			if (nDlIdx == 0)											continue;
 			if (nDlIdx != m_nGENERATEUINT_CSVID)						continue;
 
-
-			ullCEQID = GETVALUE(unsigned long long, "GEN_STA", "GENUNIT_CONNECT_CEQID", i);
 			szName = GETSTRING(_T("GENUNIT_STA"), _T("GENUNIT_NM"), i);
 			stGENUNIT_LOCATION_NO = GETSTRING(_T("GENUNIT_STA"), _T("GENUNIT_LOCATION_NO"), i);
 			stGENUNIT_LOCATION_NM = GETSTRING(_T("GENUNIT_STA"), _T("GENUNIT_LOCATION_NM"), i);
 			stGENUNIT_CUSTOMER_NO = GETSTRING(_T("GENUNIT_STA"), _T("GENUNIT_CUSTOMER_NO"), i);
 			fCap = GETVALUE(double, _T("GENUNIT_STA"), _T("GENUNIT_CAP_KW"), i);
 			nGENUNIT_Type = GETVALUE(int, _T("GENUNIT_STA"), _T("GENUNIT_TYPE"), i);
-			//
-			nGENUNIT_CEQ_GEN.Format(_T("%lld"), ullCEQID);
 
 			lvitem.mask = LVIF_TEXT;
 			lvitem.iItem = nIdx;
@@ -200,16 +194,15 @@ void CDNDObj_KASIM_GENUNIT_TAP::LoadKASIM()
 			m_ctrList.SetItemText(nIdx, 1, szData);
 
 			m_ctrList.SetItemText(nIdx, 2, szName);
-			m_ctrList.SetItemText(nIdx, 3, nGENUNIT_CEQ_GEN);
-			m_ctrList.SetItemText(nIdx, 4, stGENUNIT_LOCATION_NO);
-			m_ctrList.SetItemText(nIdx, 5, stGENUNIT_LOCATION_NM);
-			m_ctrList.SetItemText(nIdx, 6, stGENUNIT_CUSTOMER_NO);
+			m_ctrList.SetItemText(nIdx, 3, stGENUNIT_LOCATION_NO);
+			m_ctrList.SetItemText(nIdx, 4, stGENUNIT_LOCATION_NM);
+			m_ctrList.SetItemText(nIdx, 5, stGENUNIT_CUSTOMER_NO);
 
 			szData.Format(_T("%.2f"), fCap);
-			m_ctrList.SetItemText(nIdx, 7, szData);
+			m_ctrList.SetItemText(nIdx, 6, szData);
 
 			szData.Format(_T("%d"), nGENUNIT_Type);
-			m_ctrList.SetItemText(nIdx, 8, szData);
+			m_ctrList.SetItemText(nIdx, 7, szData);
 
 			//이거를 찾아야지 뭘 선택했는지 알겠지?
 			m_ListGenUnit[nIdx] = i;
@@ -280,11 +273,11 @@ void CDNDObj_KASIM_GENUNIT_TAP::OnBnClickedDndobjectKasimGenunitDlgBtn1()
 
 		PUTVALUE(_T("GENUNIT_STA"), _T("GENUNIT_NM"), nCount, (wchar_t*)stGENUNIT_NM.GetBuffer());
 		PUTVALUE(_T("GENUNIT_STA"), _T("GENUNIT_LOCATION_NO"), nCount, (wchar_t*)stGENUNIT_LOCATION_NO.GetBuffer());
-		PUTVALUE(_T("GENUNIT_STA"), _T("GENUNIT_LOCATION_NO"), nCount, (wchar_t*)stGENUNIT_LOCATION_NO.GetBuffer());
 		PUTVALUE(_T("GENUNIT_STA"), _T("GENUNIT_LOCATION_NM"), nCount, (wchar_t*)stGENUNIT_LOCATION_NM.GetBuffer());
 		PUTVALUE(_T("GENUNIT_STA"), _T("GENUNIT_CUSTOMER_NO"), nCount, (wchar_t*)stGENUNIT_CUSTOMER_NO.GetBuffer());
 		PUTDOUBLE2VALUE(_T("GENUNIT_STA"), _T("GENUNIT_CAP_KW"), nCount, (double)fGENUNIT_CAP_KW);
 		PUTDOUBLE2VALUE(_T("GENUNIT_STA"), _T("GENUNIT_TYPE"), nCount, (int)nGENUNIT_TYPE);
+		PUTDOUBLE2VALUE(_T("GENUNIT_STA"), _T("GENUNIT_II_GEN"), nCount, (int)m_nGENERATEUINT_CSVID);
 	}
 
 	LoadKASIM();
@@ -308,7 +301,6 @@ void CDNDObj_KASIM_GENUNIT_TAP::OnBnClickedDndobjectKasimGenunitDlgBtn2()
 	GetDlgItemText(IDC_DNDOBJECT_KASIM_GENUNIT_DLG_EDIT2, stGENUNIT_LOCATION_NO);
 	GetDlgItemText(IDC_DNDOBJECT_KASIM_GENUNIT_DLG_EDIT3, stGENUNIT_LOCATION_NM);
 	GetDlgItemText(IDC_DNDOBJECT_KASIM_GENUNIT_DLG_EDIT4, stGENUNIT_CUSTOMER_NO);
-	GetDlgItemText(IDC_DNDOBJECT_KASIM_GENUNIT_DLG_EDIT5, stGENUNIT_CAP_KW);
 	GetDlgItemText(IDC_DNDOBJECT_KASIM_GENUNIT_DLG_EDIT5, stGENUNIT_CAP_KW);
 	fGENUNIT_CAP_KW = _wtof(stGENUNIT_CAP_KW);
 	int nGENUNIT_TYPE = m_ctrCombo1->GetCurSel();
@@ -359,7 +351,6 @@ void CDNDObj_KASIM_GENUNIT_TAP::OnBnClickedDndobjectKasimGenunitDlgBtn3()
 		PUTDOUBLE2VALUE(_T("GENUNIT_STA"), _T("GENUNIT_CAP_KW"), m_nGenUnitIndex, 0);
 		PUTDOUBLE2VALUE(_T("GENUNIT_STA"), _T("GENUNIT_II_GEN"), m_nGenUnitIndex, 0);
 		PUTDOUBLE2VALUE(_T("GENUNIT_STA"), _T("GENUNIT_TYPE"), m_nGenUnitIndex, 0);
-		PUTDOUBLE2VALUE(_T("GENUNIT_STA"), _T("GENUNIT_CONNECT_CEQID"), m_nGenUnitIndex, 0);
 	}
 
 	LoadKASIM();
@@ -390,9 +381,7 @@ void CDNDObj_KASIM_GENUNIT_TAP::OnNMDblclkList1(NMHDR *pNMHDR, LRESULT *pResult)
 	NM_LISTVIEW*													pNMListView = (NM_LISTVIEW*)pNMHDR;
 
 	CString stGENUNIT_NM, stGENUNIT_LOCATION_NO, stGENUNIT_LOCATION_NM, stGENUNIT_CUSTOMER_NO, stGENUNIT_CAP_KW;
-	CString nGENUNIT_CEQ_GEN;
 	float fGENUNIT_CAP_KW;
-	unsigned long long	ullCEQID(0U);
 	//////////
 
 	int																nFindIdx;
@@ -404,22 +393,20 @@ void CDNDObj_KASIM_GENUNIT_TAP::OnNMDblclkList1(NMHDR *pNMHDR, LRESULT *pResult)
 
 	//GENUNIT_STA
 	stGENUNIT_NM = CA2W(GETSTRING(("GENUNIT_STA"), ("GENUNIT_NM"), nGenUnitIndex)).m_psz;
-	nGENUNIT_CEQ_GEN = CA2W(GETSTRING(("GENUNIT_STA"), ("GENUNIT_CONNECT_CEQID"), nGenUnitIndex)).m_psz;
 	stGENUNIT_LOCATION_NO = CA2W(GETSTRING(("GENUNIT_STA"), ("GENUNIT_LOCATION_NO"), nGenUnitIndex)).m_psz;
 	stGENUNIT_LOCATION_NM = CA2W(GETSTRING(("GENUNIT_STA"), ("GENUNIT_LOCATION_NM"), nGenUnitIndex)).m_psz;
 	stGENUNIT_CUSTOMER_NO = CA2W(GETSTRING(("GENUNIT_STA"), ("GENUNIT_CUSTOMER_NO"), nGenUnitIndex)).m_psz;
 	fGENUNIT_CAP_KW = GETVALUE(double, _T("GENUNIT_STA"), _T("GENUNIT_CAP_KW"), nGenUnitIndex);
 	nGenUnitType = GETVALUE(int, _T("GENUNIT_STA"), _T("GENUNIT_TYPE"), nGenUnitIndex);
-	ullCEQID = GETVALUE(unsigned long long, "GEN_STA", "GENUNIT_CONNECT_CEQID", nGenUnitIndex);
 
-	nGENUNIT_CEQ_GEN.Format(_T("%lld"), ullCEQID);
+	
+
 	stGENUNIT_CAP_KW.Format(_T("%.2f"), fGENUNIT_CAP_KW);
 	SetDlgItemText(IDC_DNDOBJECT_KASIM_GENUNIT_DLG_EDIT1, stGENUNIT_NM);
 	SetDlgItemText(IDC_DNDOBJECT_KASIM_GENUNIT_DLG_EDIT2, stGENUNIT_LOCATION_NO);
 	SetDlgItemText(IDC_DNDOBJECT_KASIM_GENUNIT_DLG_EDIT3, stGENUNIT_LOCATION_NM);
 	SetDlgItemText(IDC_DNDOBJECT_KASIM_GENUNIT_DLG_EDIT4, stGENUNIT_CUSTOMER_NO);
 	SetDlgItemText(IDC_DNDOBJECT_KASIM_GENUNIT_DLG_EDIT5, stGENUNIT_CAP_KW);
-	SetDlgItemText(IDC_DNDOBJECT_KASIM_GENUNIT_DLG_EDIT6, nGENUNIT_CEQ_GEN);
 	m_ctrCombo1[0].SetCurSel(nGenUnitType - 1);
 
 	*pResult = 0;

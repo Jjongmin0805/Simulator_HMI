@@ -201,10 +201,7 @@ public:
 //	void Test_WriteDB();
 	bool																	CheckThisProcessStatus();
 	bool																	InitThisProcessStatus();
-#ifdef DRM_MODULE_DEFINE
-	void																	DoDRMKASIMInit();
-	bool																	DoDRMKASIMFiles();
-#endif
+
 
 protected:
 	void																	Clear_VarInfo();						// 스키마 필드의 변수 정보 제거
@@ -227,6 +224,7 @@ protected:
 	CPString																GetMakeName_SchemaData_DYN();		// KASIM Dynamic 스키마 데이터 얻기
 
 	static UINT WINAPI														ThreadWorks_WorkProcess( LPVOID pParam );		// KASIM 생성 작업 쓰레드 함수
+
 
 	KASIMVER_INFOR					m_stKasimVerInfor;						// 한전 응용소프트웨어 정보 모델 버전 관리
 	HMAP_SC_VARDATA					m_hmVarInfo;							// 한전 응용소프트웨어 정보 모델 필드 변수 정보 관리
@@ -255,10 +253,6 @@ protected:
 	double							m_dKASIM_NULL_ReplaceValue;
 	long long						m_llKASIM_NULL_ReplaceValue;
 	bool							m_bKASIM_AssertMode;
-
-
-
-
 };
 
 #define								theAppDataMng							CPAppDataObjMng::InitInstance()

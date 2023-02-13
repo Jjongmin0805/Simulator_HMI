@@ -228,6 +228,11 @@
   <ItemGroup>
     <ResourceCompile Include="Date_CSV_Files.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AppDRMManager\AppDRMManager.vcxproj">
+      <Project>{4d5107a2-44ed-4594-ba66-7b7a5291fcfb}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

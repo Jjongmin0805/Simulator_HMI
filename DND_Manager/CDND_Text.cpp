@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "CDND_Text.h"
+#include "CDND_Manager.h"
 
 
 CDND_Text::CDND_Text(void)
@@ -17,13 +18,11 @@ CDND_Text::~CDND_Text(void)
 void CDND_Text::SetObjectData(CMarkup* pxml)
 {
 	m_str_id = pxml->GetAttrib(_T("id"));
-	/*m_d_x = _wtof(pxml->GetAttrib(_T("x"))); 
-	m_d_y = _wtof(pxml->GetAttrib(_T("y"))); */
-
+	   
 	m_SB_Object = new CSB_Text();
 	m_SB_Object->SetObjectData(pxml);
 	((CSB_Text*)m_SB_Object)->SetFillColor(_T("#000000"));
-
+	((CSB_Text*)m_SB_Object)->m_dY = abs(((CSB_Text*)m_SB_Object)->m_dY - m_dSVGHeight); //상하반전 TEXT
 	m_str_keyname = ((CSB_Text*)m_SB_Object)->GetText();
 }
 
@@ -48,7 +47,9 @@ void CDND_Text::GetObjectData(CMarkup* pxml, int&  nDrawOrder)
 	strData[15].Format(_T("%s"),			((CSB_Text*)m_SB_Object)->m_strFont_color		);
 	strData[16].Format(_T("%s"),			((CSB_Text*)m_SB_Object)->m_strFont_anchor		);
 	strData[17].Format(_T("%s"),			((CSB_Text*)m_SB_Object)->m_strFont_valign		);
-
+	//
+	//상하반전 다시 원상복귀
+	//
 	pxml->AddElem(_T("text"),						strData[0]);
 	pxml->AddAttrib(_T("id"),						strData[1]);
 	pxml->AddAttrib(_T("stroke"),					strData[2]);
@@ -85,40 +86,8 @@ void CDND_Text::Draw_Object(Graphics &graphics, CPoint ptDraw, double dZoomValue
 
 	dZoomValue = 1.;
 	if (m_SB_Object)
-	{
-		((CSB_Text*)m_SB_Object)->SetFillColor(_T("#000000"));		//이미지 저장후 색상 변환후 다시 원상복귀 변경 20221206
-		((CSB_Text*)m_SB_Object)->m_strFont_color = _T("#ffffff");  //이미지 저장후 색상 변환후 다시 원상복귀 변경 20221206
 		(m_SB_Object)->Draw_Object(graphics, ptDraw, dZoomValue, dScale_x, dScale_y, dAngle, strInnerText);
-
-	}
 	
-
-}
-
-
-void CDND_Text::Draw_Object_Image(Graphics &graphics, CPoint ptDraw, double dZoomValue
-	, double dScale_x, double dScale_y, double dAngle, CString strInnerText)
-{
-	if (dZoomValue < DRAW_ZOOMLEVEL)
-	{
-		return;
-	}
-
-	ptDraw.x = int(m_d_x);
-	ptDraw.y = int(m_d_y);
-
-	dScale_x *= m_d_scalex;
-	dScale_y *= m_d_scaley;
-
-	dZoomValue = 1.;
-	if (m_SB_Object)
-	{
-원상복귀
-		((CSB_Text*)m_SB_Object)->SetFillColor(_T("#ffffff"));		//이미지 저장후 색상 변환에 필요해서 색상 변경 20221206
-		((CSB_Text*)m_SB_Object)->m_strFont_color = _T("#000000");	//이미지 저장후 색상 변환에 필요해서 색상 변경 20221206
-		(m_SB_Object)->Draw_Object(graphics, ptDraw, dZoomValue, dScale_x, dScale_y, dAngle, strInnerText);
-	}
-
 
 }
 
@@ -185,10 +154,6 @@ void CDND_Text::Draw_Object_Move(Graphics &graphics, CPoint ptDraw, double dZoom
 
 	rStroke.Inflate(1, 1);
 	graphics.DrawRectangle(&pen, rStroke);
-
-
-
-
 }
 
 BOOL	CDND_Text::Check2DwawRect(CRect rDraw, double dZoomValue)
@@ -237,6 +202,9 @@ void CDND_Text::SetEdit_InitData(int nID,CPoint pt, int nResourceID)
 	((CSB_Text*)m_SB_Object)->m_dX = double(pt.x - (r.Width() / 2));
 	((CSB_Text*)m_SB_Object)->m_dY = double(pt.y - (r.Height() / 2));
 	((CSB_Text*)m_SB_Object)->m_strText = m_str_id;
+
+
+
 
 	m_str_keyname = ((CSB_Text*)m_SB_Object)->GetText();
 

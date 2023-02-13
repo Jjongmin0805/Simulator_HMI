@@ -4,7 +4,7 @@
 #include "pch.h"
 #include "CDate_Csv_File_Dlg.h"
 #include "Resource.h"
-
+//#include "../include/AppDRMManager/AppDRMObjMng.h"
 
 // CDate_Csv_File_Dlg 대화 상자
 
@@ -191,7 +191,7 @@ void CDate_Csv_File_Dlg::GenCSV_Insert()
 	CFileDialog FileDlg(TRUE, _T("csv"), NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, _T("KASIM Data File(*.csv)|*.csv| All Files(*.*)|*.*|"));
 
 	CString szRoute;
-	szRoute.Format(_T("\\Config"));
+	szRoute.Format(_T("\\DER"));
 	strPath = (MyPath() + szRoute);
 	
 	FileDlg.m_pOFN->lpstrInitialDir = (LPCWSTR)strPath;
@@ -203,19 +203,23 @@ void CDate_Csv_File_Dlg::GenCSV_Insert()
 	strFilePath = FileDlg.GetPathName();
 	strFileName = FileDlg.GetFileName();
 
-	stream = _wfopen(strFilePath, L"r+");
 	//DRM 암화화 체크 !!
-	/*20221122 암호화 잠시만 
 	CString szRouteDRM, strPathDRM;
 	szRouteDRM.Format(_T("\\DRM\\GEN"));
 	strPathDRM = (MyPath() + szRouteDRM);
 
 	nConvValue = DoDRM_Main(strFilePath, strPathDRM);
+	LOGOUT("* DRM : GetFileType[분산형전원 신규] [ %d ]", nConvValue);
 	if (nConvValue == 103)
 	{
 		CString strPathDRM_103;
 		strPathDRM_103.Format(_T("%s\\GEN_ADD_DRM.csv"), strPathDRM);
 		stream = _wfopen(strPathDRM_103, L"r+");
+		if (stream == NULL)
+		{
+			AfxMessageBox(_T("유효한키가아닙니다. \n분산형전원 신규 추가 미완료"));
+			return;
+		}
 	}
 	else if (nConvValue == 29) //암호화 파일이 아님 
 	{
@@ -224,9 +228,11 @@ void CDate_Csv_File_Dlg::GenCSV_Insert()
 	}
 	else
 	{
-		AfxMessageBox(_T("파일이 잘못되었습니다."));
+		AfxMessageBox(_T("한전보안파일 또는 일반파일이 아닙니다. \n분산형전원 신규 미완료"));
+		return;
 	}
-	*/
+	//stream = _wfopen(strFilePath, L"r+");
+	// 
 	if (stream != NULL)
 	{
 		fgets(chBuffer, sizeof(chBuffer), stream);
@@ -307,28 +313,33 @@ void CDate_Csv_File_Dlg::GenCSV_Insert()
 		}
 		fclose(stream);
 		//암호화 파일 삭제 !
-// 		if (nConvValue == 103)
-// 		{
-// 			DeleteAllFiles(strPathDRM);
-// 		}
+		if (nConvValue == 103)
+		{
+			DeleteAllFiles(strPathDRM);
+		}
 
 		if (nIndexGen == 99)
 		{
 			AfxMessageBox(_T("[오류] 100개이상 에러가 있습니다."));
+			return;
+
 		}
 		if (nIndexGen != 0 && nIndexGen != 99)
 		{
+
 			AfxMessageBox(szGen_Overlap_Box);
+			return;
 		}
 		if (nIndexGen == 0)
 		{
 
-			AfxMessageBox(_T("[완료]"));
+			AfxMessageBox(_T("[GEN_ADD 완료]"));
+			return;
 		}
 
 	}
 	//여기서 확인 
-
+	return;
 }
 
 int CDate_Csv_File_Dlg::GenCSV_Insert_ADD(int nGen_Index, CString szGen_Name, double dGen_CAP_kw, CString szGEN_Connect_NdName,
@@ -561,7 +572,7 @@ void CDate_Csv_File_Dlg::GenCSV_Editor_Download()
 	nND_Fbr = nND_Tbr = 0;
 
 	strName.Format(_T("GEN_Download.csv"));
-	szRoute.Format(_T("\\Config"));
+	szRoute.Format(_T("\\DER"));
 
 	CFileDialog FileDlg(FALSE, _T("csv"), strName, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, _T("KASIM Data File(*.csv)|*.csv"));
 
@@ -734,7 +745,8 @@ void CDate_Csv_File_Dlg::GenCSV_Editor_Download()
 	}
 	fclose(stream);
 
-	AfxMessageBox(_T("[완료]"));
+	AfxMessageBox(_T("[분산형 전원_Download 완료]"));
+	return;
 }
 
 void CDate_Csv_File_Dlg::GenCSV_Editor_Upload()
@@ -791,7 +803,7 @@ void CDate_Csv_File_Dlg::GenCSV_Editor_Upload()
 
 	CString szRoute;
 
-	szRoute.Format(_T("\\Config"));
+	szRoute.Format(_T("\\DER"));
 	strPath = (MyPath() + szRoute);
 
 	FileDlg.m_pOFN->lpstrInitialDir = (LPCWSTR)strPath;
@@ -809,24 +821,30 @@ void CDate_Csv_File_Dlg::GenCSV_Editor_Upload()
 	szRouteDRM.Format(_T("\\DRM\\GEN"));
 	strPathDRM = (MyPath() + szRouteDRM);
 
-// 	nConvValue = DoDRM_Main(strFilePath, strPathDRM);
-// 	if (nConvValue == 103)
-// 	{
-// 		CString strPathDRM_103;
-// 		strPathDRM_103.Format(_T("%s\\GEN_ADD_DRM.csv"), strPathDRM);
-// 		stream = _wfopen(strPathDRM_103, L"r+");
-// 	}
-// 	else if (nConvValue == 29) //암호화 파일이 아님 
-// 	{
-// 		stream = _wfopen(strFilePath, L"r+");
-// 		//암호화 안된 파일 !
-// 	}
-// 	else
-// 	{
-// 		AfxMessageBox(_T("파일이 잘못되었습니다."));
-// 	}
+	nConvValue = DoDRM_Main(strFilePath, strPathDRM);
+	if (nConvValue == 103)
+	{
+		CString strPathDRM_103;
+		strPathDRM_103.Format(_T("%s\\GEN_ADD_DRM.csv"), strPathDRM);
+		stream = _wfopen(strPathDRM_103, L"r+");
+		if (stream == NULL)
+		{
+			AfxMessageBox(_T("유효한키가아닙니다.\n분산형전원 Upload 미완료"));
+			return;
+		}
+	}
+	else if (nConvValue == 29) //암호화 파일이 아님 
+	{
+		stream = _wfopen(strFilePath, L"r+");
+		//암호화 안된 파일 !
+	}
+	else
+	{
+		AfxMessageBox(_T("한전보안파일 또는 일반파일이 아닙니다.\n분산형전원 Upload 미완료"));
+		return;
+	}
 
-	stream = _wfopen(strFilePath, L"r+");
+	//stream = _wfopen(strFilePath, L"r+");
 
 	// 
 	if (stream != NULL)
@@ -892,35 +910,29 @@ void CDate_Csv_File_Dlg::GenCSV_Editor_Upload()
 		fclose(stream);
 
 		//암호화 파일 삭제 !
-// 		if (nConvValue == 103)
-// 		{
-// 			DeleteAllFiles(strPathDRM);
-// 		}
-
-		// 		if (count != 20)
-		// 		{
-		// 			AfxMessageBox(_T("[파읽을 잘못 읽으셨습니다. 미완료]"));
-		// 		}
+		if (nConvValue == 103)
+		{
+			DeleteAllFiles(strPathDRM);
+		}
 		if (nIndexGen == 99)
 		{
 			AfxMessageBox(_T("[오류] 100개이상 에러가 있습니다."));
+			return;
 		}
 		if (nIndexGen != 0 && nIndexGen != 99)
 		{
 			AfxMessageBox(szGen_Overlap_Box);
+			return;
 		}
-		// 		if (nIndexGen == 0 && count == 20)
-		// 		{
-		// 			AfxMessageBox(_T("[완료]"));
-		// 		}
 		if (nIndexGen == 0)
 		{
-			AfxMessageBox(_T("[완료]"));
+			AfxMessageBox(_T("[GENUNIT_Upload 완료]"));
+			return;
 		}
 
 	}
 	//여기서 확인 
-
+	return;
 }
 
 void CDate_Csv_File_Dlg::GenCSV_Insert_Editor(int nGen_Index, CString szGen_Name, double dGen_CAP_kw, CString szGEN_Connect_NdName, int nGen_TREXCL, int nGen_ITR_WDC, int nGen_TYPE, double dGen_ITR_X,

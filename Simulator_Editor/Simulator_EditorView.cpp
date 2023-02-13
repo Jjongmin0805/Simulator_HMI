@@ -1041,7 +1041,7 @@ void CSimulator_EditorView::OnLButtonDown(UINT nFlags, CPoint point)
 								{
 									nNDID = pSwitch->m_st_Kasim_HVCUS_Info.m_nHVCUS_ND;
 								}
-								if ((pSwitch->m_str_psrtype == "GENERATEUNIT" || pSwitch->m_str_psrtype == "DG" || pSwitch->m_str_psrtype == "ENERGYSOURCEEQ") && nNDID == 0 )
+								if ((pSwitch->m_str_psrtype == "GENERATEUNIT" || pSwitch->m_str_psrtype == "DG" || pDNDObj->m_str_psrtype == "ENERGYSOURCEEQ") && nNDID == 0 )
 								{
 									nNDID = pSwitch->m_st_Kasim_GEN_Info.m_nGEN_ND;
 								}
@@ -1691,8 +1691,31 @@ void CSimulator_EditorView::Del_KASIM_LNSEC(int nID)
 	PUTDOUBLE2VALUE(_T("LNSEC_STA"), _T("LNSEC_LENGTH"), nID, (double)0);
 	PUTDOUBLE2VALUE(_T("LNSEC_STA"), _T("LNSEC_CONSTYPE"), nID, (int)0);
 	//LNSEC_DYN_UIN
-	PUTDOUBLE2VALUE(_T("LNSEC_DYN_UIN"), _T("LNSEC_SW_FOR_CONST"), nID, (int)0);
-	PUTDOUBLE2VALUE(_T("LNSEC_DYN_UIN"), _T("LNSEC_HIS_NOTSRCH"), nID, (int)0);
+	PUTDOUBLE2VALUE(_T("LNSEC_DYN_UIN"), _T("LNSEC_VBDOPT"), nID, (int)0);
+	PUTDOUBLE2VALUE(_T("LNSEC_DYN_UIN"), _T("LNSEC_0_COUNT"), nID, (int)0);
+	PUTDOUBLE2VALUE(_T("LNSEC_DYN_UIN"), _T("LNSEC_1_COUNT"), nID, (int)0);
+	PUTDOUBLE2VALUE(_T("LNSEC_DYN_UIN"), _T("LNSEC_2_COUNT"), nID, (int)0);
+	PUTDOUBLE2VALUE(_T("LNSEC_DYN_UIN"), _T("LNSEC_3_COUNT"), nID, (int)0);
+	PUTDOUBLE2VALUE(_T("LNSEC_DYN_UIN"), _T("LNSEC_4_COUNT"), nID, (int)0);
+	PUTDOUBLE2VALUE(_T("LNSEC_DYN_UIN"), _T("LNSEC_5_COUNT"), nID, (int)0);
+	PUTDOUBLE2VALUE(_T("LNSEC_DYN_UIN"), _T("LNSEC_6_COUNT"), nID, (int)0);
+	PUTDOUBLE2VALUE(_T("LNSEC_DYN_UIN"), _T("LNSEC_7_COUNT"), nID, (int)0);
+	PUTDOUBLE2VALUE(_T("LNSEC_DYN_UIN"), _T("LNSEC_8_COUNT"), nID, (int)0);
+	PUTDOUBLE2VALUE(_T("LNSEC_DYN_UIN"), _T("LNSEC_9_COUNT"), nID, (int)0);
+	PUTDOUBLE2VALUE(_T("LNSEC_DYN_UIN"), _T("LNSEC_10_COUNT"), nID, (int)0);
+	PUTDOUBLE2VALUE(_T("LNSEC_DYN_UIN"), _T("LNSEC_11_COUNT"), nID, (int)0);
+	PUTDOUBLE2VALUE(_T("LNSEC_DYN_UIN"), _T("LNSEC_12_COUNT"), nID, (int)0);
+	PUTDOUBLE2VALUE(_T("LNSEC_DYN_UIN"), _T("LNSEC_13_COUNT"), nID, (int)0);
+	PUTDOUBLE2VALUE(_T("LNSEC_DYN_UIN"), _T("LNSEC_14_COUNT"), nID, (int)0);
+	PUTDOUBLE2VALUE(_T("LNSEC_DYN_UIN"), _T("LNSEC_15_COUNT"), nID, (int)0);
+	PUTDOUBLE2VALUE(_T("LNSEC_DYN_UIN"), _T("LNSEC_16_COUNT"), nID, (int)0);
+	PUTDOUBLE2VALUE(_T("LNSEC_DYN_UIN"), _T("LNSEC_17_COUNT"), nID, (int)0);
+	PUTDOUBLE2VALUE(_T("LNSEC_DYN_UIN"), _T("LNSEC_18_COUNT"), nID, (int)0);
+	PUTDOUBLE2VALUE(_T("LNSEC_DYN_UIN"), _T("LNSEC_19_COUNT"), nID, (int)0);
+	PUTDOUBLE2VALUE(_T("LNSEC_DYN_UIN"), _T("LNSEC_20_COUNT"), nID, (int)0);
+	PUTDOUBLE2VALUE(_T("LNSEC_DYN_UIN"), _T("LNSEC_21_COUNT"), nID, (int)0);
+	PUTDOUBLE2VALUE(_T("LNSEC_DYN_UIN"), _T("LNSEC_22_COUNT"), nID, (int)0);
+	PUTDOUBLE2VALUE(_T("LNSEC_DYN_UIN"), _T("LNSEC_23_COUNT"), nID, (int)0);
 	//LNSEC_DYN_NCPO
 	PUTDOUBLE2VALUE(_T("LNSEC_DYN_NCPO"), _T("LNSEC_DEAD"), nID, (int)0);
 	PUTDOUBLE2VALUE(_T("LNSEC_DYN_NCPO"), _T("LNSEC_II_ISL"), nID, (int)0);
@@ -1991,7 +2014,6 @@ void CSimulator_EditorView::Del_KASIM_DL(int nID)
 	PUTDOUBLE2VALUE(_T("DL_DYN_STDLEO"), _T("DL_GEN_RA_SUM"), nDLID, (double)0);
 
 }
-
 void CSimulator_EditorView::Del_KASIM_GEN(int nID)
 {
 	CString stNULL;
@@ -3369,37 +3391,36 @@ CString CSimulator_EditorView::MyPath()
 
 void CSimulator_EditorView::PrintImage()
 {
+	CString strName, szRoute;
+	CString strPath;
+
+	strName.Format(_T("Editor.png"));
+	szRoute.Format(_T("\\DER"));
+
+	CFileDialog FileDlg(FALSE, _T("png"), strName, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, _T("PNG(Portable Network Graphics) 파일 (*.PNG)"));
+
+	strPath = MyPath() + szRoute;
+	FileDlg.m_pOFN->lpstrInitialDir = (LPCWSTR)strPath;
+
+
+	if (FileDlg.DoModal() != IDOK)
+		return;
+
+	CString strFilePath = FileDlg.GetPathName();
+	CString strFileName = FileDlg.GetFileName();
+
+	int nPathLen = strFilePath.GetLength();
+	int nFileLen = strFileName.GetLength();
+	strFilePath.Delete(nPathLen - nFileLen, nFileLen);
+
+	strPath.Format(_T("%s%s"), strFilePath, FileDlg.GetFileTitle() + _T(".png"));
+
 	//이름 경로 정하는 부분?
-// 	CString	szRoute, strPath;
-// 	CString strName;
-// 	strName.Format(_T("Editor.png"));
-// 	szRoute.Format(_T("\\Config"));
-// 
-// 	CFileDialog FileDlg(FALSE, _T("png"), strName, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, _T("KASIM Data File(*.png)|*.png"));
-// 
-// 	strPath = MyPath() + szRoute;
-// 	FileDlg.m_pOFN->lpstrInitialDir = (LPCWSTR)strPath;
-// 
-// 	if (FileDlg.DoModal() != IDOK)
-// 		return;
-// 
-// 	CString strFilePath = FileDlg.GetPathName();
-// 	CString strFileName = FileDlg.GetFileName();
-// 	int nPathLen = strFilePath.GetLength();
-// 	int nFileLen = strFileName.GetLength();
-// 	strFilePath.Delete(nPathLen - nFileLen, nFileLen);
-// 
-// 	szRoute.Format(_T("%s%s"), strFilePath, FileDlg.GetFileTitle() + _T(".png"));
-// 
-// 	Makepng(szRoute);
+	//CString						szRoute, strPath;
+	//szRoute.Format(_T("\\Editor.png"));
+	//strPath = (MyPath() + szRoute);
 
-
-	
-	CString						szRoute, strPath;
-	szRoute.Format(_T("\\Editor.png"));
-	strPath = (MyPath() + szRoute);
 	Makepng(strPath);
-	
 }
 
 BOOL CSimulator_EditorView::Makepng(CString szFileNm)
@@ -3433,7 +3454,7 @@ BOOL CSimulator_EditorView::Makepng(CString szFileNm)
 	
 	////
 	dcMem.Rectangle(CRect(0, 0, rect_o.Width(), rect_o.Height() - (nBottomMargin + 10)));
-	dcMem.FillSolidRect(CRect(0, 0, rect_o.Width(), rect_o.Height() - (nBottomMargin + 10)), RGB(255, 255, 255)); //이미지 파일 배경색상 현재 255 흰색
+	dcMem.FillSolidRect(CRect(0, 0, rect_o.Width(), rect_o.Height() - (nBottomMargin + 10)), RGB(0, 0, 0));
 
 	dcMem.SetTextAlign(TA_LEFT);
 	dcMem.SetTextColor(DEFALUT_TEXT_COLOR);
@@ -3451,7 +3472,7 @@ BOOL CSimulator_EditorView::Makepng(CString szFileNm)
 
 	Graphics						graphics(dcMem.GetSafeHdc());
 	graphics.SetSmoothingMode(SmoothingMode::SmoothingModeAntiAlias);
-	pDNDMng->Draw_DND_Image(graphics, rect_o.CenterPoint(), rect_o, 1, 1., 1.);
+	pDNDMng->Draw_DND(graphics, rect_o.CenterPoint(), rect_o, 1, 1., 1.);
 
 	dcMem.SelectObject(pOldFont);
 	font.DeleteObject();
@@ -3480,7 +3501,7 @@ BOOL CSimulator_EditorView::Makepng(CString szFileNm)
 	_imgdc->DrawText(szData, rect, DT_LEFT | DT_VCENTER | DT_WORDBREAK);
 
 	rect.SetRect(r.left + 20, r.bottom - 35, r.right - 20, r.bottom);
-	_imgdc->DrawText(_T("시뮬레이터 계통도"), rect, DT_RIGHT | DT_VCENTER | DT_WORDBREAK);
+	_imgdc->DrawText(_T("계통도"), rect, DT_RIGHT | DT_VCENTER | DT_WORDBREAK);
 
 	_imgdc->SelectObject(pOldFont);
 

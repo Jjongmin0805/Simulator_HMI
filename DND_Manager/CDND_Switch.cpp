@@ -2,7 +2,6 @@
 #include "CDND_Switch.h"
 #include "../SB_Manager/CSB_Manager.h"
 
-
 CDND_Switch::CDND_Switch(void)
 {
 	m_pParent = NULL;
@@ -13,6 +12,7 @@ CDND_Switch::~CDND_Switch(void)
 	m_st_Kasim_CBSW_Info.stKASIM_CBSW_BR_Arry.RemoveAll();
 	m_st_Kasim_ND_Info.stKASIM_ND_BR_Arry.RemoveAll();
 	m_st_Kasim_SVR_Info.stKASIM_SVR_BR_Arry.RemoveAll();
+	m_st_Kasim_GEN_Info.stKASIM_GEN_CUSTNO_Arry.RemoveAll();
 
 	for (int i = 0; i < m_Array_Multi.GetSize(); i++)
 	{
@@ -30,6 +30,9 @@ CDND_Switch::~CDND_Switch(void)
 void CDND_Switch::SetObjectData(CMarkup* pxml)
 {
 	CString strData[17];
+
+	CString strDy;
+	double dDy = 0;
 
 	strData[0] = pxml->GetAttrib(_T("id"));
 	strData[1] = pxml->GetAttrib(_T("psrtype"));
@@ -50,10 +53,13 @@ void CDND_Switch::SetObjectData(CMarkup* pxml)
 
 	strData[16] = pxml->GetAttrib(_T("roundbox"));
 
+ 	//상하반전
+// 	dDy = _wtof(strData[7]);
+// 	m_d_y = abs(dDy - m_dSVGHeight);
+ 	//
 	m_str_id = strData[0];
 	m_str_psrtype = strData[1];
-	m_str_keyid = strData[2];
-
+	m_str_keyid = strData[2];	
 	m_n_type = _wtoi(strData[3]);
 
 	m_str_keyname = strData[4];
@@ -70,6 +76,8 @@ void CDND_Switch::SetObjectData(CMarkup* pxml)
 	m_n_usertype = _wtoi(strData[14]);
 	m_n_draworder = _wtoi(strData[15]);
 	
+	m_d_y = abs(m_d_y - m_dSVGHeight);
+
 	CSB_Manager* pSBMng = CSB_Manager::Instance();
 		
 	m_SB_Object = pSBMng->GetBlock_SB(m_n_devref);
@@ -101,7 +109,9 @@ void CDND_Switch::SetObjectData(CMarkup* pxml)
 				pDND_Sw->ObjectType_Set(DND_OBJTYPE_MULTI_M);
 				m_Array_Multi.Add(pDND_Sw);
 				pDND_Sw->SetObjectData(pxml);
+				pDND_Sw->m_d_y = abs(pDND_Sw->m_d_y - m_dSVGHeight); //상하반전
 				pDND_Sw->m_pParent = this;
+				
 			}
 			else //// DRAW
 			{
@@ -112,7 +122,7 @@ void CDND_Switch::SetObjectData(CMarkup* pxml)
 
 			pxml->OutOfElem();
 		}
-	}
+	}	
 }
 
 void CDND_Switch::GetObjectData(CMarkup* pxml, int&  nDrawOrder)
@@ -134,7 +144,6 @@ void CDND_Switch::GetObjectData(CMarkup* pxml, int&  nDrawOrder)
 	strData[13].Format(_T("%s"), m_str_devrefname);
 	strData[14].Format(_T("%d"), m_n_usertype);
 	strData[15].Format(_T("%d"), nDrawOrder);
-
 
 	if (ObjectType_Get() == DND_OBJTYPE_MULTIBLOCK)
 	{
@@ -371,31 +380,33 @@ void CDND_Switch::Draw_Object(Graphics &graphics, CPoint ptDraw, double dZoomVal
 
 	dScale_x *= m_d_scalex;
 	dScale_y *= m_d_scaley;
-	//ASSERT(m_str_id != _T("0_GROUP_86"));
 
 	CString strScript; /////////////// 상태 조건
 
-	//ASSERT(m_d_rotate == 0.);
-
-	
-	/*Matrix transMatrix;
-	graphics.GetTransform(&transMatrix);
-	double x = transMatrix.OffsetX();
-	double y = transMatrix.OffsetY();*/
 	graphics.TranslateTransform(m_d_x, m_d_y);
 	graphics.ScaleTransform(dScale_x, dScale_y);
 	graphics.RotateTransform(m_d_rotate);
 	graphics.TranslateTransform(m_d_x * -1, m_d_y * -1);
 
+	//수용가 용량?
+	if (m_SB_Object)
+		((CSB_BLOCK*)m_SB_Object)->m_nSB_dHVCUS_CON_KVA = m_dHVCUS_CON_KVA;
+
 	if (ObjectType_Get() == DND_OBJTYPE_BLOCK)
 	{
 		if (m_SB_Object)
+		{
+			((CSB_BLOCK*)m_SB_Object)->m_nSB_NORSTAT = m_st_Kasim_CBSW_Info.m_nCBSW_NORSTAT; 
 			((CSB_BLOCK*)m_SB_Object)->Draw(graphics, ptDraw, dZoomValue, strScript, dScale_x, dScale_y, dAngle, m_str_innertext);
+		}
 	}
 	else if (ObjectType_Get() == DND_OBJTYPE_MULTI_M)
 	{
 		if (m_SB_Object)
+		{
+			((CSB_BLOCK*)m_SB_Object)->m_nSB_NORSTAT = m_st_Kasim_CBSW_Info.m_nCBSW_NORSTAT;
 			((CSB_BLOCK*)m_SB_Object)->Draw(graphics, ptDraw, dZoomValue, strScript, dScale_x, dScale_y, dAngle, m_str_innertext);
+		}
 	}
 	else  //////////////DND_OBJTYPE_MULTIBLOCK
 	{
@@ -1210,7 +1221,7 @@ void CDND_Switch::Set_NEW_InitData_KASIM_CBSW_DL(CString stKASIM_NM, CString stC
 	PUTDOUBLE2VALUE(_T("DL_STA"), _T("DL_II_OLM"), nDLID, (int)1);
 	PUTDOUBLE2VALUE(_T("DL_STA"), _T("DL_II_MTR"), nDLID, (int)0);
 	PUTDOUBLE2VALUE(_T("DL_STA"), _T("DL_SI_MTR"), nDLID, (int)0);
-	PUTDOUBLE2VALUE(_T("DL_STA"), _T("DL_II_BOF"), nDLID, (int)1);
+	PUTDOUBLE2VALUE(_T("DL_STA"), _T("DL_II_BOF"), nDLID, (int)0);
 	PUTDOUBLE2VALUE(_T("DL_STA"), _T("DL_SI_BOF"), nDLID, (int)0);
 	PUTDOUBLE2VALUE(_T("DL_STA"), _T("DL_HI_IJ"), nDLID, (int)0);
 	PUTDOUBLE2VALUE(_T("DL_STA"), _T("DL_HI_CBSW"), nDLID, (int)0);

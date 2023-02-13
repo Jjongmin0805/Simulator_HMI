@@ -23,6 +23,7 @@ public:
 	void															EnableControl();
 	void															FindToName(CString szFindText);
 	void															FindToIndex(CString szFindText);
+	void															FindToCustNo(CString szFindText);
 
 	CWnd*															m_pParent;
 
@@ -41,4 +42,5 @@ public:
 	afx_msg void OnBnClickedCancel();
 	afx_msg void OnBnClickedOk();
 	afx_msg void OnNMDblclkListResult(NMHDR *pNMHDR, LRESULT *pResult);
+	afx_msg void OnBnClickedRadioFindopt3();
 };

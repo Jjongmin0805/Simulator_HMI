@@ -26,6 +26,8 @@ CFHSDlg::CFHSDlg(CWnd* pParent /*=nullptr*/)
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 
 	m_nOnline = 0;
+
+	m_nHead_ID = 0;
 }
 
 void CFHSDlg::DoDataExchange(CDataExchange* pDX)
@@ -84,7 +86,7 @@ BOOL CFHSDlg::OnInitDialog()
 
 	Create_List();
 
-	Set_Center();
+	Get_Head_office();
 
 	m_ctrRadio[0].SetCheck(TRUE);
 	m_ctrDate[0].EnableWindow(FALSE);
@@ -135,12 +137,49 @@ void CFHSDlg::Create_List()
 	m_ctrList.SetRowHeight(25);
 }
 
+void CFHSDlg::Get_Head_office()
+{
+	CString strSQL;
+	strSQL.Format(_T("select HEAD_OFFICE_ID,NAME from head_office where HEAD_OFFICE_ID IN \
+		(select HEAD_OFFICE_FK from center_office where center_office_id in \
+		(select center_office_fk from member_office where member_office_id in \
+		(select member_office_fk from adms_office.dl group by member_office_fk))); "));
+
+	//CDB_EXTRACT						dbquery(0, strSQL.GetBuffer(), 2);
+	CDB_QUERY							dbquery(strSQL.GetBuffer(), 2);
+
+	int nCount = 0;
+	if (dbquery.GetRecordCount() > 0)
+	{
+		while (dbquery.MoveNext())
+		{
+			m_nHead_ID = dbquery.GetData_LONG(0);
+			m_str_Head_NM.Format(_T("%s"), dbquery.GetData_STR(1));
+
+			
+		}
+	}
+	dbquery.Close();
+
+	if (m_nHead_ID > 0)
+	{
+		CString strWndNM;
+		strWndNM.Format(_T("고장 이력 조회 : %s"), m_str_Head_NM);
+		SetWindowText(strWndNM);
+
+
+		Set_Center();
+
+	}
+}
+
+
 void CFHSDlg::Set_Center()
 {
 	m_ctrCombo[3].ResetContent();
 
 	CString strSQL;
-	strSQL.Format(_T("Select center_office_id, name from center_office order by center_office_id"));
+	strSQL.Format(_T("Select center_office_id, name from center_office where HEAD_OFFICE_FK = %d order by center_office_id") , m_nHead_ID);
 
 	//CDB_EXTRACT						dbquery(0, strSQL.GetBuffer(), 2);
 	CDB_QUERY							dbquery(strSQL.GetBuffer(), 2);
@@ -650,13 +689,13 @@ void CFHSDlg::UpdateList_History()
 
 	nSel[1] = m_ctrCombo[1].GetCurSel();
 
-	if (nSel[1] < 0)
-		return;
+	/*if (nSel[1] < 0)
+		return;*/
 
 	nSel[2] = m_ctrCombo[2].GetCurSel();
 
-	if (nSel[2] < 0)
-		return;
+	/*if (nSel[2] < 0)
+		return;*/
 
 	int nOfficeFK = (int)m_ctrCombo[0].GetItemData(nSel[0]);
 	LONGLONG lSubsFK;// = (LONGLONG)m_ctrCombo[1].GetItemData(nSel[1]);
@@ -896,7 +935,7 @@ void CFHSDlg::OnBnClickedFhsDlgBtn2()
 	
 	strSQL_pre.Format(_T("SELECT MIN(le.LOG_ID), Max(le.LOG_ID) FROM adms_office.log_event le WHERE le.EVENT_TIME BETWEEN '%s' AND '%s' ;"), timeF.Format(_T("%Y-%m-%d %H:%M:%S")), timeT.Format(_T("%Y-%m-%d %H:%M:%S")));
 	//CDB_EXTRACT						dbquery1(0, strSQL_pre.GetBuffer(), 1);
-	CDB_QUERY							dbquery1(strSQL.GetBuffer(), 1);
+	CDB_QUERY							dbquery1(strSQL_pre.GetBuffer(), 1);
 	int Start_index;
 	int End_index;
 	if (dbquery1.GetRecordCount() > 0)

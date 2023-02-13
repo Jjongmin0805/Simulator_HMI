@@ -7,6 +7,7 @@ struct stKASIM_CBSW
 	int m_nCBSW_Fnd;
 	int m_nCBSW_Tnd;
 	int m_nCBSW_PRDE;
+	int m_nCBSW_NORSTAT;
 
 	CArray<int, int&> stKASIM_CBSW_BR_Arry;
 };
@@ -20,8 +21,9 @@ struct stKASIM_GEN
 	int m_nGEN_PRDE;
 	int m_nGEN_ESS;
 
-	//CArray<int, int&> stKASIM_GEN_BR_Arry;
+	CArray<CString, CString&> stKASIM_GEN_CUSTNO_Arry;
 };
+
 
 struct stKASIM_HVCUS
 {
@@ -30,6 +32,7 @@ struct stKASIM_HVCUS
 	int m_nHVCUS_BR;
 	int m_nHVCUS_IJ;
 	int m_nHVCUS_PRDE;
+	double m_dHVCUS_CON_KVA;
 
 	//CArray<int, int&> stKASIM_HVCUS_BR_Arry;
 };

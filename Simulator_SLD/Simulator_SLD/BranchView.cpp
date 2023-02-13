@@ -556,33 +556,34 @@ void CBranchView::ShowMeasValue( CDC* BufferDC, double dScale )
 	double																	dAngle;
 	dAngle																	= atan2(double(m_nPosY2-m_nPosY1), double(m_nPosX2-m_nPosX1));
 
-	if( ((CMainFrame *)AfxGetApp()->GetMainWnd())->GetMeasValueOpt() & DISPLAY_SHOW_MW )
-	{
-		if(dCalcA >= 0 )//계측정방향(전류)
-		{
-			ptCalcFlow[0]													= RotatePoint(CPoint((m_nPosX1+50+nShift)*dScale, (m_nPosY1-15)*dScale), dAngle, CPoint(m_nPosX1*dScale, m_nPosY1*dScale));
-			ptCalcFlow[1]													= RotatePoint(CPoint((m_nPosX1+40+nShift)*dScale, (m_nPosY1-25)*dScale), dAngle, CPoint(m_nPosX1*dScale, m_nPosY1*dScale));
-			ptCalcFlow[2]													= RotatePoint(CPoint((m_nPosX1+40+nShift)*dScale, (m_nPosY1-5)*dScale), dAngle, CPoint(m_nPosX1*dScale, m_nPosY1*dScale));
-
-			brush.CreateSolidBrush( RGB( 255,0,0 ) );
-			pOldbrush = BufferDC->SelectObject( &brush );
-			BufferDC->Polygon(ptCalcFlow, 3 );
-			BufferDC->SelectObject( pOldbrush );
-			brush.DeleteObject();
-		}
-		else
-		{
-			ptCalcFlow[0]													= RotatePoint(CPoint((m_nPosX1+40+nShift)*dScale, (m_nPosY1-15)*dScale), dAngle, CPoint(m_nPosX1*dScale, m_nPosY1*dScale));
-			ptCalcFlow[1]													= RotatePoint(CPoint((m_nPosX1+50+nShift)*dScale, (m_nPosY1-25)*dScale), dAngle, CPoint(m_nPosX1*dScale, m_nPosY1*dScale));
-			ptCalcFlow[2]													= RotatePoint(CPoint((m_nPosX1+50+nShift)*dScale, (m_nPosY1-5)*dScale), dAngle, CPoint(m_nPosX1*dScale, m_nPosY1*dScale));
-
-			brush.CreateSolidBrush( RGB( 255,0,0 ) );
-			pOldbrush = BufferDC->SelectObject( &brush );
-			BufferDC->Polygon(ptCalcFlow, 3 );
-			BufferDC->SelectObject( pOldbrush );
-			brush.DeleteObject();
-		}
-	}
+	//빨간색화살표 제거 - 조성민(2023-02-08)
+// 	if( ((CMainFrame *)AfxGetApp()->GetMainWnd())->GetMeasValueOpt() & DISPLAY_SHOW_MW )
+// 	{
+// 		if(dCalcA >= 0 )//계측정방향(전류)
+// 		{
+// 			ptCalcFlow[0]													= RotatePoint(CPoint((m_nPosX1+50+nShift)*dScale, (m_nPosY1-15)*dScale), dAngle, CPoint(m_nPosX1*dScale, m_nPosY1*dScale));
+// 			ptCalcFlow[1]													= RotatePoint(CPoint((m_nPosX1+40+nShift)*dScale, (m_nPosY1-25)*dScale), dAngle, CPoint(m_nPosX1*dScale, m_nPosY1*dScale));
+// 			ptCalcFlow[2]													= RotatePoint(CPoint((m_nPosX1+40+nShift)*dScale, (m_nPosY1-5)*dScale), dAngle, CPoint(m_nPosX1*dScale, m_nPosY1*dScale));
+// 
+// 			brush.CreateSolidBrush( RGB( 255,0,0 ) );
+// 			pOldbrush = BufferDC->SelectObject( &brush );
+// 			BufferDC->Polygon(ptCalcFlow, 3 );
+// 			BufferDC->SelectObject( pOldbrush );
+// 			brush.DeleteObject();
+// 		}
+// 		else
+// 		{
+// 			ptCalcFlow[0]													= RotatePoint(CPoint((m_nPosX1+40+nShift)*dScale, (m_nPosY1-15)*dScale), dAngle, CPoint(m_nPosX1*dScale, m_nPosY1*dScale));
+// 			ptCalcFlow[1]													= RotatePoint(CPoint((m_nPosX1+50+nShift)*dScale, (m_nPosY1-25)*dScale), dAngle, CPoint(m_nPosX1*dScale, m_nPosY1*dScale));
+// 			ptCalcFlow[2]													= RotatePoint(CPoint((m_nPosX1+50+nShift)*dScale, (m_nPosY1-5)*dScale), dAngle, CPoint(m_nPosX1*dScale, m_nPosY1*dScale));
+// 
+// 			brush.CreateSolidBrush( RGB( 255,0,0 ) );
+// 			pOldbrush = BufferDC->SelectObject( &brush );
+// 			BufferDC->Polygon(ptCalcFlow, 3 );
+// 			BufferDC->SelectObject( pOldbrush );
+// 			brush.DeleteObject();
+// 		}
+// 	}
 
 	if( ((CMainFrame *)AfxGetApp()->GetMainWnd())->GetMeasValueOpt() & DISPLAY_SHOW_MVAR )
 	{

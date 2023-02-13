@@ -54,6 +54,5 @@ public:
 	afx_msg void	OnNMClickList1(NMHDR *pNMHDR, LRESULT *pResult);
 
 	BOOL PreTranslateMessage(MSG* pMsg);
-	afx_msg void OnEnChangeDndobjectKasimMtrDlgEdit3();
 };
 

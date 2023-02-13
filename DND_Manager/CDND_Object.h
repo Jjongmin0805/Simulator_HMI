@@ -41,10 +41,6 @@ public:
 
 	virtual		void					Draw_Object(Graphics &graphics, CPoint ptDraw, double dZoomValue
 													, double dScale_x = 1., double dScale_y = 1., double dAngle = 0., CString strInnerText = _T("")) {};
-	
-	virtual		void					Draw_Object_Image(Graphics &graphics, CPoint ptDraw, double dZoomValue
-													, double dScale_x = 1., double dScale_y = 1., double dAngle = 0., CString strInnerText = _T("")) {};
-
 
 	virtual		void					Draw_Object_Select(Graphics &graphics, CPoint ptDraw, double dZoomValue
 										, double dScale_x = 1., double dScale_y = 1., double dAngle = 0., CString strInnerText = _T("")) {};
@@ -82,6 +78,10 @@ public://////////////////////////// SVG Çü½Ä
 	CString				m_str_linktitleid		;
 
 	int					m_n_type				;
+
+	//1colse 0 open
+	double				m_dHVCUS_CON_KVA;
+	double				m_dSVGHeight;
 
 	
 	

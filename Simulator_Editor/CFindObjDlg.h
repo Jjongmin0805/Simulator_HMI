@@ -21,6 +21,7 @@ public:
 	CString															ConvertNumber(int nNum);
 	void															FindToName(CString szFindText);
 	void															FindToCEQ(CString szFindText);
+	void															FindToCustNo(CString szFindText);
 	CWnd*															m_pParent;
 
 protected:
@@ -40,5 +41,6 @@ public:
 	afx_msg void OnNMDblclkListResult(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnEnChangeEditName();
 
+	afx_msg void OnBnClickedRadioFindopt3();
 };
 

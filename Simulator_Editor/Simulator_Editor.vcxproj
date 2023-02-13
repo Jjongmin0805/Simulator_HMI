@@ -275,6 +275,8 @@
     <None Include="res\SimulatorEditor.rc2" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="res\icon1.ico" />
+    <Image Include="res\ico_2.ico" />
     <Image Include="res\Simulator_Editor.ico" />
     <Image Include="res\Simulator_EditorDoc.ico" />
   </ItemGroup>

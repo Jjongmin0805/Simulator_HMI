@@ -85,7 +85,6 @@ void CDNDObj_KASIM_SUBS_TAP::OnBnClickedDndobjectKasimDlgBtn1()
 	CString stKASIM_NM, stCEQID;
 	CString stFndFK, stTndFK;
 	CString stMTR_NM, stMTR_CEQ, stMTR_BANK;
-	int nGenID = 0 ;
 
 	//설정값 가져오기
 	UpdateData(TRUE);
@@ -96,9 +95,7 @@ void CDNDObj_KASIM_SUBS_TAP::OnBnClickedDndobjectKasimDlgBtn1()
 	PUTVALUE(_T("SS_STA"), _T("SS_SUBSTATIONID"), m_nSUBS_CSVID, (unsigned long long)_wtoll(stCEQID));
 
 
-	nGenID = GETVALUE(int, _T("SS_STA"), _T("SS_II_VGEN"), m_nSUBS_CSVID);
-	PUTVALUE(_T("GEN_STA"), _T("GEN_NM"), nGenID, (wchar_t*)stKASIM_NM.GetBuffer());
-
+	
 	m_pSwitch->m_str_keyname.Format(_T("%s"), stKASIM_NM);
 	m_pSwitch->m_str_innertext.Format(_T("%s"), stKASIM_NM);
 

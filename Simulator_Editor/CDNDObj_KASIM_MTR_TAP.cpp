@@ -44,7 +44,6 @@ BEGIN_MESSAGE_MAP(CDNDObj_KASIM_MTR_TAP, CDialog)
 	ON_UPDATE_COMMAND_UI(IDC_DNDOBJECT_KASIM_MTR_DLG_BTN3, &CDNDObj_KASIM_MTR_TAP::OnUpdateUI_Btn3)
 	ON_NOTIFY(NM_DBLCLK, IDC_DNDOBJECT_KASIM_MTR_DLG_LIST1, &CDNDObj_KASIM_MTR_TAP::OnNMDblclkList1)
 	ON_NOTIFY(NM_CLICK, IDC_DNDOBJECT_KASIM_MTR_DLG_LIST1, &CDNDObj_KASIM_MTR_TAP::OnNMClickList1)
-	ON_EN_CHANGE(IDC_DNDOBJECT_KASIM_MTR_DLG_EDIT3, &CDNDObj_KASIM_MTR_TAP::OnEnChangeDndobjectKasimMtrDlgEdit3)
 END_MESSAGE_MAP()
 
 
@@ -195,7 +194,7 @@ void CDNDObj_KASIM_MTR_TAP::LoadKASIM()
 	}
 }
 
-void CDNDObj_KASIM_MTR_TAP::OnBnClickedDndobjectKasimMTRDlgBtn1() //변전소 추가 
+void CDNDObj_KASIM_MTR_TAP::OnBnClickedDndobjectKasimMTRDlgBtn1()
 {
 	CString stNULL;
 	stNULL.Format(_T("0"));
@@ -218,13 +217,9 @@ void CDNDObj_KASIM_MTR_TAP::OnBnClickedDndobjectKasimMTRDlgBtn1() //변전소 �
 	int nIJ_CSVID = 0;
 	int nLD_CSVID = 0;
 
-	//
-	CDND_Manager* pDNDMng = CDND_Manager::Instance();
-
 	nCount = theAppDataMng->GetTableRealCount(_T("MTR_STA"));
 	szKey.Format(_T("9999179%07d"), nCount + 1);
 	szKeyND.Format(_T("999917%08d01"), nCount + 1);
-
 	nID = theAppDataMng->GetTableRealCount(_T("TR_STA"));
 	nBRID = theAppDataMng->GetTableRealCount(_T("BR_STA"));
 	nNDID = theAppDataMng->GetTableRealCount(_T("ND_STA"));
@@ -233,9 +228,9 @@ void CDNDObj_KASIM_MTR_TAP::OnBnClickedDndobjectKasimMTRDlgBtn1() //변전소 �
 	nLD_CSVID = theAppDataMng->GetTableRealCount(_T("LD_STA"));
 
 	UpdateData(TRUE);
-	//GetDlgItemText(IDC_DNDOBJECT_KASIM_MTR_DLG_EDIT1, szName);
+	GetDlgItemText(IDC_DNDOBJECT_KASIM_MTR_DLG_EDIT1, szName);
 	//GetDlgItemText(IDC_DNDOBJECT_KASIM_MTR_DLG_EDIT2, szKey);
-	GetDlgItemText(IDC_DNDOBJECT_KASIM_MTR_DLG_EDIT3, szBank);
+	//GetDlgItemText(IDC_DNDOBJECT_KASIM_MTR_DLG_EDIT3, szBank);
 	GetDlgItemText(IDC_DNDOBJECT_KASIM_MTR_DLG_EDIT4, szTR_TRMVA);
 	GetDlgItemText(IDC_DNDOBJECT_KASIM_MTR_DLG_EDIT5, szTR_POSX);
 	GetDlgItemText(IDC_DNDOBJECT_KASIM_MTR_DLG_EDIT6, szTR_ZERX);
@@ -244,27 +239,11 @@ void CDNDObj_KASIM_MTR_TAP::OnBnClickedDndobjectKasimMTRDlgBtn1() //변전소 �
 	GetDlgItemText(IDC_DNDOBJECT_KASIM_MTR_DLG_EDIT9, szTR_CTRCH);
 	GetDlgItemText(IDC_DNDOBJECT_KASIM_MTR_DLG_EDIT10, szTR_CTRCL);
 
-
-	//이름 같은지 확인 하는 부분
-	int nMTR_EDIT_BANK = 0;
-	int nMTR_BANK = 0;
-	nMTR_EDIT_BANK = _wtoi(szBank);
-	for (int i = 1; i <= nCount; i++)
+	if (szName == "")
 	{
-		nDlIdx = GETVALUE(int, _T("MTR_STA"), _T("MTR_II_SS"), i);
-		if (nDlIdx == 0)											continue;
-		if (nDlIdx != m_nSUBS_CSVID)								continue;
-		{
-			nMTR_BANK = GETVALUE(int, _T("MTR_STA"), _T("MTR_BANK"), i);
-			if (nMTR_BANK == nMTR_EDIT_BANK)
-			{
-				AfxMessageBox(_T("같은 MTR BANK를 입력하셧습니다."));
-				nCheck = 9999;
-				break;
-			}
-		}
+		AfxMessageBox(_T("이름이 없습니다."));
+		nCheck = 9999;
 	}
-
 	//같은 데이터가 있으면 넣지 않는다!
 	if (nCheck == 0)
 	{
@@ -345,16 +324,14 @@ void CDNDObj_KASIM_MTR_TAP::OnBnClickedDndobjectKasimMTRDlgBtn1() //변전소 �
 		}
 		//
 		//MTR 뱅크 찾기
-// 		int nMTR_BANK_Count = 0;
-// 		nMTR_BANK_Count = GET_MTR_BANK(m_nSUBS_CSVID);
-
-		szName.Format(_T("#%d MTR"), nMTR_EDIT_BANK);
+		int nMTR_BANK_Count = 0;
+		nMTR_BANK_Count = GET_MTR_BANK(m_nSUBS_CSVID);
 		//MTR_STA
 		PUTVALUE(_T("MTR_STA"), _T("MTR_NM"), nCount, (wchar_t*)szName.GetBuffer());
 		PUTVALUE(_T("MTR_STA"), _T("MTR_MAINTRID"), nCount, (unsigned long long)_wtoll(szKey));
 		PUTDOUBLE2VALUE(_T("MTR_STA"), _T("MTR_II_SS"), nCount, (int)m_nSUBS_CSVID);
 		PUTDOUBLE2VALUE(_T("MTR_STA"), _T("MTR_HI_TR"), nCount, (int)nID);
-		PUTDOUBLE2VALUE(_T("MTR_STA"), _T("MTR_BANK"), nCount, (int)nMTR_EDIT_BANK);
+		PUTDOUBLE2VALUE(_T("MTR_STA"), _T("MTR_BANK"), nCount, (int)nMTR_BANK_Count);
 		//
 		PUTDOUBLE2VALUE(_T("MTR_DYN_UIN"), _T("MTR_SOP_FLAG"), nCount, (int)0);
 		PUTDOUBLE2VALUE(_T("MTR_DYN_NCPO"), _T("MTR_HI_ND"), nCount, (int)0);
@@ -459,11 +436,6 @@ void CDNDObj_KASIM_MTR_TAP::OnBnClickedDndobjectKasimMTRDlgBtn1() //변전소 �
 		PUTDOUBLE2VALUE(_T("GBR_DYN_AV"), _T("GBR_VIONW"), nBRID, (int)0);
 		PUTDOUBLE2VALUE(_T("GBR_DYN_VVOAV"), _T("GBR_VVORECFLAG"), nBRID, (int)0);
 
-
-		pDNDMng->m_nMax_BR_table++;
-		pDNDMng->m_nMax_MTR_table++;
-		pDNDMng->m_nMax_SVR_table++;
-		pDNDMng->m_nMax_ND_table++;
 	}
 
 	LoadKASIM();
@@ -752,25 +724,3 @@ int CDNDObj_KASIM_MTR_TAP::GET_MTR_BANK(int nSSID)
 	}
 	return nMTR_Count+1;
 }
-
-void CDNDObj_KASIM_MTR_TAP::OnEnChangeDndobjectKasimMtrDlgEdit3()
-{
-	CString szBank, szName, stNULL;
-	int nMTR_EDIT_BANK = 0;
-	stNULL.Format(_T(""));
-
-	GetDlgItemText(IDC_DNDOBJECT_KASIM_MTR_DLG_EDIT3, szBank);
-
-	if (!szBank.IsEmpty())
-	{
-		nMTR_EDIT_BANK = _wtoi(szBank);
-		szName.Format(_T("#%d MTR"), nMTR_EDIT_BANK);
-
-		SetDlgItemText(IDC_DNDOBJECT_KASIM_MTR_DLG_EDIT1, szName);
-	}
-	else
-	{
-		SetDlgItemText(IDC_DNDOBJECT_KASIM_MTR_DLG_EDIT1, stNULL);
-	}
-}
-

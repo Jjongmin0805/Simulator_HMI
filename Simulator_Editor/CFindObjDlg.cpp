@@ -36,6 +36,7 @@ BEGIN_MESSAGE_MAP(CFindObjDlg, CPNOCtrl_SkinFrame_POP_Dialog)
 	ON_BN_CLICKED(IDOK, &CFindObjDlg::OnBnClickedOk)
 	ON_NOTIFY(NM_DBLCLK, IDC_LIST_RESULT, &CFindObjDlg::OnNMDblclkListResult)
 	ON_EN_CHANGE(IDC_EDIT_NAME, &CFindObjDlg::OnEnChangeEditName)
+	ON_BN_CLICKED(IDC_RADIO_FINDOPT3, &CFindObjDlg::OnBnClickedRadioFindopt3)
 END_MESSAGE_MAP()
 
 
@@ -107,8 +108,9 @@ void CFindObjDlg::OnBnClickedOk()
 	}
 
 	szFindText.MakeUpper();
-	if (m_nFindOpt == 0)											FindToName(szFindText);
-	else															FindToCEQ(szFindText);
+	if      (m_nFindOpt == 0)	{ FindToName(szFindText); }
+	else if	(m_nFindOpt == 1)	{ FindToCEQ(szFindText); }
+	else						{ FindToCustNo(szFindText); }
 }
 
 void CFindObjDlg::FindToName(CString szFindText)
@@ -158,6 +160,31 @@ void CFindObjDlg::FindToCEQ(CString szFindText)
 		MoveWindow(rectWnd);
 	}
 }
+
+void CFindObjDlg::FindToCustNo(CString szFindText)
+{
+	int																nIdx(0);
+	CString															szCount, szName, szData;
+	m_ctrList.DeleteAllItems();
+
+	CDND_Manager* pDNDMng = CDND_Manager::Instance();
+	pDNDMng->GetDNDObject2CUSTOMER_NO(szFindText, &m_ctrList);
+
+	nIdx = m_ctrList.GetItemCount();
+	szCount.Format(L" %s 건이 검색되었습니다.", ConvertNumber(nIdx));
+	SetDlgItemText(IDC_STATIC_DESC, szCount);
+
+	CRect															rect, rectWnd;
+	GetWindowRect(rectWnd);
+	CWnd*															pWnd = GetDlgItem(IDCANCEL);
+	pWnd->GetWindowRect(rect);
+	if (rectWnd.bottom < rect.bottom)
+	{
+		rectWnd.bottom = rect.bottom + 15;
+		MoveWindow(rectWnd);
+	}
+}
+
 
 void CFindObjDlg::OnNMDblclkListResult(NMHDR *pNMHDR, LRESULT *pResult)
 {
@@ -212,4 +239,11 @@ void CFindObjDlg::OnEnChangeEditName()
 	// 이 알림 메시지를 보내지 않습니다.
 
 	// TODO:  여기에 컨트롤 알림 처리기 코드를 추가합니다.
+}
+
+
+void CFindObjDlg::OnBnClickedRadioFindopt3()
+{
+	UpdateData();
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 }

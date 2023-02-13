@@ -1208,7 +1208,7 @@ void CView_SCA_rst::OnTimer(UINT_PTR nIDEvent)
 			CString strData;
 			strData.Format(_T("11,%d,"), nMode);
 			CDataManager* pDataMng = CDataManager::Instance();
-			pDataMng->Send_WndMsg(3, 2, strData);
+			pDataMng->Send_WndMsg(WNDMSG_PROGRAMID_SLD, WNDMSG_PROGRAMID_HMI, strData);
 		}
 
 		RedrawWindow();

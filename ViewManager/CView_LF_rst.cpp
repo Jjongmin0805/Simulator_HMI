@@ -778,7 +778,7 @@ BOOL CView_LF_rst::OnEraseBkgnd(CDC* pDC)
 	pViewMng->DrawArea_Title(pDC, graphics, m_rectListTitle[4], _T("노드 별 전압"));
 
 	pViewMng->DrawArea_Unit(pDC, graphics, m_rectListUnit[0], _T("단위:kW"));
-	pViewMng->DrawArea_Unit(pDC, graphics, m_rectListUnit[1], _T("단위:kV"));
+	pViewMng->DrawArea_Unit(pDC, graphics, m_rectListUnit[1], _T("단위:kW"));
 	pViewMng->DrawArea_Unit(pDC, graphics, m_rectListUnit[2], _T("단위:kW"));
 
 	
@@ -2355,7 +2355,7 @@ void CView_LF_rst::Get_GraphData_RPF()
 			pData->m_dRPFO_value[1] = GETVALUE(double, _T("bs_dyn_rpfo"), (wchar_t*)strField.GetBuffer(), nBS_idx[0]) *13.2;
 
 			strName = GETSTRING(_T("gnd_sta"), _T("gnd_nm"), pData->m_nGNDIdx[1]);
-			strValue.Format(_T("%.1lf"), pData->m_dRPFO_value[1]);
+			strValue.Format(_T("%.4lf"), pData->m_dRPFO_value[1]);
 			strLen.Format(_T("%.1lf"), pData->m_dLen[1]);
 			strIdx.Format(_T("%d"), pData->m_nGNDIdx[1]);
 
@@ -3547,6 +3547,11 @@ void CView_LF_rst::OnTimer(UINT_PTR nIDEvent)
 
 		//	Get_TitleData_DLE();
 		//	Get_ChartData_DLE();
+
+			CString strData;
+			strData.Format(_T("4,0,"));
+			
+			pDataMng->Send_WndMsg(WNDMSG_PROGRAMID_SLD, WNDMSG_PROGRAMID_HMI, strData);
 			
 		}
 	

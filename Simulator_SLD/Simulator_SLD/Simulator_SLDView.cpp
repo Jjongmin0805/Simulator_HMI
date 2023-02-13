@@ -60,6 +60,7 @@ BEGIN_MESSAGE_MAP(CSimulatorSLDView, CView)
 	ON_COMMAND(ID_MENU_PRDE_SET, &CSimulatorSLDView::OnMenuPrdeSet)
 	ON_UPDATE_COMMAND_UI(ID_MENU_PRDE_SET, &CSimulatorSLDView::OnUpdateMenuPrdeSet)
 	ON_COMMAND(IDM_VVM_SET, &CSimulatorSLDView::OnVvmSet)
+	ON_WM_KEYDOWN()
 END_MESSAGE_MAP()
 
 // CSimulatorSLDView 생성/소멸
@@ -1709,15 +1710,14 @@ void CSimulatorSLDView::MakeAllSLDRcv(int nBRIdx, int nFNDIdx, CNodeView* pnodev
 
 	int																				nLNSECIdx(0), nOverHead, nLineTypeCd;
 	CString																			szLNCeqID;
-
 	nLNSECIdx																		= GETVALUE(int, _T("br_sta"), _T("br_ii_equ"), nBRIdx);
-	szLNCeqID.Format(_T("%llu"), GETVALUE(unsigned long long, _T("lnsec_sta"), _T("lnsec_ceqid"), nLNSECIdx));
+ 	szLNCeqID.Format(_T("%llu"), GETVALUE(unsigned long long, _T("lnsec_sta"), _T("lnsec_ceqid"), nLNSECIdx));
 
-	if (((CMainFrame *)AfxGetApp()->GetMainWnd())->GetShowVirtualDG() == FALSE)
-	{
-		if (szLNCeqID.Left(6) == _T("999951"))//가상구간CEQID
-			return;
-	}
+// 	if (((CMainFrame *)AfxGetApp()->GetMainWnd())->GetShowVirtualDG() == FALSE)
+// 	{
+// 		if (szLNCeqID.Left(6) == _T("999951"))//가상구간CEQID
+// 			return;
+// 	}
 
 	nOverHead = GETVALUE(int, _T("lnsec_sta"), _T("lnsec_constype"), nLNSECIdx);
 
@@ -1739,6 +1739,13 @@ void CSimulatorSLDView::MakeAllSLDRcv(int nBRIdx, int nFNDIdx, CNodeView* pnodev
 
 		//다음 노드가 없으면 끝.(일반모드의 경우는 가상더비를 생성하여 말단을 만든다) -> 이런경우는 없어야 맞지만 예외처리용.
 		if (nTNDIdx == 0)															return;
+	}
+
+	//위에서 lnsec정보(999951)를 보고 판단했었는데, 겹치는 경우가 있어서 노드를 가지고 공용(가상)분산전원인지를 직접 확인함.(20221124)
+	if (((CMainFrame *)AfxGetApp()->GetMainWnd())->GetShowVirtualDG() == FALSE)
+	{
+		if( IsVirtualGenCheck(nTNDIdx) == TRUE )
+			return;
 	}
 
 	BOOL																			bInternal(FALSE);
@@ -2295,6 +2302,21 @@ void CSimulatorSLDView::MakeAllSLDRcv(int nBRIdx, int nFNDIdx, CNodeView* pnodev
 	}
 
 	return;
+}
+
+BOOL CSimulatorSLDView::IsVirtualGenCheck(int nNDIdx)
+{
+	if (GETVALUE(int, _T("nd_sta"), _T("nd_hi_gen"), nNDIdx) > 0)//DG
+	{
+		int																			nGenIdx, nGenType;
+		nGenIdx = GETVALUE(int, _T("nd_sta"), _T("nd_hi_gen"), nNDIdx);
+		nGenType = GETVALUE(int, _T("gen_sta"), _T("gen_trexcl"), nGenIdx);
+
+		if (nGenType == 4)
+			return TRUE;
+	}
+
+	return FALSE;
 }
 
 int CSimulatorSLDView::SetNodeInfo(int nNDIdx, CNodeView* pNewNodeView)
@@ -3611,7 +3633,7 @@ void CSimulatorSLDView::OnInitialUpdate()
 
 	CMainFrame*																		pMain;
 	pMain = (CMainFrame *)AfxGetMainWnd();
-	pMain->SetWindowText(_T("Simulator_SLD"));
+	pMain->SetWindowText(_T("단선도"));
 	pMain->InitTreeView();
 
 	m_pNaviDlg = new CNaviDlg();
@@ -3982,7 +4004,7 @@ void CSimulatorSLDView::TransferMessage(int nProgramIdx, int nMessageType, CStri
 	else if (nProgramIdx == PROGRAM_SIMUL_HMI)
 	{
 		HWND																				pHMIWnd;
-		pHMIWnd = ::FindWindow(NULL, _T("Simulator_hmi"));
+		pHMIWnd = ::FindWindow(NULL, _T("대시보드"));
 		if (!pHMIWnd)																		return;
 
 		TCHAR																				szSendMsg[128] = { 0, };
@@ -5302,7 +5324,7 @@ void CSimulatorSLDView::OnMenuPrintImp()
 
 	CString szApplPath = GetModulePath();
 	CString szParam = _T("2 0 1 Simulator_hmi");  //// 
-	szParam.Format(_T("2 0 11 Simulator_hmi"));
+	szParam.Format(_T("2 0 11 대시보드"));
 
 	if (!ShellExecute(NULL, _T("open"), _T("AppWRProject.exe"), szParam, szApplPath, TRUE))
 	{
@@ -5557,4 +5579,17 @@ int CSimulatorSLDView::GetSelectLoofCB(CPoint point)
 	}
 
 	return -1;
+}
+
+
+void CSimulatorSLDView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
+{
+	if ( nChar == VK_F5 )
+	{
+		MakeSLDBuffer(FALSE);
+		Invalidate();
+		return;
+	}
+
+	CView::OnKeyDown(nChar, nRepCnt, nFlags);
 }

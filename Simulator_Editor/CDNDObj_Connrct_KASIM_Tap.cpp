@@ -28,6 +28,7 @@ CDNDObj_Connrct_KASIM_Tap::CDNDObj_Connrct_KASIM_Tap(CWnd* pParent /*=nullptr*/)
 			m_nLNINETYPECODE[i][j] = 0;
 		}
 	}
+	m_Check_type = 0;
 }
 
 CDNDObj_Connrct_KASIM_Tap::~CDNDObj_Connrct_KASIM_Tap()
@@ -48,7 +49,7 @@ BEGIN_MESSAGE_MAP(CDNDObj_Connrct_KASIM_Tap, CDialog)
 	ON_UPDATE_COMMAND_UI(IDC_DND_CONNECT_TAP_KASIM_DLG_BTN1, &CDNDObj_Connrct_KASIM_Tap::OnUpdateUI_Btn1)
 	ON_CBN_SELCHANGE(IDC_DND_CONNECT_TAP_KASIM_DLG__COMBO2, &CDNDObj_Connrct_KASIM_Tap::OnCbnSelchangeDndConnectTapKasimDlg)
 	ON_CBN_SELCHANGE(IDC_DND_CONNECT_TAP_KASIM_DLG__COMBO3, &CDNDObj_Connrct_KASIM_Tap::OnCbnSelchangeDndConnectTapKasimDlg1)
-	ON_EN_CHANGE(IDC_DND_CONNECT_TAP_KASIM_DLG_DEIT9, &CDNDObj_Connrct_KASIM_Tap::OnEnChangeDndConnectTapKasimDlgDeit3)
+	ON_EN_CHANGE(IDC_DND_CONNECT_TAP_KASIM_DLG_DEIT3, &CDNDObj_Connrct_KASIM_Tap::OnEnChangeDndConnectTapKasimDlgDeit3)
 END_MESSAGE_MAP()
 
 
@@ -88,15 +89,15 @@ void CDNDObj_Connrct_KASIM_Tap::LoadLnsec_Type()
 			m_ctrCombo2[0].AddString(stNM);
 			stDate = stNM;
 
-			j = 0;	
-			m_nLNINETYPECODE[i-k][j] = i;
-			
+			j = 0;
+			m_nLNINETYPECODE[i - k][j] = i;
+
 		}
 		else
 		{
 			j++;
 			k++;
-			m_nLNINETYPECODE[i-k][j] = i;
+			m_nLNINETYPECODE[i - k][j] = i;
 		}
 	}
 }
@@ -128,12 +129,19 @@ void CDNDObj_Connrct_KASIM_Tap::LoadKASIM()
 	//20211129 DL연결을 해보자? 
 	if (!(m_nFNDID == 0 || m_nFNDID == 999999))
 	{
+		//우선 연결된 선로에 정보를 입력하자!
+// 		PUTDOUBLE2VALUE(_T("br_sta"), _T("br_ii_fnd"), m_nBR_CSVID, (int)m_nFNDID);
+// 		PUTDOUBLE2VALUE(_T("gbr_sta"), _T("gbr_ii_fgnd"), m_nBR_CSVID, (int)m_nFNDID);
 		//1개 연결시 정보가 입력되는부분
 		GET_Connrct_BR_DL(m_nBR_CSVID, m_nIJ_CSVID,m_nFNDID);
 		GET_Connrct_InsertDB(m_nBR_CSVID, m_nFNDID);
 	}
 	if (!(m_nTNDID == 0 || m_nTNDID == 999999))
 	{
+// 		PUTDOUBLE2VALUE(_T("br_sta"), _T("br_ii_tnd"), m_nBR_CSVID, (int)m_nTNDID);
+// 		PUTDOUBLE2VALUE(_T("gbr_sta"), _T("gbr_ii_tgnd"), m_nBR_CSVID, (int)m_nTNDID);
+// 		PUTDOUBLE2VALUE(_T("IJ_STA"), _T("IJ_II_GND"), m_nIJ_CSVID, (int)m_nTNDID);
+// 		PUTDOUBLE2VALUE(_T("LD_STA"), _T("LD_II_GND"), m_nLD_CSVID, (int)m_nTNDID);
 		//1개 연결시 정보가 입력되는부분
 		GET_Connrct_BR_DL(m_nBR_CSVID, m_nIJ_CSVID, m_nTNDID);
 		GET_Connrct_InsertDB(m_nBR_CSVID, m_nTNDID);
@@ -148,7 +156,7 @@ void CDNDObj_Connrct_KASIM_Tap::LoadKASIM()
 		ullCEQID = GETVALUE(unsigned long long, "lnsec_sta", "lnsec_ceqid", m_nLNSEC_CSVID);
 		nLNSEC_TYPE_ID = GETVALUE(int, _T("lnsec_sta"), _T("lnsec_type_id"), m_nLNSEC_CSVID);
 		dlength = GETVALUE(double, _T("lnsec_sta"), _T("lnsec_length"), m_nLNSEC_CSVID);
-		nLNSEC_CONSTYPE = GETVALUE(int, _T("lnsec_sta"), _T("LNSEC_CONSTYPE"), m_nLNSEC_CSVID);
+		nLNSEC_CONSTYPE = GETVALUE(int, _T("lnsec_sta"), _T("lnsec_constype"), m_nLNSEC_CSVID);
 		//지중 - 0 /가공 - 1
 	
 		stCEQID.Format(_T("%lld"), ullCEQID);
@@ -156,8 +164,7 @@ void CDNDObj_Connrct_KASIM_Tap::LoadKASIM()
 		//LNSEC
 		SetDlgItemText(IDC_DND_CONNECT_TAP_KASIM_DLG_DEIT1, stKASIM_NM);
 		SetDlgItemText(IDC_DND_CONNECT_TAP_KASIM_DLG_DEIT2, stCEQID);
-		SetDlgItemText(IDC_DND_CONNECT_TAP_KASIM_DLG_DEIT9, stKASIM_Length);
-		//SetDlgItemText(IDC_DND_CONNECT_TAP_KASIM_DLG_DEIT9, stKASIM_Length);
+		SetDlgItemText(IDC_DND_CONNECT_TAP_KASIM_DLG_DEIT3, stKASIM_Length);
 
 		if (nLNSEC_CONSTYPE == 0) // TYPE 0 가공 1 이면 지중?
 		{
@@ -226,7 +233,7 @@ void CDNDObj_Connrct_KASIM_Tap::LoadKASIM()
 	{
 		SetDlgItemText(IDC_DND_CONNECT_TAP_KASIM_DLG_DEIT1, stNULL);
 		SetDlgItemText(IDC_DND_CONNECT_TAP_KASIM_DLG_DEIT2, stNULL);
-		SetDlgItemText(IDC_DND_CONNECT_TAP_KASIM_DLG_DEIT9, stNULL);	  //stKASIM_Length
+		SetDlgItemText(IDC_DND_CONNECT_TAP_KASIM_DLG_DEIT3, stNULL);	  //stKASIM_Length
 		//BR 값
 		SetDlgItemText(IDC_DND_CONNECT_TAP_KASIM_DLG_DEIT4, stNULL);	  //stBR_POSR
 		SetDlgItemText(IDC_DND_CONNECT_TAP_KASIM_DLG_DEIT5, stNULL);	  //stBR_POSX
@@ -271,7 +278,7 @@ void CDNDObj_Connrct_KASIM_Tap::OnBnClickedDndConnectTapKasimDlgBtn1()
 	//LNSEC
 	GetDlgItemText(IDC_DND_CONNECT_TAP_KASIM_DLG_DEIT1, stKASIM_NM);
 	GetDlgItemText(IDC_DND_CONNECT_TAP_KASIM_DLG_DEIT2, stCEQID);
-	GetDlgItemText(IDC_DND_CONNECT_TAP_KASIM_DLG_DEIT9, stlength);
+	GetDlgItemText(IDC_DND_CONNECT_TAP_KASIM_DLG_DEIT3, stlength);
 	//BR
 	GetDlgItemText(IDC_DND_CONNECT_TAP_KASIM_DLG_DEIT4, stBR_POSR);
 	GetDlgItemText(IDC_DND_CONNECT_TAP_KASIM_DLG_DEIT5, stBR_POSX);
@@ -517,7 +524,7 @@ void CDNDObj_Connrct_KASIM_Tap::OnCbnSelchangeDndConnectTapKasimDlg1()
 	CString stlength;
 	double dlength;
 
-	GetDlgItemText(IDC_DND_CONNECT_TAP_KASIM_DLG_DEIT9, stlength);
+	GetDlgItemText(IDC_DND_CONNECT_TAP_KASIM_DLG_DEIT3, stlength);
 	dlength = _wtof(stlength);
 
 	dBR_POSR = GETVALUE(double, _T("LINETYPE_CODE_STA"), _T("POSITIVE_R"), nCode);
@@ -541,7 +548,6 @@ void CDNDObj_Connrct_KASIM_Tap::OnCbnSelchangeDndConnectTapKasimDlg1()
 	SetDlgItemText(IDC_DND_CONNECT_TAP_KASIM_DLG_DEIT7, stBR_ZERX);
 }
 
-
 void CDNDObj_Connrct_KASIM_Tap::OnEnChangeDndConnectTapKasimDlgDeit3()
 {
 	int nPos2 = m_ctrCombo2->GetCurSel();
@@ -556,7 +562,7 @@ void CDNDObj_Connrct_KASIM_Tap::OnEnChangeDndConnectTapKasimDlgDeit3()
 	CString stlength;
 	double dlength;
 
-	GetDlgItemText(IDC_DND_CONNECT_TAP_KASIM_DLG_DEIT9, stlength);
+	GetDlgItemText(IDC_DND_CONNECT_TAP_KASIM_DLG_DEIT3, stlength);
 	dlength = _wtof(stlength);
 
 	dBR_POSR = GETVALUE(double, _T("LINETYPE_CODE_STA"), _T("POSITIVE_R"), nCode);

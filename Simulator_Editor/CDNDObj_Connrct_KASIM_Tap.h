@@ -52,6 +52,8 @@ public:
 	int						m_nMTR;
 	int						m_nSS;
 
+	int						m_Check_type;
+
 
 	int						m_nLNINETYPECODE[300][10];
 

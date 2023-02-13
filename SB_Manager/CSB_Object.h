@@ -65,9 +65,6 @@ public:
 	virtual		void					Draw_Object(Graphics &graphics, CPoint ptDraw, double dZoomValue
 													,double dScale_x = 1., double dScale_y = 1., double dAngle = 0., CString strInnerText =_T("")) {};
 
-	virtual		void					Draw_Object_Image(Graphics &graphics, CPoint ptDraw, double dZoomValue
-													, double dScale_x = 1., double dScale_y = 1., double dAngle = 0., CString strInnerText = _T("")) {};
-
 	virtual		CRect					GetSBRect() { return CRect(0, 0, 0, 0); };
 
 	virtual		void					SetEdit_Move(CPoint pt) {}; ///////////////////////////////////////// 이동한 크기가 온다.
@@ -203,6 +200,9 @@ public:
 	int									m_nID;
 
 	int									m_nInnerText_LayerID;
+
+	int									m_nSB_NORSTAT;
+	double								m_nSB_dHVCUS_CON_KVA;
 		
 
 
@@ -428,6 +428,7 @@ public:
 		m_strText = _T("Text");
 
 		m_strTagName = _T("text");
+
 	};
 	~CSB_Text() {};
 
@@ -469,8 +470,6 @@ public:
 	int			m_nDrawOrder;
 
 	CString		m_strText;
-
-
 };
 ////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////				ANALOGTEXT
@@ -529,7 +528,6 @@ protected:
 	int			m_nDrawOrder;
 
 	CString		m_strText;
-
 	
 };
 

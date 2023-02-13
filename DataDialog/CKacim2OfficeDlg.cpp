@@ -46,7 +46,7 @@ BOOL CKacim2OfficeDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
 
-	Set_Center();
+	Get_Head_office();
 
 	CButton* pBtn = (CButton*)GetDlgItem(IDC_KACIM_OFFCIE_DLG_RADIO2);
 	pBtn->SetCheck(TRUE);
@@ -64,10 +64,10 @@ void CKacim2OfficeDlg::OnBnClickedKacimOffcieDlgBtn1()
 	CString strConfig, strCode, strPath;
 
 	strConfig.Format(_T("DSN=%s; UID=%s; PWD=%s;")
-		, theDBContainer->GetConfigDBName(1), theDBContainer->GetConfigUserID(1), theDBContainer->GetConfigPassWord(1));
+		, theDBContainer->GetConfigDataSource(1), theDBContainer->GetConfigUserID(1), theDBContainer->GetConfigPassWord(1));
 
 	strCode.Format(_T("DSN=%s; UID=%s; PWD=%s;")
-		, theDBContainer->GetConfigDBName(2), theDBContainer->GetConfigUserID(2), theDBContainer->GetConfigPassWord(2));
+		, theDBContainer->GetConfigDataSource(2), theDBContainer->GetConfigUserID(2), theDBContainer->GetConfigPassWord(2));
 
 
 	CButton* pBtn = (CButton*)GetDlgItem(IDC_KACIM_OFFCIE_DLG_RADIO2);
@@ -92,7 +92,6 @@ void CKacim2OfficeDlg::OnBnClickedKacimOffcieDlgBtn1()
 
 	ConvertDLG.ST_MODE(1);
 	ConvertDLG.ADMStoKCIM_Offic_Config(strConfig);
-	//ConvertDLG.ADMStoKCIM_Offic_Code(strCode);
 	ConvertDLG.ADMStoKCIM_Code_Config(strCode);
 	ConvertDLG.ADMStoKCIM_CSV_Route(_T("\\Data\\CSVFile\\0\\"));
 	ConvertDLG.m_szADMS_Code.Format(_T("adms_code"));
@@ -117,13 +116,48 @@ void CKacim2OfficeDlg::OnCbnSelchangeKacimOffcieDlgCombo1()
 	Set_Office();
 }
 
+void CKacim2OfficeDlg::Get_Head_office()
+{
+	CString strSQL;
+	strSQL.Format(_T("select HEAD_OFFICE_ID,NAME from head_office where HEAD_OFFICE_ID IN \
+		(select HEAD_OFFICE_FK from center_office where center_office_id in \
+		(select center_office_fk from member_office where member_office_id in \
+		(select member_office_fk from adms_office.dl group by member_office_fk))); ")); ////LIMIT 1
+
+	//CDB_EXTRACT						dbquery(0, strSQL.GetBuffer(), 2);
+	CDB_QUERY							dbquery(strSQL.GetBuffer(), 2);
+
+	int nCount = 0;
+	if (dbquery.GetRecordCount() > 0)
+	{
+		while (dbquery.MoveNext())
+		{
+			m_nHead_ID = dbquery.GetData_LONG(0);
+			m_str_Head_NM.Format(_T("%s"), dbquery.GetData_STR(1));
+
+
+		}
+	}
+	dbquery.Close();
+
+	if (m_nHead_ID > 0)
+	{
+		CString strWndNM;
+		strWndNM.Format(_T("KACIM 변환 : %s"), m_str_Head_NM);
+		SetWindowText(strWndNM);
+
+
+		Set_Center();
+
+	}
+}
 
 void CKacim2OfficeDlg::Set_Center()
 {
 	m_ctrCombo[0].ResetContent();
 
 	CString strSQL;
-	strSQL.Format(_T("Select center_office_id, name from center_office order by center_office_id"));
+	strSQL.Format(_T("Select center_office_id, name from center_office where HEAD_OFFICE_FK = %d order by center_office_id"), m_nHead_ID);
 
 	//CDB_EXTRACT						dbquery(0, strSQL.GetBuffer(), 2);
 	CDB_QUERY							dbquery(strSQL.GetBuffer(),2);

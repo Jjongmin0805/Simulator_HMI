@@ -397,7 +397,6 @@ void					CSB_Layer::SetObjectData(CMarkup* pxml)
 		pSBObj = SBObject_Create(strTagName);
 		pSBObj->SetObjectData(pxml);
 
-
 		pxml->OutOfElem();
 	}
 }
@@ -434,8 +433,6 @@ void CSB_Layer::Draw(Graphics &graphics, CPoint ptDraw, double dZoomValue, CStri
 				else
 					strText = pBlock_M->GetInnerText();
 				((CSB_BLOCK*)pBlock)->Draw(graphics, pt, dZoomValue,strScript, dScale_x, dScale_y, dAngle, strText);
-
-
 			}
 		}
 		else
@@ -464,9 +461,15 @@ CSB_Object* CSB_Layer::GetRealObject(int nDevref)
 BOOL CSB_Layer::GetCheckLayarState(int nState)
 {
 	CString strScript = m_strScript;
-	int nPos = strScript.Find(_T("BI"));
+	int nPos = strScript.Find(_T("BI:1 ")); // 이부분 종민이가 수정함 !!!  int nPos = strScript.Find(_T("BI"));
 	if (nPos > -1)
 	{
+		//임시작업? 
+// 		if (nState == 1 && m_nID > 1)
+// 		{
+// 			return FALSE;
+// 		}
+
 		nPos = strScript.Find(_T("=="));
 		strScript.Delete(0, nPos + 2);
 
@@ -477,12 +480,16 @@ BOOL CSB_Layer::GetCheckLayarState(int nState)
 	}
 	else
 	{
-		nPos = strScript.Find(_T("SYS"));
+ 		nPos = strScript.Find(_T("SYS"));
 		if (nPos > -1)
 			return FALSE;
 
 		nPos = strScript.Find(_T("UI"));
 		if(nPos > -1)
+			return FALSE;
+
+		nPos = strScript.Find(_T("BI"));
+		if (nPos > -1)
 			return FALSE;
 
 		
@@ -615,8 +622,6 @@ CSB_BLOCK::~CSB_BLOCK()
 void CSB_BLOCK::PSRType_Set(CString strPSRType)
 {
 	m_strPSRType = strPSRType;
-
-
 }
 
 
@@ -624,7 +629,6 @@ CString CSB_BLOCK::PSRType_Get()
 {
 	return m_strPSRType;
 }
-
 
 void					CSB_BLOCK::SetObjectData(CMarkup* pxml)
 {
@@ -645,8 +649,7 @@ void					CSB_BLOCK::SetObjectData(CMarkup* pxml)
 	{
 		m_nObjType = SBOBJECT_TYPE_MULTIBLOCK;
 	}
-
-
+	
 	m_nID			= _wtoi(strID);
 	m_strPSRType	= strPSRType; 
 	m_strCEQType	= strCeqType;
@@ -669,8 +672,6 @@ void					CSB_BLOCK::SetObjectData(CMarkup* pxml)
 		pSBObj = new CSB_Layer();
 		m_Array_Layer.Add(pSBObj);
 		pSBObj->SetObjectData(pxml);
-
-
 		pxml->OutOfElem();
 	}
 }
@@ -678,21 +679,21 @@ void					CSB_BLOCK::SetObjectData(CMarkup* pxml)
 void CSB_BLOCK::Draw(Graphics &graphics, CPoint ptDraw, double dZoomValue, CString strScript
 	, double dScale_x, double dScale_y, double dAngle, CString strInnerText)
 {
-	//ASSERT(m_nID != 432);
-
 	CSB_Object* pSBObj;
 	dZoomValue = 1.;
+	//20230208 체크 심볼
+	int nState = 0;
+
+	//ON/OFF 정보 변경 하는 부분 !!
+	m_nSB_NORSTAT = m_nSB_NORSTAT & 1 ? 0 : 1 ;
 
 	for (int i = 0; i < m_Array_Layer.GetSize(); i++)
 	{
 		pSBObj = m_Array_Layer.GetAt(i);
-
-		
 		if (ObjType_Get() == SBOBJECT_TYPE_BLOCK && i != m_nInnerText_LayerID)
 		{
-			if(((CSB_Layer*)pSBObj)->GetCheckLayarState(0))
-				pSBObj->Draw_Object(graphics, ptDraw, dZoomValue, dScale_x, dScale_y, dAngle, _T(""));
-			
+			if(((CSB_Layer*)pSBObj)->GetCheckLayarState(m_nSB_NORSTAT))
+				pSBObj->Draw_Object(graphics, ptDraw, dZoomValue, dScale_x, dScale_y, dAngle, _T(""));			
 		}
 		else if (i == 0)////  SBOBJECT_TYPE_MULTIBLOCK
 		{
@@ -702,9 +703,15 @@ void CSB_BLOCK::Draw(Graphics &graphics, CPoint ptDraw, double dZoomValue, CStri
 		if (m_nInnerText_LayerID > -1)
 		{
 			if (i == m_nInnerText_LayerID)
-			{
+			{		
+				if ( m_nInnerText_LayerID == 3 )//고객일떄?
+				{
+					if (strInnerText.IsEmpty())
+					{
+						strInnerText.Format(_T("%0.0f"), m_nSB_dHVCUS_CON_KVA);
+					}
+				}
 				pSBObj->Draw_Object(graphics, ptDraw, dZoomValue, dScale_x, dScale_y, dAngle, strInnerText);
-
 			}
 		}
 		
@@ -854,7 +861,6 @@ void		CSB_BLOCK_M::GetPoint(CRealPoint* pt)
 	pt->y = m_dY;
 }
 
-
 ////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////				RECT
 ////////////////////////////////////////////////////////////////////////////////
@@ -934,9 +940,7 @@ void CSB_Rect::Draw_Object(Graphics &graphics, CPoint ptDraw, double dZoomValue
 	rStroke.Y = ptDraw.y + (m_dY * dZoomValue);
 	rStroke.Width = m_dWidth * dZoomValue;
 	rStroke.Height = m_dHeight * dZoomValue;
-
-
-
+		
 	rFill = rStroke;
 	//rFill.Inflate(double(m_nStroke_width) * -1., double(m_nStroke_width) * -1.);
 
@@ -1359,6 +1363,7 @@ void					CSB_Text::SetObjectData(CMarkup* pxml)
 
 	m_dX = _wtof(strData[0]);
 	m_dY = _wtof(strData[1]);
+
 	m_dWidth = _wtof(strData[2]);
 	m_dHeight = _wtof(strData[3]);
 
@@ -1484,6 +1489,7 @@ void CSB_Text::Copy(CSB_Object* pSBObj)
 
 void					CSB_Text_analog::SetObjectData(CMarkup* pxml)
 {
+	double dDy;
 	CString strData[22];
 	strData[0] = pxml->GetAttrib(_T("x"));
 	strData[1] = pxml->GetAttrib(_T("y"));
@@ -1509,11 +1515,10 @@ void					CSB_Text_analog::SetObjectData(CMarkup* pxml)
 	strData[19] = pxml->GetAttrib(_T("showsign"));
 	strData[20] = pxml->GetAttrib(_T("dotforamt"));
 	strData[21] = pxml->GetAttrib(_T("showunit"));
-
-
-
+		
 	m_dX = _wtof(strData[0]);
 	m_dY = _wtof(strData[1]);
+
 	m_dWidth = _wtof(strData[2]);
 	m_dHeight = _wtof(strData[3]);
 
@@ -1531,7 +1536,6 @@ void					CSB_Text_analog::SetObjectData(CMarkup* pxml)
 	m_nDrawOrder = _wtoi(strData[12]);
 
 	m_strText = strData[13];
-
 
 	m_strPSRType = strData[14];
 	m_strID = strData[15];
@@ -1881,8 +1885,7 @@ void CSB_Polygon::GetObjectData_SVG(CMarkup* pxml, int nDrawOrder)
 	}
 	int nLen = strData[1].GetLength();
 	strData[1].Delete(nLen - 1, 1);
-
-
+	
 	pxml->AddElem(m_strTagName);
 	pxml->AddAttrib(_T("id"), strData[0]);
 	pxml->AddAttrib(_T("points"), strData[1]);
@@ -1946,8 +1949,6 @@ void CSB_Polygon::Draw_Object(Graphics &graphics, CPoint ptDraw, double dZoomVal
 	graphics.FillPolygon(pBrush_fill, pt, nSize);
 	graphics.DrawPolygon(&pen, pt, nSize);
 
-
-
 	delete pBrush_stroke;
 	delete pBrush_fill;
 
@@ -1965,7 +1966,6 @@ CRect CSB_Polygon::GetSBRect()
 		pt = m_Array_RealPoint.GetAt(i);
 
 		GetValue_double2int(pt, dValue);
-
 		if (pt->x < nL)
 		{
 			nL = (int)pt->x;

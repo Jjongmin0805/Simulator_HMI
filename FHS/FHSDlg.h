@@ -49,7 +49,7 @@ public:
 	afx_msg void OnCbnSelchangeFhsDlgCombo1();
 	afx_msg void OnCbnSelchangeFhsDlgCombo2();
 
-
+	void Get_Head_office();
 	void Set_Center();
 	void Set_Office();
 	void Set_Subs();
@@ -61,6 +61,9 @@ public:
 
 	int			m_nOnline;
 	LONGLONG	m_lMaxLogID;
+	int			m_nHead_ID;
+	CString		m_str_Head_NM;
+
 	void			GetMaxLogID();
 	void UpdateList_Online();
 	void UpdateList_History();

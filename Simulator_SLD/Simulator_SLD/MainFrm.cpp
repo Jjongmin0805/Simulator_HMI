@@ -565,7 +565,13 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCopyDataStruct)
 				pView->m_nShowOption = 4;
 				pView->FindNodePosition(nOption, FALSE);
 			}
-			else
+			else if (nAppl_id == 4)//조류계산
+			{
+				pView->m_nShowOption = nOption;//고장관련 옵션이므로 조류계산시 0으로 받아야 함.
+				pView->MakeSLDBuffer(FALSE);
+				pView->Invalidate();
+			}
+			else//11번 - 고장전류 (옵션 1 : 고장점지점, 2 : 최대고장전류)
 			{
 				pView->m_nShowOption = nOption;
 
